@@ -18,16 +18,15 @@ $num_kits = mysqli_num_rows($pesquisar2);
     <link rel="stylesheet" href="externo/style.css">
     <script src="jquery/jquery-3.4.0.min.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script>
-
-    </script>
+    <style>
+        
+    </style>
 </head>
 
 <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
             <img src="imagens/logo.png" alt="logo" width="35px">
-            <!-- <i class="far fa-calendar-alt" style="font-size: 35px;"></i> -->
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,11 +40,14 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 <li class="nav-item px-1">
                     <a class="nav-link" href="cadastrar/"><i class="fas fa-edit" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
+                <li class="nav-item px-1">
+                    <a class="nav-link" href="excluir/"><i class="fas fa-trash" style="font-size: 24px; vertical-align: middle"></i></a>
+                </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" method="POST" action="#">
+            <!-- <form class="form-inline my-2 my-lg-0" method="POST" action="#">
                 <input class="form-control mr-sm-2" name="nome_produto" placeholder="Nome do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
-            </form>
+            </form> -->
         </div>
     </nav>
     <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center; padding: 100px; border-radius: 0">
@@ -70,14 +72,14 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     <?php if ($i == 0) { ?>
                         <div class="card-header" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer;">
                             <h5 class="accordion-toggle" style="margin: 0px">
-                                <?php echo $vetor2['kit_nome'] . " (#" . $vetor2['id_kit'] . ")" ?>
+                                <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
                             </h5>
                         </div>
                         <div id="collapse_<?php echo $i ?>" class="collapse show" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
                         <?php } else { ?>
                             <div class="card-header collapsed" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer;">
                                 <h5 class="accordion-toggle" style="margin: 0px">
-                                    <?php echo $vetor2['kit_nome'] . " (#" . $vetor2['id_kit'] . ")" ?>
+                                    <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
                                 </h5>
                             </div>
                             <div id="collapse_<?php echo $i ?>" class="collapse" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
@@ -86,31 +88,39 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                 <table class="table table-hover">
                                     <thead>
                                         <tr class="text-center">
-                                            <th scope="col">#</th>
-                                            <th scope="col">Nome do produto</th>
-                                            <th scope="col">Quantidade</th>
-                                            <th scope="col" width="auto">Preço</th>
-                                            <th scope="col">Preço Total</th>
-                                            <th scope="col">NCM</th>
-                                            <th scope="col">CEST</th>
+                                            <th scope="col" width="8%">#</th>
+                                            <th scope="col" width="35%">Nome do produto</th>
+                                            <th scope="col" width="2%">Quantidade</th>
+                                            <th scope="col" width="13,75%">Preço</th>
+                                            <th scope="col" width="13,75%">Preço Total</th>
+                                            <th scope="col" width="13,75%">NCM</th>
+                                            <th scope="col" width="13,75%">CEST</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
+                                            $preco_total_kit = 0;
                                             for ($j = 0; $j < $numero_repetido; $j++) {
                                                 $vetor = mysqli_fetch_assoc($pesquisar);
-                                                $id_do_kit = $vetor['id_kit'];
+                                                $preco_total_kit = $preco_total_kit + $vetor['preco_total'];                                            
                                                 ?>
                                             <tr class="text-center">
                                                 <td><?php echo $vetor['cod_athos'] ?></td>
-                                                <td><?php echo $vetor['nome'] ?></td>
+                                                <td style="max-width: 400px; word-wrap: break-word;"><?php echo $vetor['nome'] ?></td>
                                                 <td><?php echo $vetor['quantidade'] ?></td>
                                                 <td>R$ <?php echo number_format($vetor['preco'], 2, ',', '') ?></td>
                                                 <td>R$ <?php echo number_format($vetor['preco_total'], 2, ',', '') ?></td>
                                                 <td><?php echo $vetor['ncm'] ?></td>
                                                 <td><?php echo $vetor['cest'] ?></td>
                                             </tr>
-                                        <?php } ?>
+                                            <?php if ($j == $numero_repetido-1){ ?>
+                                            <tr class="text-center">
+                                                <td colspan="7" style="border-top-color: #5cb85c; border-top-width: 2px;">
+                                                    <font style="font-size: 24px" class="lead font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '') ?></font>
+                                                </td>
+                                            </tr>    
+                                            <?php }
+                                            } ?>
                                     </tbody>
                                 </table>
                             </div>

@@ -7,11 +7,11 @@ $vetor_ultimo_id = mysqli_fetch_array($pesquisar_ultimo_id_kit);
 $ultimo_id = $vetor_ultimo_id['id_kit'];
 $proximo_id = $ultimo_id + 1;
 
-$nome_kit = $_POST['nome_kit'];
+$nome_kit = trim($_POST['nome_kit']);
 $numero_produtos = $_POST['total'];
 for ($i = 1; $i <= $numero_produtos; $i++) {
     $cod_athos_produto = $_POST['cod_athos_' . $i];
-    $nome_produto = $_POST['produto_' . $i];
+    $nome_produto = mb_convert_case(trim($_POST['produto_' . $i]), MB_CASE_UPPER, 'utf-8');
     $quantidade_produto = $_POST['quantidade_' . $i];
 
     $preco_produto = $_POST['preco_' . $i];

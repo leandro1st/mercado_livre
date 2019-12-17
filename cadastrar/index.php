@@ -23,12 +23,12 @@
             var new_label_ncm = "<label id='label_ncm_" + num_input + "' for='ncm_" + num_input + "'><b>NCM do produto " + num_input + ": </b>";
             var new_label_cest = "<label id='label_cest_" + num_input + "' for='cest_" + num_input + "'><b>CEST do produto " + num_input + ": </b>";
 
-            var new_input_cod_athos = "<input type='text' class='form-control' id='cod_athos_" + num_input + "' name='cod_athos_" + num_input + "' placeholder='Código Athos do produto " + num_input + "'><br class='teste" + num_input + "'>";
+            var new_input_cod_athos = "<input type='number' class='form-control' id='cod_athos_" + num_input + "' name='cod_athos_" + num_input + "' placeholder='Código Athos do produto " + num_input + "'><br class='teste" + num_input + "'>";
             var new_input_nome = "<input type='text' class='form-control' id='produto_" + num_input + "' name='produto_" + num_input + "' placeholder='Nome do produto " + num_input + "'><br class='teste" + num_input + "'>";
             var new_input_quantidade = "<input type='number' class='form-control' id='quantidade_" + num_input + "' name='quantidade_" + num_input + "' placeholder='Quantidade do produto " + num_input + "'><br class='teste" + num_input + "'>";
             var new_input_preco = "<input type='text' class='form-control' id='preco_" + num_input + "' name='preco_" + num_input + "' placeholder='Preço do produto " + num_input + "'><br class='teste" + num_input + "'>";
-            var new_input_ncm = "<input type='text' class='form-control' id='ncm_" + num_input + "' name='ncm_" + num_input + "' placeholder='NCM do produto " + num_input + "'><br class='teste" + num_input + "'>";
-            var new_input_cest = "<input type='text' class='form-control' id='cest_" + num_input + "' name='cest_" + num_input + "' placeholder='CEST do produto " + num_input + "'><br class='teste" + num_input + "'>";
+            var new_input_ncm = "<input type='number' class='form-control' id='ncm_" + num_input + "' name='ncm_" + num_input + "' placeholder='NCM do produto " + num_input + "'><br class='teste" + num_input + "'>";
+            var new_input_cest = "<input type='number' class='form-control' id='cest_" + num_input + "' name='cest_" + num_input + "' placeholder='CEST do produto " + num_input + "'><br class='teste" + num_input + "'>";
 
             var new_hr = "<hr class='hr-success' id='hr_" + num_input + "'><br class='teste" + num_input + "'>";
 
@@ -101,7 +101,6 @@
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="../">
             <img src="../imagens/logo.png" alt="logo" width="35px">
-            <!-- <i class="far fa-calendar-alt" style="font-size: 35px;"></i> -->
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -115,11 +114,14 @@
                 <li class="nav-item px-1 active underline">
                     <a class="nav-link" href="#"><i class="fas fa-edit" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
+                <li class="nav-item px-1">
+                    <a class="nav-link" href="../excluir/"><i class="fas fa-trash" style="font-size: 24px; vertical-align: middle"></i></a>
+                </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" method="POST" action="#">
+            <!-- <form class="form-inline my-2 my-lg-0" method="POST" action="#">
                 <input class="form-control mr-sm-2" name="nome_produto" placeholder="Nome do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
-            </form>
+            </form> -->
         </div>
     </nav>
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
@@ -130,11 +132,11 @@
     </nav>
     <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center; padding: 100px; border-radius: 0">
         <center>
-            <h1 style="color: white">Mercado Livre</h1>
+            <h1 style="color: white">Cadastrar Kits</h1>
         </center>
     </header>
     <main class="container">
-        <form method="post" action="cadastrar.php">
+        <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;">
             <div class="input-group input-group-lg">
                 <div class="input-group-prepend">
                     <span class="input-group-text text-success" id="inputGroup-sizing-lg"><b>Nome do kit</b></span>
@@ -148,7 +150,7 @@
             <label for="cod_athos_1">
                 <b>Código Athos do produto 1:</b>
             </label>
-            <input type="text" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto 1" required><br>
+            <input type="number" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto 1" required><br>
             <label for="produto_1">
                 <b>Nome do produto 1:</b>
             </label>
@@ -164,11 +166,11 @@
             <label for="ncm_1">
                 <b>NCM do produto 1:</b>
             </label>
-            <input type="text" id="ncm_1" name="ncm_1" class="form-control" placeholder="NCM do produto 1" required><br>
+            <input type="number" id="ncm_1" name="ncm_1" class="form-control" placeholder="NCM do produto 1" required><br>
             <label for="cest_1">
                 <b>CEST do produto 1:</b>
             </label>
-            <input type="text" id="cest_1" name="cest_1" class="form-control" placeholder="CEST do produto 1"><br>
+            <input type="number" id="cest_1" name="cest_1" class="form-control" placeholder="CEST do produto 1"><br>
             <div id="div_produto_novo"></div>
             <input type="hidden" name="total" value="1" id="total">
             <button type="submit" class="btn btn-success" style="float: right">Cadastrar</button><br><br><br>
