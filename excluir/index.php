@@ -2,6 +2,7 @@
 require('../externo/connect.php');
 $pesquisar = mysqli_query($connect, "SELECT * FROM $kits");
 $pesquisar2 = mysqli_query($connect, "SELECT COUNT(*) c, $id_kit, $kit_nome FROM $kits GROUP BY $id_kit HAVING c >= 1");
+// $num_kits = 0;
 $num_kits = mysqli_num_rows($pesquisar2);
 ?>
 <!DOCTYPE html>
@@ -17,7 +18,23 @@ $num_kits = mysqli_num_rows($pesquisar2);
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="../externo/style.css">
     <script src="../jquery/jquery-3.4.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+    <style>
+    #img_nothing {
+        /* position: absolute !important; */
+        left: 50% !important;
+        margin-left: -209px !important;
+        top: 50% !important;
+        margin-top: -92px !important;
+    }
+    #raphtalia {
+        position: absolute !important;
+        left: 50% !important;
+        margin-left: -30px !important;
+        top: 55% !important;
+    }
+    </style>
     <script>
         function obter_dados(id_kit, nome_kit, quantidade) {
             document.getElementById('input_id_kit').value = id_kit;
@@ -26,15 +43,24 @@ $num_kits = mysqli_num_rows($pesquisar2);
             document.getElementById('codigo').innerHTML = id_kit;
             document.getElementById('quantidade').innerHTML = quantidade;
         }
-        function excluir(id_kit) {
+
+        var paragrafo = "<p class='lead' style='padding-top: 150px; font-size: 40px; text-align: center;'>Comece cadastrando novos kits!</p>";
+
+        function excluir(id_kit, numero_restante) {
             $.ajax({
                 method: 'POST',
                 url: 'excluir.php',
                 data: $('#form_excluir').serialize(),
                 success: function(data) {
+                    numero_restante -= 1;
+                    document.getElementById('numero_restante').value = numero_restante;
                     $('#card-' + id_kit).fadeOut(500, function() {
                         $('#card-' + id_kit).remove();
                     });
+                    if (numero_restante == 0) {
+                        $("#div_nada").append(paragrafo);
+                        document.getElementById("footer1").style.marginBottom = "-20px";
+                    }
                 },
                 error: function(data) {
                     alert("Ocorreu um erro!");
@@ -77,11 +103,23 @@ $num_kits = mysqli_num_rows($pesquisar2);
             <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="fas fa-trash"></i> Excluir Kit</a></li>
         </ol>
     </nav>
-    <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center; padding: 100px; border-radius: 0">
+    <?php 
+        if ($num_kits == 0) { ?>
+            <div id="scene" style="overflow: hidden">
+                <div data-depth="0.4" style="margin-top: -25px; margin-bottom: -25px; margin-left: -350px; z-index: 0;">
+                    <img src="../imagens/deserto.jpg" alt="wallpaper" height="500px" width="110%">
+                </div>
+                <div id="img_nothing" data-depth="0.6"><img src="../imagens/nothing.png" alt="nada"></div>
+                <div id="raphtalia" data-depth="0.8"><img src="../imagens/raphtalia.png" alt="raphtalia" width="60px"></div>
+            </div>
+            <p class="lead" style="padding-top: 150px; font-size: 40px; text-align: center">Comece cadastrando novos kits!</p>
+        <?php } else { ?>
+    <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
         <center>
             <h1 style="color: white">Excluir Kits</h1>
         </center>
     </header>
+    <div id="div_nada"></div>
     <main class="container">
         <div class="accordion" id="accordionKits">
             <?php
@@ -97,68 +135,69 @@ $num_kits = mysqli_num_rows($pesquisar2);
             ?>
                 <div class="card" id="card-<?php echo $id_do_kit ?>">
                     <?php if ($i == 0) { ?>
-                        <div class="card-header" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
+                    <div class="card-header" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
+                        <h5 class="accordion-toggle" style="margin: 0px; display: inline; cursor: pointer">
+                            <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
+                        </h5>
+                    </div>
+                    <div id="collapse_<?php echo $i ?>" class="collapse show" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
+                    <?php } else { ?>
+                        <div class="card-header collapsed" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
                             <h5 class="accordion-toggle" style="margin: 0px; display: inline; cursor: pointer">
                                 <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
                             </h5>
                         </div>
-                        <div id="collapse_<?php echo $i ?>" class="collapse show" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
-                        <?php } else { ?>
-                            <div class="card-header collapsed" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
-                                <h5 class="accordion-toggle" style="margin: 0px; display: inline; cursor: pointer">
-                                    <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
-                                </h5>
-                            </div>
-                            <div id="collapse_<?php echo $i ?>" class="collapse" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
-                            <?php } ?>
-                            <div class="card-body" style="padding: 10px 40px 10px 40px;">
-                                <table class="table table-hover">
-                                    <thead>
+                        <div id="collapse_<?php echo $i ?>" class="collapse" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
+                        <?php } ?>
+                        <div class="card-body" style="padding: 10px 40px 10px 40px;">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th scope="col" width="8%">#</th>
+                                        <th scope="col" width="35%">Nome do produto</th>
+                                        <th scope="col" width="2%">Quantidade</th>
+                                        <th scope="col" width="13,75%">Preço</th>
+                                        <th scope="col" width="13,75%">Preço Total</th>
+                                        <th scope="col" width="13,75%">NCM</th>
+                                        <th scope="col" width="13,75%">CEST</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        $preco_total_kit = 0;
+                                        for ($j = 0; $j < $numero_repetido; $j++) {
+                                            $vetor = mysqli_fetch_assoc($pesquisar);
+                                            $preco_total_kit = $preco_total_kit + $vetor['preco_total'];
+                                    ?>
                                         <tr class="text-center">
-                                            <th scope="col" width="8%">#</th>
-                                            <th scope="col" width="35%">Nome do produto</th>
-                                            <th scope="col" width="2%">Quantidade</th>
-                                            <th scope="col" width="13,75%">Preço</th>
-                                            <th scope="col" width="13,75%">Preço Total</th>
-                                            <th scope="col" width="13,75%">NCM</th>
-                                            <th scope="col" width="13,75%">CEST</th>
+                                            <td><?php echo $vetor['cod_athos'] ?></td>
+                                            <td style="max-width: 400px; word-wrap: break-word;"><?php echo $vetor['nome'] ?></td>
+                                            <td><?php echo $vetor['quantidade'] ?></td>
+                                            <td>R$ <?php echo number_format($vetor['preco'], 2, ',', '') ?></td>
+                                            <td>R$ <?php echo number_format($vetor['preco_total'], 2, ',', '') ?></td>
+                                            <td><?php echo $vetor['ncm'] ?></td>
+                                            <td><?php echo $vetor['cest'] ?></td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                            $preco_total_kit = 0;
-                                            for ($j = 0; $j < $numero_repetido; $j++) {
-                                                $vetor = mysqli_fetch_assoc($pesquisar);
-                                                $preco_total_kit = $preco_total_kit + $vetor['preco_total'];
-                                        ?>
+                                        <?php if ($j == $numero_repetido - 1) { ?>
                                             <tr class="text-center">
-                                                <td><?php echo $vetor['cod_athos'] ?></td>
-                                                <td style="max-width: 400px; word-wrap: break-word;"><?php echo $vetor['nome'] ?></td>
-                                                <td><?php echo $vetor['quantidade'] ?></td>
-                                                <td>R$ <?php echo number_format($vetor['preco'], 2, ',', '') ?></td>
-                                                <td>R$ <?php echo number_format($vetor['preco_total'], 2, ',', '') ?></td>
-                                                <td><?php echo $vetor['ncm'] ?></td>
-                                                <td><?php echo $vetor['cest'] ?></td>
+                                                <td colspan="7" style="border-top-color: #5cb85c; border-top-width: 2px;">
+                                                    <font style="font-size: 24px" class="lead font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '') ?></font>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluir" style="float: right;" onclick="obter_dados('<?php echo $id_do_kit ?>', '<?php echo $vetor2['kit_nome'] ?>' ,'<?php echo $numero_repetido ?>')">
+                                                        Excluir <i class="fas fa-trash" style="color: white;"></i>
+                                                    </button>
+                                                </td>
                                             </tr>
-                                            <?php if ($j == $numero_repetido - 1) { ?>
-                                                <tr class="text-center">
-                                                    <td colspan="7" style="border-top-color: #5cb85c; border-top-width: 2px;">
-                                                        <font style="font-size: 24px" class="lead font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '') ?></font>
-                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluir" style="float: right;" onclick="obter_dados('<?php echo $id_do_kit ?>', '<?php echo $vetor2['kit_nome'] ?>' ,'<?php echo $numero_repetido ?>')">
-                                                            Excluir <i class="fas fa-trash" style="color: white;"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                        <?php }
-                                        } ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                            </div>
+                                    <?php }
+                                    } ?>
+                                </tbody>
+                            </table>
                         </div>
-                    <?php } ?>
+                    </div>
                 </div>
-    </main><br><br><br><br><br><br><br><br><br><br><br><br>
+            <?php } ?>
+        </div>
+    </main>
+    <?php } ?>
     <div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="modalExcluirTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -175,6 +214,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                         <input type="hidden" id="input_id_kit" class="form-control" name="input_id_kit" value="<?php echo $id_do_kit ?>" readonly>
                         <input type="hidden" id="input_quantidade" class="form-control" name="input_quantidade" value="<?php echo $numero_repetido ?>" readonly>
                     </form>
+                    <input type="hidden" id="numero_restante" value="<?php echo $num_kits ?>">
                     <div class="container">
                         <span class="font-weight-bold" style="font-size: 18px">Nome do kit: </span>
                         <nome id="nome" class="lead" style="overflow-wrap: break-word;"></nome><br>
@@ -186,13 +226,17 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger" onclick="excluir(document.getElementById('input_id_kit').value)" data-dismiss="modal">Excluir</button>
+                    <button type="submit" class="btn btn-danger" onclick="excluir(document.getElementById('input_id_kit').value, document.getElementById('numero_restante').value)" data-dismiss="modal">Excluir</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Footer -->
-    <footer class="footer">
+    <?php if ($num_kits == 0) { ?>
+        <footer class="footer" style="margin-bottom: -100px">
+    <?php } else { ?>
+        <footer id="footer1" class="footer" style="margin-bottom: -200px">
+    <?php } ?>
         <!-- Footer Elements -->
         <div style="background-color: #3e4551; padding: 16px">
             <center>
@@ -213,6 +257,21 @@ $num_kits = mysqli_num_rows($pesquisar2);
         <!-- Copyright -->
     </footer>
     <!-- Footer -->
+    <script>
+    var scene = document.getElementById('scene');
+    var parallax = new Parallax(scene, {
+        // calibrateX: false,
+        // calibrateY: true,
+        invertX: true,
+        invertY: true,
+        // limitX: 10,
+        // limitY: 10,
+        // scalarX: 2,
+        // scalarY: 8,
+        // frictionX: 0.2,
+        // frictionY: 0.8
+    });
+    </script>
 </body>
 
 </html>

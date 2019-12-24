@@ -2,8 +2,8 @@
 require('externo/connect.php');
 $pesquisar = mysqli_query($connect, "SELECT * FROM $kits");
 $pesquisar2 = mysqli_query($connect, "SELECT COUNT(*) c, $id_kit, $kit_nome FROM $kits GROUP BY $id_kit HAVING c >= 1");
-$num_kits = 0;
-// $num_kits = mysqli_num_rows($pesquisar2);
+// $num_kits = 0;
+$num_kits = mysqli_num_rows($pesquisar2);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,15 @@ $num_kits = 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mercado Livre | <?php echo $num_kits ?> kits</title>
+    <title>
+        <?php if ($num_kits == 0) { 
+            echo "Mercado Livre | Nenhum kit";
+        } else if ($num_kits == 1) {
+            echo "Mercado Livre | " . $num_kits . " kit";
+        } else {
+            echo "Mercado Livre | " . $num_kits . " kits";
+        } ?>
+    </title>
     <link rel="shortcut icon" href="imagens/icon.ico" type="image/x-icon">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -20,6 +28,21 @@ $num_kits = 0;
     <script src="jquery/jquery-3.4.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <style>
+    #img_nothing {
+        /* position: absolute !important; */
+        left: 50% !important;
+        margin-left: -209px !important;
+        top: 50% !important;
+        margin-top: -92px !important;
+    }
+    #mai {
+        position: absolute !important;
+        left: 50% !important;
+        margin-left: -30px !important;
+        top: 55% !important;
+    }
+    </style>
 </head>
 
 <body>
@@ -49,19 +72,22 @@ $num_kits = 0;
             </form> -->
         </div>
     </nav>
-    <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center; padding: 100px; border-radius: 0">
+    <?php 
+        if ($num_kits == 0) { ?>
+            <div id="scene" style="overflow: hidden">
+                <div data-depth="0.4" style="margin-top: -25px; margin-bottom: -25px; margin-left: -350px; z-index: 0;">
+                    <img src="imagens/deserto.jpg" alt="wallpaper" height="500px" width="110%">
+                </div>
+                <div id="img_nothing" data-depth="0.6"><img src="imagens/nothing.png" alt="nada"></div>
+                <div id="mai" data-depth="0.8"><img src="imagens/mai.png" alt="mai" width="60px"></div>
+            </div>
+            <p class="lead" style="padding-top: 150px; font-size: 40px; text-align: center">Comece cadastrando novos kits!</p>
+        <?php } else { ?>
+    <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
         <center>
             <h1 style="color: white">Mercado Livre</h1>
         </center>
     </header>
-    <?php 
-        if ($num_kits == 0) { ?>
-            <div id="scene" style="overflow: hidden;">
-                <div data-depth="0.2" style="position: absolute; background-image: url('imagens/deserto.jpg'); background-size: cover; height: 100vh; margin-left: -10%; margin-right: -10%;"></div>
-                <div data-depth="0.6" style="position: absolute; margin-left: 50%; height: 100vh;"><img src="imagens/nothing.png" alt="" srcset=""></div>
-                <div data-depth="0.2" style="position: absolute; margin-left: 50%; height: 100vh; margin-top: 10%; width: 100%;"><img src="imagens/wallpaper.jpg" alt="" srcset=""></div>
-            </div><br><br><br><br><br><br><br><br><br><br><br><br>
-        <?php } else { ?>
     <main class="container">
         <div class="accordion" id="accordionKits">
             <?php
@@ -136,11 +162,15 @@ $num_kits = 0;
                     </div>
                 </div>
         <?php } ?>
-            </div>
-        <?php } ?>
-    </main><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+    </main>
+    <?php } ?>
     <!-- Footer -->
-    <footer class="footer">
+    <?php if ($num_kits == 0) { ?>
+    <footer class="footer" style="margin-bottom: -100px">
+    <?php } else { ?>
+    <footer class="footer" style="margin-bottom: -200px">
+    <?php } ?>
         <!-- Footer Elements -->
         <div style="background-color: #3e4551; padding: 16px">
             <center>
@@ -166,9 +196,9 @@ $num_kits = 0;
     var parallax = new Parallax(scene, {
         // calibrateX: false,
         // calibrateY: true,
-        // invertX: false,
-        // invertY: true,
-        // limitX: false,
+        invertX: true,
+        invertY: true,
+        // limitX: 10,
         // limitY: 10,
         // scalarX: 2,
         // scalarY: 8,

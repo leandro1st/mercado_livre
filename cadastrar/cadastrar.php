@@ -25,7 +25,12 @@ for ($i = 1; $i <= $numero_produtos; $i++) {
 
     $cadastrar = mysqli_query($connect, "INSERT INTO $kits($cod_athos, $nome, $quantidade, $preco, $preco_total, $ncm, $cest, $kit_nome, $id_kit) VALUES ('$cod_athos_produto', '$nome_produto', '$quantidade_produto', '$preco_final', '$preco_total_produto', '$ncm_produto', '$cest_produto', '$nome_kit', '$proximo_id')");
 } 
-if ($cadastrar) { ?>
+if ($numero_produtos == 1) { ?>
+<script>
+    alert("Produto cadastrado com sucesso!");
+    window.history.go(-1);
+</script>
+<?php } else { ?>
 <script>
     alert("Produtos cadastrados com sucesso!");
     window.history.go(-1);

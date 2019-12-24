@@ -130,7 +130,7 @@
             <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="fas fa-plus-circle"></i> Cadastrar Kit</a></li>
         </ol>
     </nav>
-    <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center; padding: 100px; border-radius: 0">
+    <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
         <center>
             <h1 style="color: white">Cadastrar Kits</h1>
         </center>
@@ -173,11 +173,11 @@
             <input type="number" id="cest_1" name="cest_1" class="form-control" placeholder="CEST do produto 1"><br>
             <div id="div_produto_novo"></div>
             <input type="hidden" name="total" value="1" id="total">
-            <button type="submit" class="btn btn-success" style="float: right">Cadastrar</button><br><br><br>
+            <button type="submit" class="btn btn-success" style="float: right">Cadastrar</button>
         </form>
-    </main><br><br><br><br><br><br><br><br><br><br><br><br>
+    </main>
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" style="margin-bottom: -250px">
         <!-- Footer Elements -->
         <div style="background-color: #3e4551; padding: 16px">
             <center>

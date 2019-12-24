@@ -9,6 +9,8 @@
 	<!-- Behavioral Meta Data -->
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<script src="../../../../jquery/jquery-3.4.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
 
 	<!-- Styles -->
 	<link rel="stylesheet" type="text/css" href="styles.css"/>
@@ -20,17 +22,17 @@
 
 	<div id="container" class="container">
 		<div id="scene" class="scene">
-			<div data-depth="1.00"><img src="images/layer1.png"></div>
-			<div data-depth="0.80"><img src="images/layer2.png"></div>
-			<div data-depth="0.60"><img src="images/layer3.png"></div>
-			<div data-depth="0.40"><img src="images/layer4.png"></div>
-			<div data-depth="0.20"><img src="images/layer5.png"></div>
-			<div data-depth="0.00"><img src="images/layer6.png"></div>
+			<div data-depth="1.00"><img src="../../../../imagens/nothing.png"></div>
+			<div data-depth="0.80"><img src="../../../../imagens/nothing.png"></div>
+			<div data-depth="0.60"><img src="../../../../imagens/nothing.png"></div>
+			<div data-depth="0.40"><img src="../../../../imagens/nothing.png"></div>
+			<div data-depth="0.20"><img src="../../../../imagens/nothing.png"></div>
+			<div data-depth="0.00"><img src="../../../../imagens/nothing.png"></div>
 		</div>
 	</div>
 
 	<!-- Scripts -->
-	<script src="./parallax.js"></script>
+	<script src="../src/parallax.js"></script>
 	<script>
 
 	var scene = document.getElementById('scene');
