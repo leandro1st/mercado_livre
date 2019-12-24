@@ -59,7 +59,13 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     });
                     if (numero_restante == 0) {
                         $("#div_nada").append(paragrafo);
-                        document.getElementById("footer1").style.marginBottom = "-20px";
+                        if (window.matchMedia("(min-width:1366px)").matches) {
+                            /* Para resoluçao 1366x768 */
+                            document.getElementById("footer1").style.marginBottom = "-250px";
+                        } else if ((window.matchMedia("(min-width:1920px)").matches)) {
+                            /* Para resolução 1920x1080 */
+                            document.getElementById("footer1").style.marginBottom = "-20px";
+                        }
                     }
                 },
                 error: function(data) {
@@ -91,10 +97,10 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     <a class="nav-link" href="#"><i class="fas fa-trash" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
             </ul>
-            <!-- <form class="form-inline my-2 my-lg-0" method="POST" action="#">
-                <input class="form-control mr-sm-2" name="nome_produto" placeholder="Nome do kit" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
+                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Nome do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
-            </form> -->
+            </form>
         </div>
     </nav>
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
@@ -233,9 +239,9 @@ $num_kits = mysqli_num_rows($pesquisar2);
     </div>
     <!-- Footer -->
     <?php if ($num_kits == 0) { ?>
-        <footer class="footer" style="margin-bottom: -100px">
+        <footer id="footer1" class="footer"> <!-- style="margin-bottom: -100px" -->
     <?php } else { ?>
-        <footer id="footer1" class="footer" style="margin-bottom: -200px">
+        <footer id="footer1" class="footer"> <!-- style="margin-bottom: -200px" -->
     <?php } ?>
         <!-- Footer Elements -->
         <div style="background-color: #3e4551; padding: 16px">

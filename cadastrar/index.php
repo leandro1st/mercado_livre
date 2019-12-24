@@ -118,10 +118,10 @@
                     <a class="nav-link" href="../excluir/"><i class="fas fa-trash" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
             </ul>
-            <!-- <form class="form-inline my-2 my-lg-0" method="POST" action="#">
-                <input class="form-control mr-sm-2" name="nome_produto" placeholder="Nome do kit" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
+                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Nome do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
-            </form> -->
+            </form>
         </div>
     </nav>
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">

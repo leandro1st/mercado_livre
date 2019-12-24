@@ -43,6 +43,9 @@ $num_kits = mysqli_num_rows($pesquisar2);
         top: 55% !important;
     }
     </style>
+    <script>
+        // alert($(window).width());
+    </script>
 </head>
 
 <body>
@@ -66,10 +69,10 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     <a class="nav-link" href="excluir/"><i class="fas fa-trash" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
             </ul>
-            <!-- <form class="form-inline my-2 my-lg-0" method="POST" action="#">
-                <input class="form-control mr-sm-2" name="nome_produto" placeholder="Nome do kit" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" method="POST" action="pesquisar/">
+                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Nome do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
-            </form> -->
+            </form>
         </div>
     </nav>
     <?php 
@@ -167,9 +170,9 @@ $num_kits = mysqli_num_rows($pesquisar2);
     <?php } ?>
     <!-- Footer -->
     <?php if ($num_kits == 0) { ?>
-    <footer class="footer" style="margin-bottom: -100px">
+    <footer id="footer1" class="footer"> <!-- style="/*margin-bottom: -100px*/" -->
     <?php } else { ?>
-    <footer class="footer" style="margin-bottom: -200px">
+    <footer id="footer1" class="footer"> <!-- style="/*margin-bottom: -200px*/" -->
     <?php } ?>
         <!-- Footer Elements -->
         <div style="background-color: #3e4551; padding: 16px">
