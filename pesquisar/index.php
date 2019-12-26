@@ -2,7 +2,7 @@
 require('../externo/connect.php');
 
 $nome_kit_post = $_POST['nome_do_kit'];
-$procurar = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' or $kit_nome = '$nome_kit_post'");
+$procurar = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post'");/* or $kit_nome = '$nome_kit_post' */
 $mostrar_nome_kit = mysqli_query($connect, "SELECT $kit_nome, $id_kit FROM $kits WHERE $id_kit = '$nome_kit_post' or $kit_nome like '%" . $nome_kit_post . "%'");
 $num_kits = mysqli_num_rows($procurar);
 $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
@@ -40,7 +40,7 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
             margin-top: -92px !important;
         }
 
-        #mai {
+        #megumin {
             position: absolute !important;
             left: 50% !important;
             margin-left: -30px !important;
@@ -77,25 +77,38 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" method="POST" action="./">
-                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Nome do kit" aria-label="Search">
+                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Digite o código do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
             </form>
         </div>
     </nav>
     <?php
     if ($num_kits == 0) { ?>
+            <script>
+                $(document).ready(function() {
+                    if (window.matchMedia("(max-width:1366px)").matches) {
+                        document.getElementById("footer1").style.marginBottom = "-269px";
+                    } else if (window.matchMedia("(min-width:1600px) and (max-width:1920px)").matches) {
+                        document.getElementById("footer1").style.marginBottom = "-68px";
+                    }
+                });
+            </script>
         <div id="scene" style="overflow: hidden">
             <div data-depth="0.4" style="margin-top: -25px; margin-bottom: -25px; margin-left: -350px; z-index: 0;">
                 <img src="../imagens/deserto.jpg" alt="wallpaper" height="500px" width="110%">
             </div>
             <div id="img_nothing" data-depth="0.6"><img src="../imagens/nothing.png" alt="nada"></div>
-            <div id="mai" data-depth="0.8"><img src="../imagens/mai.png" alt="mai" width="60px"></div>
+            <div id="megumin" data-depth="0.8"><img src="../imagens/megumin.png" alt="megumin" width="60px"></div>
         </div>
-        <p class="lead" style="padding-top: 150px; font-size: 40px; text-align: center">Nenhum kit com esse nome encontrado!</p>
+        <?php if ($nome_kit_post == '') { ?>
+            <p class="lead" style="padding-top: 8%; font-size: 40px; text-align: center">Nenhum código fornecido!</p>
+        <?php } else { ?>
+            <p class="lead" style="padding-top: 8%; font-size: 40px; text-align: center">Nenhum kit com esse código encontrado!</p>
+        <?php } ?>
     <?php } else { ?>
         <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
             <h1 style="text-align: center">
-                <span style="color: #edead8"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . " </span><b><span class='text-warning' style='font-size: 14px'>(#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
+                <span style="color: #edead8"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . " </span><b><span class='text-warning' style='font-size: 22px'>(#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
             </h1>
         </header>
         <main class="container">
@@ -145,10 +158,10 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
     <?php } ?>
     <!-- Footer -->
     <?php if ($num_kits == 0) { ?>
-        <footer id="footer1" class="footer">
+        <footer id="footer1" class="footer" style="margin-bottom: -250px">
             <!-- style="/*margin-bottom: -100px*/" -->
         <?php } else { ?>
-            <footer id="footer1" class="footer">
+            <footer id="footer1" class="footer" style="margin-bottom: -250px">
                 <!-- style="/*margin-bottom: -200px*/" -->
             <?php } ?>
             <!-- Footer Elements -->

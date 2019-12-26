@@ -44,7 +44,8 @@ $num_kits = mysqli_num_rows($pesquisar2);
             document.getElementById('quantidade').innerHTML = quantidade;
         }
 
-        var paragrafo = "<p class='lead' style='padding-top: 150px; font-size: 40px; text-align: center;'>Comece cadastrando novos kits!</p>";
+        var paragrafo_1366 = "<p class='lead' style='padding-top: 151px; font-size: 40px; text-align: center;'>Comece cadastrando novos kits!</p>";
+        var paragrafo_1920 = "<p class='lead' style='padding-top: 183px; font-size: 40px; text-align: center;'>Comece cadastrando novos kits!</p>";
 
         function excluir(id_kit, numero_restante) {
             $.ajax({
@@ -58,13 +59,14 @@ $num_kits = mysqli_num_rows($pesquisar2);
                         $('#card-' + id_kit).remove();
                     });
                     if (numero_restante == 0) {
-                        $("#div_nada").append(paragrafo);
-                        if (window.matchMedia("(min-width:1366px)").matches) {
+                        if (window.matchMedia("(max-width:1366px)").matches) {
+                            $("main").append(paragrafo_1366);
                             /* Para resoluçao 1366x768 */
                             document.getElementById("footer1").style.marginBottom = "-250px";
-                        } else if ((window.matchMedia("(min-width:1920px)").matches)) {
+                        } else if (window.matchMedia("(min-width:1600px) and (max-width:1920px)").matches) {
+                            $("main").append(paragrafo_1920);
                             /* Para resolução 1920x1080 */
-                            document.getElementById("footer1").style.marginBottom = "-20px";
+                            document.getElementById("footer1").style.marginBottom = "0px";
                         }
                     }
                 },
@@ -98,7 +100,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
-                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Nome do kit" aria-label="Search">
+                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Digite o código do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
             </form>
         </div>
@@ -111,6 +113,15 @@ $num_kits = mysqli_num_rows($pesquisar2);
     </nav>
     <?php 
         if ($num_kits == 0) { ?>
+            <script>
+                $(document).ready(function() {
+                    if (window.matchMedia("(max-width:1366px)").matches) {
+                        document.getElementById("footer1").style.marginBottom = "-269px";
+                    } else if (window.matchMedia("(min-width:1600px) and (max-width:1920px)").matches) {
+                        document.getElementById("footer1").style.marginBottom = "-68px";
+                    }
+                });
+            </script>
             <div id="scene" style="overflow: hidden">
                 <div data-depth="0.4" style="margin-top: -25px; margin-bottom: -25px; margin-left: -350px; z-index: 0;">
                     <img src="../imagens/deserto.jpg" alt="wallpaper" height="500px" width="110%">
@@ -118,14 +129,13 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 <div id="img_nothing" data-depth="0.6"><img src="../imagens/nothing.png" alt="nada"></div>
                 <div id="raphtalia" data-depth="0.8"><img src="../imagens/raphtalia.png" alt="raphtalia" width="60px"></div>
             </div>
-            <p class="lead" style="padding-top: 150px; font-size: 40px; text-align: center">Comece cadastrando novos kits!</p>
+            <p class="lead" style="padding-top: 8%; font-size: 40px; text-align: center">Comece cadastrando novos kits!</p>
         <?php } else { ?>
     <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
         <center>
             <h1 style="color: white">Excluir Kits</h1>
         </center>
     </header>
-    <div id="div_nada"></div>
     <main class="container">
         <div class="accordion" id="accordionKits">
             <?php
@@ -239,9 +249,9 @@ $num_kits = mysqli_num_rows($pesquisar2);
     </div>
     <!-- Footer -->
     <?php if ($num_kits == 0) { ?>
-        <footer id="footer1" class="footer"> <!-- style="margin-bottom: -100px" -->
+        <footer id="footer1" class="footer" style="margin-bottom: -250px"> <!-- style="margin-bottom: -100px" -->
     <?php } else { ?>
-        <footer id="footer1" class="footer"> <!-- style="margin-bottom: -200px" -->
+        <footer id="footer1" class="footer" style="margin-bottom: -250px"> <!-- style="margin-bottom: -200px" -->
     <?php } ?>
         <!-- Footer Elements -->
         <div style="background-color: #3e4551; padding: 16px">

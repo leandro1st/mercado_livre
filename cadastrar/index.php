@@ -119,7 +119,7 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
-                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Nome do kit" aria-label="Search">
+                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Digite o código do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
             </form>
         </div>
