@@ -1,7 +1,7 @@
 <?php
 require('externo/connect.php');
-$pesquisar = mysqli_query($connect, "SELECT * FROM $kits");
-$pesquisar2 = mysqli_query($connect, "SELECT COUNT(*) c, $id_kit, $kit_nome FROM $kits GROUP BY $id_kit HAVING c >= 1");
+$pesquisar = mysqli_query($connect, "SELECT * FROM $kits ORDER BY $nome");
+$pesquisar2 = mysqli_query($connect, "SELECT COUNT(*) c, $id_kit, $kit_nome FROM $kits GROUP BY $id_kit HAVING c >= 1 ORDER BY $kit_nome");
 // $num_kits = 0;
 $num_kits = mysqli_num_rows($pesquisar2);
 ?>
@@ -45,6 +45,9 @@ $num_kits = mysqli_num_rows($pesquisar2);
     </style>
     <script>
         // alert($(window).width());
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 </head>
 
@@ -69,6 +72,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     <a class="nav-link" href="excluir/"><i class="fas fa-trash" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
             </ul>
+            <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='imagens/example.png' width='130px'>"></i>
             <form class="form-inline my-2 my-lg-0" method="POST" action="pesquisar/">
                 <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Digite o código do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>

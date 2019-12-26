@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mercado Livre | Cadastrar</title>
+    <title>Mercado Livre | Cadastrar Kit</title>
     <link rel="shortcut icon" href="../imagens/icon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -23,7 +23,7 @@
             var new_label_ncm = "<label id='label_ncm_" + num_input + "' for='ncm_" + num_input + "'><b>NCM do produto " + num_input + ": </b>";
             var new_label_cest = "<label id='label_cest_" + num_input + "' for='cest_" + num_input + "'><b>CEST do produto " + num_input + ": </b>";
 
-            var new_input_cod_athos = "<input type='number' class='form-control' id='cod_athos_" + num_input + "' name='cod_athos_" + num_input + "' placeholder='Código Athos do produto " + num_input + "'><br class='teste" + num_input + "'>";
+            var new_input_cod_athos = "<input type='text' class='form-control' id='cod_athos_" + num_input + "' name='cod_athos_" + num_input + "' placeholder='Código Athos do produto " + num_input + "'><br class='teste" + num_input + "'>";
             var new_input_nome = "<input type='text' class='form-control' id='produto_" + num_input + "' name='produto_" + num_input + "' placeholder='Nome do produto " + num_input + "'><br class='teste" + num_input + "'>";
             var new_input_quantidade = "<input type='number' class='form-control' id='quantidade_" + num_input + "' name='quantidade_" + num_input + "' placeholder='Quantidade do produto " + num_input + "'><br class='teste" + num_input + "'>";
             var new_input_preco = "<input type='text' class='form-control' id='preco_" + num_input + "' name='preco_" + num_input + "' placeholder='Preço do produto " + num_input + "'><br class='teste" + num_input + "'>";
@@ -94,7 +94,16 @@
                 thousands: "."
             });
         });
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
+    <style>
+    #div_botoes {
+        border-width: 2px !important;
+    }
+    </style>
 </head>
 
 <body>
@@ -118,6 +127,7 @@
                     <a class="nav-link" href="../excluir/"><i class="fas fa-trash" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
             </ul>
+            <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='../imagens/example.png' width='130px'>"></i>
             <form class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
                 <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Digite o código do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
@@ -132,25 +142,25 @@
     </nav>
     <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
         <center>
-            <h1 style="color: white">Cadastrar Kits</h1>
+            <h1 style="color: white">Cadastrar Kit</h1>
         </center>
     </header>
     <main class="container">
         <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;">
-            <div class="input-group input-group-lg">
+            <div class="input-group input-group-lg" style="margin-bottom: 7px">
                 <div class="input-group-prepend">
                     <span class="input-group-text text-success" id="inputGroup-sizing-lg"><b>Nome do kit</b></span>
                 </div>
                 <input type="text" name="nome_kit" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Nome do kit" required autofocus>
-            </div><br>
-            <div style="float: right">
-                <i class="fas fa-plus" style="color: green; font-size: 30px; cursor: pointer" onclick="add()"></i>&nbsp&nbsp&nbsp
-                <i class="fas fa-times" style="color: red; font-size: 30px; cursor: pointer" onclick="remove()"></i><br><br>
+            </div>
+            <div id="div_botoes" class="sticky-top border border-dark rounded" style="float: right; top: 70px; padding: 7px; background-color: white;">
+                <i class="fas fa-plus" style="color: green; font-size: 30px; cursor: pointer; margin-right: 13px" onclick="add()"></i>
+                <i class="fas fa-times" style="color: red; font-size: 30px; cursor: pointer" onclick="remove()"></i>
             </div><br>
             <label for="cod_athos_1">
                 <b>Código Athos do produto 1:</b>
             </label>
-            <input type="number" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto 1" required><br>
+            <input type="text" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto 1" required><br>
             <label for="produto_1">
                 <b>Nome do produto 1:</b>
             </label>

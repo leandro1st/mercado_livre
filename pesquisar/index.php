@@ -31,6 +31,7 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
     <script src="../jquery/jquery-3.4.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../maskmoney/src/jquery.maskMoney.js" type="text/javascript"></script>
     <style>
         #img_nothing {
             /* position: absolute !important; */
@@ -49,6 +50,64 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
     </style>
     <script>
         // alert($(window).width());
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+        function texto_input(id_produto) {
+            // var input = "<input type='text' id='input-" + id_produto + "' name='preco_novo' class='form-control' onblur='alterar(id_produto)'>";
+
+            // alert(id_produto);
+            // document.getElementById('coluna-' + id_produto + '').innerHTML = input;
+            document.getElementById('preco-' + id_produto + '').innerHTML = '';
+            document.getElementById('input-' + id_produto).type = 'text';
+            document.getElementById('input-' + id_produto).focus();
+            // Resetei o valor do input, pois o cursor estava começando da direita
+            var copia_preco = document.getElementById('input-' + id_produto).value;
+            document.getElementById('input-' + id_produto).value = '';
+            document.getElementById('input-' + id_produto).value = copia_preco;
+
+            $(document).ready(function() {
+                $('#input-' + id_produto).maskMoney({
+                    prefix: "R$ ",
+                    decimal: ",",
+                    thousands: ".",
+                });
+            });
+        }
+
+        function alterar(id_produto, preco_novo, nome, quantidade) {
+            //Alterando a mask 
+            preco_novo_sem_R$ = preco_novo.replace("R$ ", "");
+            preco_novo_ptBR = preco_novo_sem_R$.replace(/\./g, "");
+            preco_novo_calculo = preco_novo_ptBR.replace(",", ".");
+            // Preço total novo
+            preco_total_novo = (quantidade * preco_novo_calculo).toFixed(2).toString();
+            preco_total_novo_ptBR = preco_total_novo.replace(".", ",")
+            // Mostrar preço novo
+            var span_preco = "<span id='preco-" + id_produto + "'>R$ " + preco_novo_ptBR + "</span>";
+            $.ajax({
+                method: 'POST',
+                url: 'alterar.php',
+                data: $('#form-' + id_produto).serialize(),
+                success: function(data) {
+                    // Dá pra mudar a exibição do preço total do kit
+
+                    // Alterando os valores dos inputs do modal
+                    document.getElementById('nome_produto_modal').innerHTML = nome;
+                    document.getElementById('preco_antigo_modal').innerHTML = "R$ " + document.getElementById('preco_velho-' + id_produto).value;
+                    document.getElementById('preco_novo_modal').innerHTML = "R$ " + preco_novo_ptBR;
+                    $('#modalCadastrado').modal('show');
+                    // Alterando os valores de exibição
+                    document.getElementById('input-' + id_produto).type = 'hidden';
+                    document.getElementById('preco-' + id_produto).innerHTML = span_preco;
+                    document.getElementById('preco_total-' + id_produto).innerHTML = preco_total_novo_ptBR;
+                },
+                error: function(data) {
+                    alert("Ocorreu um erro!");
+                }
+            });
+        }
     </script>
 </head>
 
@@ -76,6 +135,7 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
                     <a class="nav-link" href="#"><i class="fas fa-search" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
             </ul>
+            <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='../imagens/example.png' width='130px'>"></i>
             <form class="form-inline my-2 my-lg-0" method="POST" action="./">
                 <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Digite o código do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
@@ -84,15 +144,15 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
     </nav>
     <?php
     if ($num_kits == 0) { ?>
-            <script>
-                $(document).ready(function() {
-                    if (window.matchMedia("(max-width:1366px)").matches) {
-                        document.getElementById("footer1").style.marginBottom = "-269px";
-                    } else if (window.matchMedia("(min-width:1600px) and (max-width:1920px)").matches) {
-                        document.getElementById("footer1").style.marginBottom = "-68px";
-                    }
-                });
-            </script>
+        <script>
+            $(document).ready(function() {
+                if (window.matchMedia("(max-width:1366px)").matches) {
+                    document.getElementById("footer1").style.marginBottom = "-269px";
+                } else if (window.matchMedia("(min-width:1600px) and (max-width:1920px)").matches) {
+                    document.getElementById("footer1").style.marginBottom = "-68px";
+                }
+            });
+        </script>
         <div id="scene" style="overflow: hidden">
             <div data-depth="0.4" style="margin-top: -25px; margin-bottom: -25px; margin-left: -350px; z-index: 0;">
                 <img src="../imagens/deserto.jpg" alt="wallpaper" height="500px" width="110%">
@@ -117,11 +177,12 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
                     <tr class="text-center">
                         <th scope="col" width="8%">#</th>
                         <th scope="col" width="35%">Nome do produto</th>
-                        <th scope="col" width="2%">Quantidade</th>
+                        <th scope="col" width="1%">Quantidade</th>
                         <th scope="col" width="13,75%">Preço</th>
                         <th scope="col" width="13,75%">Preço Total</th>
                         <th scope="col" width="13,75%">NCM</th>
                         <th scope="col" width="13,75%">CEST</th>
+                        <th scope="col" width="1%"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -131,19 +192,36 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
                         $vetor_kit = mysqli_fetch_array($procurar);
                         $preco_total_kit = $preco_total_kit + $vetor_kit['preco_total'];
                     ?>
-                        <tr class="text-center">
+                        <tr class="text-center" id="linha-<?php echo $vetor_kit['id'] ?>">
                             <td><?php echo $vetor_kit['cod_athos'] ?></td>
                             <td style="max-width: 400px; word-wrap: break-word;"><?php echo $vetor_kit['nome'] ?></td>
                             <td><?php echo $vetor_kit['quantidade'] ?></td>
-                            <td>R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?></td>
-                            <td>R$ <?php echo number_format($vetor_kit['preco_total'], 2, ',', '') ?></td>
+                            <!-- Coluna do preço do produto -->
+                            <form id="form-<?php echo $vetor_kit['id'] ?>" method="POST">
+                                <input type="hidden" name="id_produto" value="<?php echo $vetor_kit['id'] ?>">
+                                <input type="hidden" name="quantidade" value="<?php echo $vetor_kit['quantidade'] ?>">
+                                <td id="coluna-<?php echo $vetor_kit['id'] ?>">
+                                    <!-- Input pra mostrar no modal -->
+                                    <input type="hidden" id="preco_velho-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>">
+                                    <!-- Input pra alterar o preço -->
+                                    <input type="hidden" id="input-<?php echo $vetor_kit['id'] ?>" name="preco_novo" class="form-control" value="R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>" placeholder="Preço novo" onblur="alterar('<?php echo $vetor_kit['id'] ?>', document.getElementById('input-<?php echo $vetor_kit['id'] ?>').value, '<?php echo $vetor_kit['nome'] ?>', '<?php echo $vetor_kit['quantidade'] ?>')" onkeydown="return event.key != 'Enter';">
+                                    <span id="preco-<?php echo $vetor_kit['id'] ?>">
+                                        R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>
+                                    </span>
+                                </td>
+                            </form>
+                            <!-- Coluna do preço do produto -->
+                            <td>R$ <span id="preco_total-<?php echo $vetor_kit['id'] ?>"><?php echo number_format($vetor_kit['preco_total'], 2, ',', '') ?></span></td>
                             <td><?php echo $vetor_kit['ncm'] ?></td>
                             <td><?php echo $vetor_kit['cest'] ?></td>
+                            <td>
+                                <i class="far fa-edit" style="color: green; font-size: 22px; cursor: pointer;" onclick="texto_input(<?php echo $vetor_kit['id'] ?>)"></i>
+                            </td>
                         </tr>
                         <?php if ($j == $num_kits - 1) { ?>
                             <tr class="text-center">
-                                <td colspan="7" style="border-top-color: #5cb85c; border-top-width: 2px;">
-                                    <font style="font-size: 24px" class="lead font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '') ?></font>
+                                <td colspan="8" style="border-top-color: #5cb85c; border-top-width: 2px;">
+                                    <font style="font-size: 24px" class="lead font-weight-bold">R$ <span id="preco_total_kit"><?php echo number_format($preco_total_kit, 2, ',', '') ?></span></font>
                                 </td>
                             </tr>
                     <?php }
@@ -156,6 +234,29 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
             </div>
         </main>
     <?php } ?>
+    <div class="modal fade" id="modalCadastrado" tabindex="-1" role="dialog" aria-labelledby="modalCadastradoTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-success" id="modalTitle">
+                        Preço de <span id="nome_produto_modal"></span> alterado!
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <p class="lead"><b>Preço antigo: </b><span id="preco_antigo_modal"></span></p>
+                        <p class="lead"><b>Preço novo: </b><span id="preco_novo_modal"></span></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Footer -->
     <?php if ($num_kits == 0) { ?>
         <footer id="footer1" class="footer" style="margin-bottom: -250px">

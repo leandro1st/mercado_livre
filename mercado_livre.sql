@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 24-Dez-2019 às 18:05
+-- Generation Time: 26-Dez-2019 às 16:46
 -- Versão do servidor: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `kits` (
   `id` int(11) NOT NULL,
-  `cod_athos` int(11) NOT NULL,
+  `cod_athos` varchar(200) NOT NULL,
   `nome` varchar(300) NOT NULL,
   `quantidade` int(11) NOT NULL,
   `preco` double NOT NULL,
@@ -40,6 +40,26 @@ CREATE TABLE `kits` (
   `kit_nome` varchar(300) NOT NULL,
   `id_kit` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `kits`
+--
+
+INSERT INTO `kits` (`id`, `cod_athos`, `nome`, `quantidade`, `preco`, `preco_total`, `ncm`, `cest`, `kit_nome`, `id_kit`) VALUES
+(1, '2502', 'ARROZ GUIN 1KG', 1, 8.54, 8.54, 10063021, 0, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(2, '3354', 'NORI HANARO 10 FOLHAS', 1, 9.66, 9.66, 12122100, 0, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(3, '3', 'TEMPERO SUSHI AZUMA 750ML', 1, 11.79, 11.79, 21039021, 1703500, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(4, '555', 'SHOYU SAKURA 150ML', 1, 3.78, 3.78, 21031010, 1703600, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(5, '824/3732\r\n', 'ESTEIRA BAMBU', 1, 6.62, 6.62, 4612100, 0, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(6, '2213', 'PANKO ALFA 200G', 1, 8.18, 8.18, 19019090, 0, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(7, '1524', 'BARCO ISOPOR C/ TAMPA M', 1, 3.43, 3.43, 39239000, 0, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(8, '1092', 'WASABI EM PASTA GLOBO', 1, 10.23, 10.23, 21039021, 1703500, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(9, '35', 'SUSHI KATA', 1, 4.92, 4.92, 39241000, 1400600, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(10, '2299', 'HASHI DE BAMBU C/50', 1, 8.02, 8.02, 44191200, 0, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(11, '1215', 'MOLHEIRA DESCARTÃVEL C/10', 1, 1.68, 1.68, 39241000, 1400601, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(12, '347', 'MOLHO TARÃŠ SAKURA', 1, 7.11, 7.11, 21039091, 1703500, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(13, '27', 'GERGELIM PRETO TORRADO', 1, 7.11, 7.11, 12074090, 0, 'KIT SUSHI HOT ROLL I - BOAT', 1),
+(14, '21', 'GERGELIM BRANCO TORRADO', 1, 5.56, 5.56, 12074090, 0, 'KIT SUSHI HOT ROLL I - BOAT', 1);
 
 --
 -- Indexes for dumped tables
@@ -59,7 +79,7 @@ ALTER TABLE `kits`
 -- AUTO_INCREMENT for table `kits`
 --
 ALTER TABLE `kits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

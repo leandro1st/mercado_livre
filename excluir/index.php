@@ -74,7 +74,11 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     alert("Ocorreu um erro!");
                 }
             });
-        }
+        };
+        
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 </head>
 
@@ -99,6 +103,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     <a class="nav-link" href="#"><i class="fas fa-trash" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
             </ul>
+            <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='../imagens/example.png' width='130px'>"></i>
             <form class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
                 <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Digite o código do kit" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
