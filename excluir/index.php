@@ -1,7 +1,7 @@
 <?php
 require('../externo/connect.php');
-$pesquisar = mysqli_query($connect, "SELECT * FROM $kits");
-$pesquisar2 = mysqli_query($connect, "SELECT COUNT(*) c, $id_kit, $kit_nome FROM $kits GROUP BY $id_kit HAVING c >= 1");
+$pesquisar = mysqli_query($connect, "SELECT * FROM $kits ORDER BY $nome");
+$pesquisar2 = mysqli_query($connect, "SELECT COUNT(*) c, $id_kit, $kit_nome FROM $kits GROUP BY $id_kit HAVING c >= 1 ORDER BY $kit_nome");
 // $num_kits = 0;
 $num_kits = mysqli_num_rows($pesquisar2);
 ?>
@@ -61,7 +61,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     if (numero_restante == 0) {
                         if (window.matchMedia("(max-width:1366px)").matches) {
                             $("main").append(paragrafo_1366);
-                            /* Para resoluçao 1366x768 */
+                            /* Para resolução 1366x768 */
                             document.getElementById("footer1").style.marginBottom = "-250px";
                         } else if (window.matchMedia("(min-width:1600px) and (max-width:1920px)").matches) {
                             $("main").append(paragrafo_1920);

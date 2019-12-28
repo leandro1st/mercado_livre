@@ -2,7 +2,8 @@
 require('../externo/connect.php');
 
 $nome_kit_post = $_POST['nome_do_kit'];
-$procurar = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post'");/* or $kit_nome = '$nome_kit_post' */
+$procurar = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome = '$nome_kit_post' */
+$procurar_para_alterar_valores_vetor_javascript = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome = '$nome_kit_post' */
 $mostrar_nome_kit = mysqli_query($connect, "SELECT $kit_nome, $id_kit FROM $kits WHERE $id_kit = '$nome_kit_post' or $kit_nome like '%" . $nome_kit_post . "%'");
 $num_kits = mysqli_num_rows($procurar);
 $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
@@ -54,19 +55,18 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
             $('[data-toggle="tooltip"]').tooltip()
         });
 
+        // Função para alterar o preço antigo
         function texto_input(id_produto) {
-            // var input = "<input type='text' id='input-" + id_produto + "' name='preco_novo' class='form-control' onblur='alterar(id_produto)'>";
-
-            // alert(id_produto);
-            // document.getElementById('coluna-' + id_produto + '').innerHTML = input;
+            // Alterando o conteúdo de preco-x e mostrando input para modificar o preço
             document.getElementById('preco-' + id_produto + '').innerHTML = '';
             document.getElementById('input-' + id_produto).type = 'text';
             document.getElementById('input-' + id_produto).focus();
-            // Resetei o valor do input, pois o cursor estava começando da direita
+            // Resentando o valor do input, pois o cursor estava começando da direita
             var copia_preco = document.getElementById('input-' + id_produto).value;
             document.getElementById('input-' + id_produto).value = '';
             document.getElementById('input-' + id_produto).value = copia_preco;
 
+            // Currency mask 
             $(document).ready(function() {
                 $('#input-' + id_produto).maskMoney({
                     prefix: "R$ ",
@@ -76,7 +76,8 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
             });
         }
 
-        function alterar(id_produto, preco_novo, nome, quantidade) {
+        // Função para alterar mask, enviar valores através do ajax, alterar valores de exibição do preço unitário/total do produto
+        function alterar_preco(id_produto, preco_novo, nome, quantidade) {
             //Alterando a mask 
             preco_novo_sem_R$ = preco_novo.replace("R$ ", "");
             preco_novo_ptBR = preco_novo_sem_R$.replace(/\./g, "");
@@ -91,14 +92,12 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
                 url: 'alterar.php',
                 data: $('#form-' + id_produto).serialize(),
                 success: function(data) {
-                    // Dá pra mudar a exibição do preço total do kit
-
                     // Alterando os valores dos inputs do modal
                     document.getElementById('nome_produto_modal').innerHTML = nome;
                     document.getElementById('preco_antigo_modal').innerHTML = "R$ " + document.getElementById('preco_velho-' + id_produto).value;
                     document.getElementById('preco_novo_modal').innerHTML = "R$ " + preco_novo_ptBR;
                     $('#modalCadastrado').modal('show');
-                    // Alterando os valores de exibição
+                    // Alterando os valores de exibição do preço unitário e preço total do produto
                     document.getElementById('input-' + id_produto).type = 'hidden';
                     document.getElementById('preco-' + id_produto).innerHTML = span_preco;
                     document.getElementById('preco_total-' + id_produto).innerHTML = preco_total_novo_ptBR;
@@ -119,7 +118,6 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item px-1">
@@ -168,7 +166,7 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
     <?php } else { ?>
         <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
             <h1 style="text-align: center">
-                <span style="color: #edead8"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . " </span><b><span class='text-warning' style='font-size: 22px'>(#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
+                <span style="color: #daeff5; font-family: Comic Sans MS"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . " </span><b><span style='font-size: 24px; color: #ffa21f'>(#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
             </h1>
         </header>
         <main class="container">
@@ -186,6 +184,41 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
                     </tr>
                 </thead>
                 <tbody>
+
+                    <!-- Criando vetor para armazenar os preços, alterar valor de exibição etc -->
+                    <script>
+                        // Criando vetor para armazenar todos os preços antigos
+                        var vetor_precos = [];
+                    </script>
+                    <!-- Loop para armazenar todos os preços dos produtos -->
+                    <?php for ($i = 0; $i < $num_kits; $i++) {
+                        $vetor_kit_para_alterar_valores_vetor_javascript = mysqli_fetch_array($procurar_para_alterar_valores_vetor_javascript); ?>
+                        <script>
+                            // Adicionando preço na última posição
+                            var novo = "<?php echo $vetor_kit_para_alterar_valores_vetor_javascript['preco_total'] ?>";
+                            vetor_precos.push(novo);
+                        </script>
+                    <?php } ?>
+                    <script>
+                        // Função para alterar o preço total do kit toda vez que um preço é alterado
+                        function mudarVetor(posicao_vetor, preco_novo_vetor, quantidade_vetor) {
+                            preco_novo_vetor_sem_R$ = preco_novo_vetor.replace("R$ ", "");
+                            preco_novo_vetor_ptBR = preco_novo_vetor_sem_R$.replace(/\./g, "");
+                            preco_novo_vetor_calculo = preco_novo_vetor_ptBR.replace(",", ".");
+                            // Atribuindo um novo valor para a posição 'x' do vetor
+                            vetor_precos[posicao_vetor] = preco_novo_vetor_calculo*quantidade_vetor;
+
+                            soma = 0;
+                            // Realizando a soma de todos os valores do vetor
+                            for (var i = 0; i < vetor_precos.length; i++) {
+                                soma = soma + parseFloat(vetor_precos[i]);
+                            }
+                            // Alterando o valor de exibição do preço total do kit
+                            document.getElementById('preco_total_kit').innerHTML = soma.toFixed(2).replace(".", ",");
+                        }
+                    </script>
+                    <!-- Criando vetor para armazenar os preços, alterar valor de exibição etc -->
+
                     <?php
                     $preco_total_kit = 0;
                     for ($j = 0; $j < $num_kits; $j++) {
@@ -199,12 +232,12 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
                             <!-- Coluna do preço do produto -->
                             <form id="form-<?php echo $vetor_kit['id'] ?>" method="POST">
                                 <input type="hidden" name="id_produto" value="<?php echo $vetor_kit['id'] ?>">
-                                <input type="hidden" name="quantidade" value="<?php echo $vetor_kit['quantidade'] ?>">
+                                <input type="hidden" id="quantidade-<?php echo $vetor_kit['id'] ?>" name="quantidade" value="<?php echo $vetor_kit['quantidade'] ?>">
                                 <td id="coluna-<?php echo $vetor_kit['id'] ?>">
                                     <!-- Input pra mostrar no modal -->
                                     <input type="hidden" id="preco_velho-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>">
                                     <!-- Input pra alterar o preço -->
-                                    <input type="hidden" id="input-<?php echo $vetor_kit['id'] ?>" name="preco_novo" class="form-control" value="R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>" placeholder="Preço novo" onblur="alterar('<?php echo $vetor_kit['id'] ?>', document.getElementById('input-<?php echo $vetor_kit['id'] ?>').value, '<?php echo $vetor_kit['nome'] ?>', '<?php echo $vetor_kit['quantidade'] ?>')" onkeydown="return event.key != 'Enter';">
+                                    <input type="hidden" id="input-<?php echo $vetor_kit['id'] ?>" name="preco_novo" class="form-control" value="R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>" placeholder="Preço novo" onblur="alterar_preco('<?php echo $vetor_kit['id'] ?>', document.getElementById('input-<?php echo $vetor_kit['id'] ?>').value, '<?php echo $vetor_kit['nome'] ?>', '<?php echo $vetor_kit['quantidade'] ?>'); mudarVetor('<?php echo $j ?>', document.getElementById('input-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('quantidade-<?php echo $vetor_kit['id'] ?>').value)" onkeydown="return event.key != 'Enter';">
                                     <span id="preco-<?php echo $vetor_kit['id'] ?>">
                                         R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>
                                     </span>
@@ -286,6 +319,7 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
             </footer>
             <!-- Footer -->
             <script>
+                /* Parallax (efeito de diferentes objetos parecerem estar em diferentes posições ou direções quando observados em diferentes posições) */
                 var scene = document.getElementById('scene');
                 var parallax = new Parallax(scene, {
                     // calibrateX: false,

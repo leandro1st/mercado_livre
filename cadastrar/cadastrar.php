@@ -51,16 +51,12 @@ require('../externo/connect.php');
     </head>
 
     <body>
-        <div class="modal fade" id="modalCadastrado" tabindex="-1" role="dialog" aria-labelledby="modalCadastradoTitle" aria-hidden="true" onblur="window.history.go(-1)">
+        <div class="modal fade" id="modalCadastrado" tabindex="-1" role="dialog" aria-labelledby="modalCadastradoTitle" aria-hidden="true" onblur="window.history.go(-1)" onkeypress="window.history.go(-1)">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="modalTitle">
-                            <?php if ($numero_produtos == 1) { ?>
-                                <font class="text-success">Produto cadastrado com sucesso!</font>
-                            <?php } else { ?>
-                                <font class="text-success">Produtos cadastrados com sucesso!</font>
-                            <?php } ?>
+                            <font class="text-success"><?php echo $nome_kit . " cadastrado com sucesso!" ?></font>
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.history.go(-1)">
                             <span aria-hidden="true">&times;</span>
