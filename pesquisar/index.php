@@ -1,7 +1,7 @@
 <?php
 require('../externo/connect.php');
 
-$nome_kit_post = $_POST['nome_do_kit'];
+$nome_kit_post = trim($_POST['nome_do_kit']);
 $procurar = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome = '$nome_kit_post' */
 $procurar_para_alterar_valores_vetor_javascript = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome = '$nome_kit_post' */
 $num_kits = mysqli_num_rows($procurar);
@@ -18,7 +18,7 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>
-        <?php if ($nome_kit_post == '') { ?>
+        <?php if ($nome_kit_post == '' || preg_match('/^[\pZ\pC]+|[\pZ\pC]+$/u', $nome_kit_post)) { ?>
             Mercado Livre | Pesquisar
         <?php } else if ($num_kits == 0) { ?>
             Mercado Livre | <?php echo $nome_kit_post ?>
@@ -141,7 +141,24 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
             </form>
         </div>
     </nav>
-    <?php
+    <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
+        <ol class="breadcrumb" style="background: none; margin: 0;">
+            <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
+            <li class="breadcrumb-item active">
+                <a href="#" class="none_li">
+                    <i class="fas fa-search"></i>
+                    <?php if ($nome_kit_post == '' || preg_match('/^[\pZ\pC]+|[\pZ\pC]+$/u', $nome_kit_post)) { ?>
+                        Pesquisar
+                    <?php } else if ($num_kits == 0) { ?>
+                        Pesquisar | <?php echo $nome_kit_post ?>
+                    <?php } else { ?>
+                        Pesquisar | <?php echo $nome_kit_post ?>
+                    <?php } ?>
+                </a>
+            </li>
+        </ol>
+    </nav>
+    <?php 
     if ($num_kits == 0) { ?>
         <script>
             $(document).ready(function() {
@@ -159,14 +176,14 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
             <div id="img_nothing" data-depth="0.6"><img src="../imagens/nothing.png" alt="nada"></div>
             <div id="megumin" data-depth="0.8"><img src="../imagens/megumin.png" alt="megumin" width="60px"></div>
         </div>
-        <?php if ($nome_kit_post == '') { ?>
+        <?php if ($nome_kit_post == '' || preg_match('/^[\pZ\pC]+|[\pZ\pC]+$/u', $nome_kit_post)) { ?>
             <p class="lead" style="padding-top: 8%; font-size: 40px; text-align: center">Nenhum código fornecido!</p>
         <?php } else { ?>
             <p class="lead" style="padding-top: 8%; font-size: 40px; text-align: center">Nenhum kit com esse código encontrado!</p>
         <?php } ?>
     <?php } else { ?>
-            <h1 style="text-align: center">
         <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
+            <h1 style="text-align: center">
                 <span style="color: #daeff5; font-family: Comic Sans MS"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . " </span><b><span style='font-size: 24px; color: #ffa21f'>(#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
             </h1>
         </header>

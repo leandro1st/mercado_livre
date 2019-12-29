@@ -101,7 +101,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
         <?php } else { ?>
     <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
         <center>
-            <h1 style="color: white">Mercado Livre</h1>
+            <h1 style="color: #daeff5">Mercado Livre</h1>
         </center>
     </header>
     <main class="container">
