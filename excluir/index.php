@@ -158,14 +158,14 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 <div class="card" id="card-<?php echo $id_do_kit ?>">
                     <?php if ($i == 0) { ?>
                     <div class="card-header" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
-                        <h5 class="accordion-toggle" style="margin: 0px; display: inline; cursor: pointer">
+                        <h5 class="accordion-toggle" style="margin: 0px">
                             <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
                         </h5>
                     </div>
                     <div id="collapse_<?php echo $i ?>" class="collapse show" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
                     <?php } else { ?>
                         <div class="card-header collapsed" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
-                            <h5 class="accordion-toggle" style="margin: 0px; display: inline; cursor: pointer">
+                            <h5 class="accordion-toggle" style="margin: 0px">
                                 <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
                             </h5>
                         </div>
@@ -206,7 +206,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                             <tr class="text-center">
                                                 <td colspan="7" style="border-top-color: #5cb85c; border-top-width: 2px;">
                                                     <font style="font-size: 24px" class="lead font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '') ?></font>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluir" style="float: right;" onclick="obter_dados('<?php echo $id_do_kit ?>', '<?php echo $vetor2['kit_nome'] ?>' ,'<?php echo $numero_repetido ?>')">
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluir" style="float: right; margin-bottom: -40px" onclick="obter_dados('<?php echo $id_do_kit ?>', '<?php echo $vetor2['kit_nome'] ?>' ,'<?php echo $numero_repetido ?>')">
                                                         Excluir <i class="fas fa-trash" style="color: white;"></i>
                                                     </button>
                                                 </td>
