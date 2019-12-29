@@ -4,8 +4,9 @@ require('../externo/connect.php');
 $nome_kit_post = $_POST['nome_do_kit'];
 $procurar = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome = '$nome_kit_post' */
 $procurar_para_alterar_valores_vetor_javascript = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome = '$nome_kit_post' */
-$mostrar_nome_kit = mysqli_query($connect, "SELECT $kit_nome, $id_kit FROM $kits WHERE $id_kit = '$nome_kit_post' or $kit_nome like '%" . $nome_kit_post . "%'");
 $num_kits = mysqli_num_rows($procurar);
+// Outra query e vetor pra exibir nome e id do kit
+$mostrar_nome_kit = mysqli_query($connect, "SELECT $kit_nome, $id_kit FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome like '%" . $nome_kit_post . "%' */
 $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
 
 ?>
@@ -164,8 +165,8 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
             <p class="lead" style="padding-top: 8%; font-size: 40px; text-align: center">Nenhum kit com esse código encontrado!</p>
         <?php } ?>
     <?php } else { ?>
-        <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
             <h1 style="text-align: center">
+        <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
                 <span style="color: #daeff5; font-family: Comic Sans MS"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . " </span><b><span style='font-size: 24px; color: #ffa21f'>(#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
             </h1>
         </header>
@@ -206,7 +207,7 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
                             preco_novo_vetor_ptBR = preco_novo_vetor_sem_R$.replace(/\./g, "");
                             preco_novo_vetor_calculo = preco_novo_vetor_ptBR.replace(",", ".");
                             // Atribuindo um novo valor para a posição 'x' do vetor
-                            vetor_precos[posicao_vetor] = preco_novo_vetor_calculo*quantidade_vetor;
+                            vetor_precos[posicao_vetor] = preco_novo_vetor_calculo * quantidade_vetor;
 
                             soma = 0;
                             // Realizando a soma de todos os valores do vetor
@@ -318,22 +319,24 @@ $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
             <!-- Copyright -->
             </footer>
             <!-- Footer -->
-            <script>
-                /* Parallax (efeito de diferentes objetos parecerem estar em diferentes posições ou direções quando observados em diferentes posições) */
-                var scene = document.getElementById('scene');
-                var parallax = new Parallax(scene, {
-                    // calibrateX: false,
-                    // calibrateY: true,
-                    invertX: true,
-                    invertY: true,
-                    // limitX: 10,
-                    // limitY: 10,
-                    // scalarX: 2,
-                    // scalarY: 8,
-                    // frictionX: 0.2,
-                    // frictionY: 0.8
-                });
-            </script>
+            <?php if ($num_kits == 0) { ?>
+                <script>
+                    /* Parallax (efeito de diferentes objetos parecerem estar em diferentes posições ou direções quando observados em diferentes posições) */
+                    var scene = document.getElementById('scene');
+                    var parallax = new Parallax(scene, {
+                        // calibrateX: false,
+                        // calibrateY: true,
+                        invertX: true,
+                        invertY: true,
+                        // limitX: 10,
+                        // limitY: 10,
+                        // scalarX: 2,
+                        // scalarY: 8,
+                        // frictionX: 0.2,
+                        // frictionY: 0.8
+                    });
+                </script>
+            <?php } ?>
 </body>
 
 </html>

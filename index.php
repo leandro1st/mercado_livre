@@ -1,6 +1,6 @@
 <?php
 require('externo/connect.php');
-$pesquisar = mysqli_query($connect, "SELECT * FROM $kits ORDER BY $nome");
+$pesquisar = mysqli_query($connect, "SELECT * FROM $kits ORDER BY $kit_nome");
 $pesquisar2 = mysqli_query($connect, "SELECT COUNT(*) c, $id_kit, $kit_nome FROM $kits GROUP BY $id_kit HAVING c >= 1 ORDER BY $kit_nome");
 // $num_kits = 0;
 $num_kits = mysqli_num_rows($pesquisar2);
@@ -146,6 +146,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                         <th scope="col" width="13,75%">Preço Total</th>
                                         <th scope="col" width="13,75%">NCM</th>
                                         <th scope="col" width="13,75%">CEST</th>
+                                        <!-- <th scope="col" width="13,75%">Kit nome</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -163,6 +164,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                             <td>R$ <?php echo number_format($vetor['preco_total'], 2, ',', '') ?></td>
                                             <td><?php echo $vetor['ncm'] ?></td>
                                             <td><?php echo $vetor['cest'] ?></td>
+                                            <!-- <td><?php echo $vetor['kit_nome'] ?></td> -->
                                         </tr>
                                         <?php if ($j == $numero_repetido-1){ ?>
                                         <tr class="text-center">
@@ -207,21 +209,24 @@ $num_kits = mysqli_num_rows($pesquisar2);
         <!-- Copyright -->
     </footer>
     <!-- Footer -->
-    <script>
-    var scene = document.getElementById('scene');
-    var parallax = new Parallax(scene, {
-        // calibrateX: false,
-        // calibrateY: true,
-        invertX: true,
-        invertY: true,
-        // limitX: 10,
-        // limitY: 10,
-        // scalarX: 2,
-        // scalarY: 8,
-        // frictionX: 0.2,
-        // frictionY: 0.8
-    });
-    </script>
+    <?php if ($num_kits == 0) { ?>
+        <script>
+        /* Parallax (efeito de diferentes objetos parecerem estar em diferentes posições ou direções quando observados em diferentes posições) */
+        var scene = document.getElementById('scene');
+        var parallax = new Parallax(scene, {
+            // calibrateX: false,
+            // calibrateY: true,
+            invertX: true,
+            invertY: true,
+            // limitX: 10,
+            // limitY: 10,
+            // scalarX: 2,
+            // scalarY: 8,
+            // frictionX: 0.2,
+            // frictionY: 0.8
+        });
+        </script>
+    <?php } ?>
 </body>
 
 </html>
