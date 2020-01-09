@@ -14,18 +14,20 @@ $num_kits = mysqli_num_rows($pesquisar2);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>
         <?php if ($num_kits == 0) { 
-            echo "Mercado Livre | Nenhum kit";
+            echo "Mercado Livre | Nenhum Kit";
         } else if ($num_kits == 1) {
-            echo "Mercado Livre | " . $num_kits . " kit";
+            echo "Mercado Livre | " . $num_kits . " Kit";
         } else {
-            echo "Mercado Livre | " . $num_kits . " kits";
+            echo "Mercado Livre | " . $num_kits . " Kits";
         } ?>
     </title>
     <link rel="shortcut icon" href="imagens/icon.ico" type="image/x-icon">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="externo/style.css">    
+    <link rel="stylesheet" href="externo/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
     <script src="jquery/jquery-3.4.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -47,7 +49,24 @@ $num_kits = mysqli_num_rows($pesquisar2);
         // alert($(window).width());
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
+        
+        $(document).ready(function() {
+			$('#nome_do_kit').autocomplete({
+				source: "pesquisar/pesquisar_autocomplete.php",
+				minLength: 1,
+				select: function(event, ui) {
+					$('#nome_do_kit').val(ui.item.value);
+				},
+				appendTo: "#div_autocomplete"
+			}).data('ui-autocomplete')._renderItem = function(ul, item) {
+				return $("<li class='ui-autocomplete-row'></li>")
+					.data("item.autocomplete", item)
+					.append(item.label)
+					.appendTo(ul);
+			};
+		});
+        
     </script>
 </head>
 
@@ -62,20 +81,22 @@ $num_kits = mysqli_num_rows($pesquisar2);
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item px-1 active underline">
-                    <a class="nav-link" href="#"><i class="fas fa-home" style="font-size: 24px; vertical-align: middle"></i></a>
+                <li class="nav-item px-1 active">
+                    <a class="nav-link underline" href="#"><i class="fas fa-home" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1">
-                    <a class="nav-link" href="cadastrar/"><i class="fas fa-edit" style="font-size: 24px; vertical-align: middle"></i></a>
+                    <a class="nav-link" href="cadastrar/"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1">
-                    <a class="nav-link" href="excluir/"><i class="fas fa-trash" style="font-size: 24px; vertical-align: middle"></i></a>
+                    <a class="nav-link" href="excluir/"><i class="far fa-trash-alt text-danger" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
             </ul>
             <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='imagens/example.png' width='130px'>"></i>
             <form class="form-inline my-2 my-lg-0" method="POST" action="pesquisar/">
-                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Digite o código do kit" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+                <input class="form-control mr-sm-2" id="nome_do_kit" name="nome_do_kit" placeholder="Código/Nome do kit" aria-label="Search" autocomplete="off" style="width: 300px; background-color: #eee; border-radius: 9999px; border: none; padding-left: 20px; padding-right: 42px">
+				<div id="div_autocomplete">
+				</div>
+				<button type="submit" style="position: absolute; margin-left: 259px; border: none; cursor: pointer"><i class="fas fa-search text-success"></i></button>
             </form>
         </div>
     </nav>

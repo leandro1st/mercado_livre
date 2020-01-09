@@ -102,6 +102,80 @@ a:link {
     text-decoration: none;
 }
 
+/* Largura do scrollbar */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background-color: #535867;
+    border-radius: 0px;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .5);
+    border-radius: 4px;
+}
+
+/* Autocomplete jquery */
+
+.ui-autocomplete {
+    /* top: 61.5px !important; */
+    /* left: 69.5% !important; */
+    /* top: 30.8px !important; */
+    top: 28px !important;
+    left: 0px !important;
+    margin-left: -308px !important;
+    max-height: 380px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 300px !important;
+    max-width: 300px !important;
+    border: none !important;
+    box-shadow: 0 2px 10px 0px rgba(0, 0, 0, 0.7);
+    z-index: 2 !important;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.ui-autocomplete-row {
+    margin: 0 !important;
+    padding: 8px;
+    background-color: #f4f4f4;
+    font-weight: bold;
+    margin-right: -10px !important;
+    margin-left: -10px !important;
+}
+
+.ui-autocomplete-row:hover {
+    margin: 0 !important;
+    background-color: rgb(231, 226, 226);
+    transition: 0.1s;
+    font-weight: bold;
+    color: black;
+    margin-right: -10px !important;
+    margin-left: -10px !important;
+}
+
+.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+    margin: 0 !important;
+    background: none !important;
+    border: none !important;
+    font-weight: bold;
+    color: black;
+}
+
+/* Autocomplete jquery */
+
+#div_autocomplete {
+    display: block;
+    position: relative;
+}
+
 .accordion-toggle:after {
     /* symbol for "opening" panels */
     font-family: 'Font Awesome 5 Free';
@@ -162,6 +236,8 @@ a:link {
     }
 } */
 
-.bs-tooltip-bottom { 
+/* Tooltip info */
+
+.bs-tooltip-bottom {
     margin-top: 5px;
 }

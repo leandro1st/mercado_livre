@@ -17,7 +17,9 @@ $num_kits = mysqli_num_rows($pesquisar2);
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="../externo/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">    
     <script src="../jquery/jquery-3.4.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -79,7 +81,23 @@ $num_kits = mysqli_num_rows($pesquisar2);
         
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
+
+        $(document).ready(function() {
+			$('#nome_do_kit').autocomplete({
+				source: "../pesquisar/pesquisar_autocomplete.php",
+				minLength: 1,
+				select: function(event, ui) {
+					$('#nome_do_kit').val(ui.item.value);
+				},
+				appendTo: "#div_autocomplete"
+			}).data('ui-autocomplete')._renderItem = function(ul, item) {
+				return $("<li class='ui-autocomplete-row'></li>")
+					.data("item.autocomplete", item)
+					.append(item.label)
+					.appendTo(ul);
+			};
+		});
     </script>
 </head>
 
@@ -98,23 +116,25 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     <a class="nav-link" href="../"><i class="fas fa-home" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1">
-                    <a class="nav-link" href="../cadastrar/"><i class="fas fa-edit" style="font-size: 24px; vertical-align: middle"></i></a>
+                    <a class="nav-link" href="../cadastrar/"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
-                <li class="nav-item px-1 active underline">
-                    <a class="nav-link" href="#"><i class="fas fa-trash" style="font-size: 24px; vertical-align: middle"></i></a>
+                <li class="nav-item px-1 active">
+                    <a class="nav-link underline" href="#"><i class="far fa-trash-alt text-danger" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
             </ul>
             <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='../imagens/example.png' width='130px'>"></i>
             <form class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
-                <input class="form-control mr-sm-2" name="nome_do_kit" placeholder="Digite o código do kit" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+            <input class="form-control mr-sm-2" id="nome_do_kit" name="nome_do_kit" placeholder="Código/Nome do kit" aria-label="Search" autocomplete="off" style="width: 300px; background-color: #eee; border-radius: 9999px; border: none; padding-left: 20px; padding-right: 42px">
+				<div id="div_autocomplete">
+				</div>
+				<button type="submit" style="position: absolute; margin-left: 259px; border: none; cursor: pointer"><i class="fas fa-search text-success"></i></button>
             </form>
         </div>
     </nav>
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
             <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="fas fa-trash"></i> Excluir Kit</a></li>
+            <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="far fa-trash-alt"></i> Excluir Kits</a></li>
         </ol>
     </nav>
     <?php 
@@ -207,7 +227,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                 <td colspan="7" style="border-top-color: #5cb85c; border-top-width: 2px;">
                                                     <font style="font-size: 24px" class="lead font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '') ?></font>
                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluir" style="float: right; margin-bottom: -40px" onclick="obter_dados('<?php echo $id_do_kit ?>', '<?php echo $vetor2['kit_nome'] ?>' ,'<?php echo $numero_repetido ?>')">
-                                                        Excluir <i class="fas fa-trash" style="color: white;"></i>
+                                                        Excluir <i class="far fa-trash-alt" style="color: white;"></i>
                                                     </button>
                                                 </td>
                                             </tr>
