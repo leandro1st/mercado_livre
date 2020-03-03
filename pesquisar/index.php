@@ -287,7 +287,7 @@ if (isset($_POST['nome_do_kit'])) {
                                 <td><?php echo $vetor_kit['ncm'] ?></td>
                                 <td><?php echo $vetor_kit['cest'] ?></td>
                                 <td>
-                                    <i class="far fa-edit" style="color: green; font-size: 22px; cursor: pointer;" onclick="texto_input(<?php echo $vetor_kit['id'] ?>)"></i>
+                                    <i class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" title="Editar preço de <?php echo $vetor_kit['nome'] ?>" onclick="texto_input(<?php echo $vetor_kit['id'] ?>)"></i>
                                 </td>
                             </tr>
                             <?php if ($j == $num_kits - 1) { ?>
