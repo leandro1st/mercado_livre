@@ -241,3 +241,29 @@ a:link {
 .bs-tooltip-bottom {
     margin-top: 5px;
 }
+
+/* Bootstrap form validator custom rules */
+
+/* .was-validated .form-control:valid~.invalid-feedback,
+.was-validated .form-control:valid~.invalid-tooltip,
+.form-control.is-valid~.invalid-feedback,
+.form-control.is-valid~.invalid-tooltip,
+.was-validated .custom-select:valid~.invalid-feedback,
+.was-validated .custom-select:valid~.invalid-tooltip,
+.custom-select.is-valid~.invalid-feedback,
+.custom-select.is-valid~.invalid-tooltip {
+    display: none;
+}
+
+.was-validated .form-control:valid~.valid-feedback,
+.was-validated .form-control:valid~.valid-tooltip,
+.form-control.is-valid~.valid-feedback,
+.form-control.is-valid~.valid-tooltip,
+.was-validated .custom-select:valid~.valid-feedback,
+.was-validated .custom-select:valid~.valid-tooltip,
+.custom-select.is-valid~.valid-feedback,
+.custom-select.is-valid~.valid-tooltip {
+    display: block;
+} */
+
+/* Bootstrap form validator custom rules */

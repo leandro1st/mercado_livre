@@ -2,6 +2,8 @@
 
 if (!isset($_POST['nome_kit'])) {
     header("location:./");
+} elseif (trim($_POST['nome_kit'] == "") || trim($_POST['nome_kit'] == null) || trim($_POST['cod_athos_1']) == "") {
+    header("location:./");
 } else {
 
 require('../externo/connect.php');
@@ -10,6 +12,9 @@ require('../externo/connect.php');
     $vetor_ultimo_id = mysqli_fetch_array($pesquisar_ultimo_id_kit);
     $ultimo_id = $vetor_ultimo_id['id_kit'];
     $proximo_id = $ultimo_id + 1;
+
+    date_default_timezone_set('America/Sao_Paulo');
+    $agora = date("Y-m-d H:i:s");
 
     $nome_kit = trim($_POST['nome_kit']);
     $numero_produtos = $_POST['total'];
@@ -27,7 +32,7 @@ require('../externo/connect.php');
         $ncm_produto = $_POST['ncm_' . $i];
         $cest_produto = $_POST['cest_' . $i];
 
-        $cadastrar = mysqli_query($connect, "INSERT INTO $kits($cod_athos, $nome, $quantidade, $preco, $preco_total, $ncm, $cest, $kit_nome, $id_kit) VALUES ('$cod_athos_produto', '$nome_produto', '$quantidade_produto', '$preco_final', '$preco_total_produto', '$ncm_produto', '$cest_produto', '$nome_kit', '$proximo_id')");
+        $cadastrar = mysqli_query($connect, "INSERT INTO $kits($cod_athos, $nome, $quantidade, $preco, $preco_total, $ncm, $cest, $kit_nome, $id_kit, $hora_cadastro) VALUES ('$cod_athos_produto', '$nome_produto', '$quantidade_produto', '$preco_final', '$preco_total_produto', '$ncm_produto', '$cest_produto', '$nome_kit', '$proximo_id', '$agora')");
     }  ?>
 
     <!-- alert("Produto cadastrado com sucesso!"); -->

@@ -16,37 +16,41 @@
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../maskmoney/src/jquery.maskMoney.js" type="text/javascript"></script>
     <script>
+        $(document).ready(function() {
+            $('#form_cadastrar')[0].reset();
+        });
+
         function add() {
             var num_input = parseInt($('#total').val()) + 1;
-            var new_label_cod_athos = "<label id='label_cod_athos_" + num_input + "' for='cod_athos_" + num_input + "'><b>Código Athos do produto " + num_input + ": </b>";
-            var new_label_nome = "<label id='label_produto_" + num_input + "' for='produto_" + num_input + "'><b>Nome do produto " + num_input + ": </b>";
-            var new_label_quantidade = "<label id='label_quantidade_" + num_input + "' for='quantidade_" + num_input + "'><b>Quantidade do produto " + num_input + ": </b>";
-            var new_label_preco = "<label id='label_preco_" + num_input + "' for='preco_" + num_input + "'><b>Preço do produto " + num_input + ": </b>";
-            var new_label_ncm = "<label id='label_ncm_" + num_input + "' for='ncm_" + num_input + "'><b>NCM do produto " + num_input + ": </b>";
-            var new_label_cest = "<label id='label_cest_" + num_input + "' for='cest_" + num_input + "'><b>CEST do produto " + num_input + ": </b>";
+            var new_label_cod_athos = "<div id='div_form_cod_athos_" + num_input + "' class='form-group'><label id='label_cod_athos_" + num_input + "' for='cod_athos_" + num_input + "'><b>Código Athos do produto " + num_input + ": </b></label><input type='text' class='form-control' id='cod_athos_" + num_input + "' name='cod_athos_" + num_input + "' placeholder='Código Athos do produto " + num_input + "'><div id='div_cod_athos_" + num_input + "' class='invalid-feedback'>Forneça o código Athos do produto " + num_input + "!</div></div>";
+            var new_label_nome = "<div id='div_form_produto_" + num_input + "' class='form-group'><label id='label_produto_" + num_input + "' for='produto_" + num_input + "'><b>Nome do produto " + num_input + ": </b></label><input type='text' class='form-control' id='produto_" + num_input + "' name='produto_" + num_input + "' placeholder='Nome do produto " + num_input + "'><div id='div_produto_" + num_input + "' class='invalid-feedback'>Forneça o nome do produto " + num_input + "!</div></div>";
+            var new_label_quantidade = "<div id='div_form_quantidade_" + num_input + "' class='form-group'><label id='label_quantidade_" + num_input + "' for='quantidade_" + num_input + "'><b>Quantidade do produto " + num_input + ": </b></label><input type='number' class='form-control' id='quantidade_" + num_input + "' name='quantidade_" + num_input + "' placeholder='Quantidade do produto " + num_input + "'><div id='div_quantidade_" + num_input + "' class='invalid-feedback'>Forneça a quantidade do produto " + num_input + "!</div></div>";
+            var new_label_preco = "<div id='div_form_preco_" + num_input + "' class='form-group'><label id='label_preco_" + num_input + "' for='preco_" + num_input + "'><b>Preço do produto " + num_input + ": </b></label><input type='text' class='form-control' id='preco_" + num_input + "' name='preco_" + num_input + "' placeholder='Preço do produto " + num_input + "'><div id='div_preco_" + num_input + "' class='invalid-feedback'>Forneça o preço do produto " + num_input + "!</div></div>";
+            var new_label_ncm = "<div id='div_form_ncm_" + num_input + "' class='form-group'><label id='label_ncm_" + num_input + "' for='ncm_" + num_input + "'><b>NCM do produto " + num_input + ": </b></label><input type='number' class='form-control' id='ncm_" + num_input + "' name='ncm_" + num_input + "' placeholder='NCM do produto " + num_input + "'><div id='div_ncm_" + num_input + "' class='invalid-feedback'>Forneça o NCM do produto " + num_input + "!</div></div>";
+            var new_label_cest = "<div id='div_form_cest_" + num_input + "' class='form-group'><label id='label_cest_" + num_input + "' for='cest_" + num_input + "'><b>CEST do produto " + num_input + ": </b></label><input type='number' class='form-control' id='cest_" + num_input + "' name='cest_" + num_input + "' placeholder='CEST do produto " + num_input + "'><div id='div_cest_" + num_input + "' class='invalid-feedback'></div></div>";
 
-            var new_input_cod_athos = "<input type='text' class='form-control' id='cod_athos_" + num_input + "' name='cod_athos_" + num_input + "' placeholder='Código Athos do produto " + num_input + "'><div id='div_cod_athos_" + num_input + "' class='invalid-feedback'>Forneça o código Athos do produto " + num_input + "!</div><br class='teste" + num_input + "'>";
-            var new_input_nome = "<input type='text' class='form-control' id='produto_" + num_input + "' name='produto_" + num_input + "' placeholder='Nome do produto " + num_input + "'><div id='div_produto_" + num_input + "' class='invalid-feedback'>Forneça o nome do produto " + num_input + "!</div><br class='teste" + num_input + "'>";
-            var new_input_quantidade = "<input type='number' class='form-control' id='quantidade_" + num_input + "' name='quantidade_" + num_input + "' placeholder='Quantidade do produto " + num_input + "'><div id='div_quantidade_" + num_input + "' class='invalid-feedback'>Forneça a quantidade do produto " + num_input + "!</div><br class='teste" + num_input + "'>";
-            var new_input_preco = "<input type='text' class='form-control' id='preco_" + num_input + "' name='preco_" + num_input + "' placeholder='Preço do produto " + num_input + "'><div id='div_preco_" + num_input + "' class='invalid-feedback'>Forneça o preço do produto " + num_input + "!</div><br class='teste" + num_input + "'>";
-            var new_input_ncm = "<input type='number' class='form-control' id='ncm_" + num_input + "' name='ncm_" + num_input + "' placeholder='NCM do produto " + num_input + "'><div id='div_ncm_" + num_input + "' class='invalid-feedback'>Forneça o NCM do produto " + num_input + "!</div><br class='teste" + num_input + "'>";
-            var new_input_cest = "<input type='number' class='form-control' id='cest_" + num_input + "' name='cest_" + num_input + "' placeholder='CEST do produto " + num_input + "'><div id='div_cest_" + num_input + "' class='invalid-feedback'></div><br class='teste" + num_input + "'>";
+            // var new_input_cod_athos = "";
+            // var new_input_nome = "";
+            // var new_input_quantidade = "";
+            // var new_input_preco = "";
+            // var new_input_ncm = "";
+            // var new_input_cest = "";
 
-            var new_hr = "<hr class='hr-success' id='hr_" + num_input + "'><br class='teste" + num_input + "'>";
+            var new_hr = "<hr class='hr-success' id='hr_" + num_input + "'>";
 
             $('#div_produto_novo').append(new_hr);
             $('#div_produto_novo').append(new_label_cod_athos);
-            $('#div_produto_novo').append(new_input_cod_athos);
+            // $('#div_produto_novo').append(new_input_cod_athos);
             $('#div_produto_novo').append(new_label_nome);
-            $('#div_produto_novo').append(new_input_nome);
+            // $('#div_produto_novo').append(new_input_nome);
             $('#div_produto_novo').append(new_label_quantidade);
-            $('#div_produto_novo').append(new_input_quantidade);
+            // $('#div_produto_novo').append(new_input_quantidade);
             $('#div_produto_novo').append(new_label_preco);
-            $('#div_produto_novo').append(new_input_preco);
+            // $('#div_produto_novo').append(new_input_preco);
             $('#div_produto_novo').append(new_label_ncm);
-            $('#div_produto_novo').append(new_input_ncm);
+            // $('#div_produto_novo').append(new_input_ncm);
             $('#div_produto_novo').append(new_label_cest);
-            $('#div_produto_novo').append(new_input_cest);
+            // $('#div_produto_novo').append(new_input_cest);
 
 
             document.getElementById('cod_athos_' + num_input).focus();
@@ -71,25 +75,31 @@
             var ultimo_num_input = $('#total').val();
 
             if (ultimo_num_input > 1) {
+                $('#div_form_cod_athos_' + ultimo_num_input).remove();
                 $('#label_cod_athos_' + ultimo_num_input).remove();
                 $('#cod_athos_' + ultimo_num_input).remove();
                 $('#div_cod_athos_' + ultimo_num_input).remove();
+                $('#div_form_produto_' + ultimo_num_input).remove();
                 $('#label_produto_' + ultimo_num_input).remove();
                 $('#produto_' + ultimo_num_input).remove();
                 $('#div_produto_' + ultimo_num_input).remove();
+                $('#div_form_quantidade_' + ultimo_num_input).remove();
                 $('#label_quantidade_' + ultimo_num_input).remove();
                 $('#quantidade_' + ultimo_num_input).remove();
                 $('#div_quantidade_' + ultimo_num_input).remove();
+                $('#div_form_preco_' + ultimo_num_input).remove();
                 $('#label_preco_' + ultimo_num_input).remove();
                 $('#preco_' + ultimo_num_input).remove();
                 $('#div_preco_' + ultimo_num_input).remove();
+                $('#div_form_ncm_' + ultimo_num_input).remove();
                 $('#label_ncm_' + ultimo_num_input).remove();
                 $('#ncm_' + ultimo_num_input).remove();
                 $('#div_ncm_' + ultimo_num_input).remove();
+                $('#div_form_cest_' + ultimo_num_input).remove();
                 $('#label_cest_' + ultimo_num_input).remove();
                 $('#cest_' + ultimo_num_input).remove();
                 $('#div_cest_' + ultimo_num_input).remove();
-                $('.teste' + ultimo_num_input).remove();
+                // $('.teste' + ultimo_num_input).remove();
                 $('#hr_' + ultimo_num_input).remove();
                 $('#total').val(ultimo_num_input - 1);
             }
@@ -173,61 +183,81 @@
     </header>
     <main class="container">
         <!-- <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;"> -->
-        <form method="post" action="cadastrar.php" class="needs-validation" novalidate>
-            <div class="input-group input-group-lg" style="margin-bottom: 7px">
-                <div class="input-group-prepend">
-                    <span class="input-group-text text-success" id="inputGroup-sizing-lg"><b>Nome do kit</b></span>
-                </div>
-                <input type="text" name="nome_kit" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Nome do kit" required autofocus>
-                <div class="invalid-feedback">
-                    Forneça o nome do kit!
+        <form id="form_cadastrar" class="needs-validation" method="post" action="cadastrar.php" novalidate>
+            <div class="form-group">
+                <div class="input-group input-group-lg" style="margin-bottom: -12px">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text text-success" id="inputGroup-sizing-lg"><b>Nome do kit</b></span>
+                    </div>
+                    <input type="text" name="nome_kit" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Nome do kit" required autofocus style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem">
+                    <div class="invalid-feedback" style="margin-left: 150px">
+                        Forneça o nome do kit!
+                    </div>
                 </div>
             </div>
             <div id="div_botoes" class="sticky-top border border-dark rounded" style="float: right; top: 70px; padding: 8px; background-color: white; z-index: 1">
                 <i class="fas fa-plus" style="color: green; font-size: 30px; cursor: pointer; margin-right: 13px" onclick="add()" data-toggle="tooltip" data-placement="bottom" title="Adicionar +1 produto"></i>
                 <i class="fas fa-times" style="color: red; font-size: 30px; cursor: pointer" onclick="remove()" data-toggle="tooltip" data-placement="bottom" title="Remover último produto"></i>
             </div><br>
-            <label for="cod_athos_1">
-                <b>Código Athos do produto 1:</b>
-            </label>
-            <input type="text" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto 1" required>
-            <div class="invalid-feedback">
-                Forneça o código Athos do produto 1!
-            </div><br>
-            <label for="produto_1">
-                <b>Nome do produto 1:</b>
-            </label>
-            <input type="text" id="produto_1" name="produto_1" class="form-control" placeholder="Nome do produto 1" required>
-            <div class="invalid-feedback">
-                Forneça o nome do produto 1!
-            </div><br>
-            <label for="quantidade_1">
-                <b>Quantidade do produto 1:</b>
-            </label>
-            <input type="number" id="quantidade_1" name="quantidade_1" class="form-control" placeholder="Quantidade do produto 1" required>
-            <div class="invalid-feedback">
-                Forneça a quantidade do produto 1!
-            </div><br>
-            <label for="preco_1">
-                <b>Preço do produto 1:</b>
-            </label>
-            <input type="text" id="preco_1" name="preco_1" class="form-control" placeholder="Preço do produto 1" required>
-            <div class="invalid-feedback">
-                Forneça o preço do produto 1!
-            </div><br>
-            <label for="ncm_1">
-                <b>NCM do produto 1:</b>
-            </label>
-            <input type="number" id="ncm_1" name="ncm_1" class="form-control" placeholder="NCM do produto 1" required>
-            <div class="invalid-feedback">
-                Forneça o NCM do produto 1!
-            </div><br>
-            <label for="cest_1">
-                <b>CEST do produto 1:</b>
-            </label>
-            <input type="number" id="cest_1" name="cest_1" class="form-control" placeholder="CEST do produto 1">
-            <div class="invalid-feedback">
-            </div><br>
+
+            <div class="form-group">
+                <label for="cod_athos_1">
+                    <b>Código Athos do produto 1:</b>
+                </label>
+                <input type="text" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto 1" required>
+                <div class="invalid-feedback">
+                    Forneça o código Athos do produto 1!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="produto_1">
+                    <b>Nome do produto 1:</b>
+                </label>
+                <input type="text" id="produto_1" name="produto_1" class="form-control" placeholder="Nome do produto 1" required>
+                <div class="invalid-feedback">
+                    Forneça o nome do produto 1!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="quantidade_1">
+                    <b>Quantidade do produto 1:</b>
+                </label>
+                <input type="number" id="quantidade_1" name="quantidade_1" class="form-control" placeholder="Quantidade do produto 1" required>
+                <div class="invalid-feedback">
+                    Forneça a quantidade do produto 1!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="preco_1">
+                    <b>Preço do produto 1:</b>
+                </label>
+                <input type="text" id="preco_1" name="preco_1" class="form-control" placeholder="Preço do produto 1" required>
+                <div class="invalid-feedback">
+                    Forneça o preço do produto 1!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ncm_1">
+                    <b>NCM do produto 1:</b>
+                </label>
+                <input type="number" id="ncm_1" name="ncm_1" class="form-control" placeholder="NCM do produto 1" required>
+                <div class="invalid-feedback">
+                    Forneça o NCM do produto 1!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cest_1">
+                    <b>CEST do produto 1:</b>
+                </label>
+                <input type="number" id="cest_1" name="cest_1" class="form-control" placeholder="CEST do produto 1">
+                <div class="invalid-feedback">
+                </div>
+            </div>
             <div id="div_produto_novo"></div>
             <input type="hidden" name="total" value="1" id="total">
             <button type="submit" class="btn btn-success" style="float: right">Cadastrar</button>

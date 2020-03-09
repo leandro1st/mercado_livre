@@ -13,4 +13,5 @@
 	$cest = 'cest';
 	$kit_nome = 'kit_nome';
 	$id_kit = 'id_kit';
+	$hora_cadastro = 'hora_cadastro';
 ?>
