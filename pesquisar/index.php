@@ -24,7 +24,7 @@ if (isset($_POST['nome_do_kit'])) {
             <?php } else if ($num_kits == 0) { ?>
                 Mercado Livre | <?php echo $nome_kit_post ?>
             <?php } else { ?>
-                Mercado Livre | <?php echo $nome_kit_post ?>
+                Mercado Livre | <?php echo $vetor_mostrar_nome_kit['kit_nome'] ?> (#<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>)
             <?php } ?>
         </title>
         <link rel="shortcut icon" href="../imagens/icon.ico" type="image/x-icon">
@@ -150,7 +150,7 @@ if (isset($_POST['nome_do_kit'])) {
                         <a class="nav-link" href="../excluir/"><i class="far fa-trash-alt text-danger" style="font-size: 24px; vertical-align: middle"></i></a>
                     </li>
                     <li class="nav-item px-1 active">
-                        <a class="nav-link underline" href="#"><i class="fas fa-search text-primary" style="font-size: 24px; vertical-align: middle"></i></a>
+                        <a class="nav-link underline" href="#"><i class="fas fa-search text-white" style="font-size: 24px; vertical-align: middle"></i></a>
                     </li>
                 </ul>
                 <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='../imagens/example.png' width='130px'>"></i>
@@ -173,7 +173,7 @@ if (isset($_POST['nome_do_kit'])) {
                         <?php } else if ($num_kits == 0) { ?>
                             Pesquisar | <?php echo $nome_kit_post ?>
                         <?php } else { ?>
-                            Pesquisar | <?php echo $nome_kit_post ?>
+                            Pesquisar | <?php echo $vetor_mostrar_nome_kit['kit_nome'] . " <small>(#" . $vetor_mostrar_nome_kit['id_kit'] . ")</small>" ?>
                         <?php } ?>
                     </a>
                 </li>
