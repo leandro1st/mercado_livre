@@ -56,14 +56,14 @@ require('../externo/connect.php');
     </head>
 
     <body>
-        <div class="modal fade" id="modalCadastrado" tabindex="-1" role="dialog" aria-labelledby="modalCadastradoTitle" aria-hidden="true" onblur="window.history.go(-1)" onkeypress="window.history.go(-1)">
+        <div class="modal fade" id="modalCadastrado" tabindex="-1" role="dialog" aria-labelledby="modalCadastradoTitle" aria-hidden="true" onblur="window.location.replace('./')" onkeypress="window.location.replace('./')">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="modalTitle">
                             <font class="text-success"><?php echo $nome_kit . " cadastrado com sucesso!" ?></font>
                         </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.history.go(-1)">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.replace('./')">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -77,7 +77,7 @@ require('../externo/connect.php');
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="window.history.go(-1)">OK</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="window.location.replace('./')">OK</button>
                     </div>
                 </div>
             </div>
