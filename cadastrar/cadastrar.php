@@ -16,7 +16,7 @@ require('../externo/connect.php');
     date_default_timezone_set('America/Sao_Paulo');
     $agora = date("Y-m-d H:i:s");
 
-    $nome_kit = trim($_POST['nome_kit']);
+    $nome_kit = mb_convert_case(trim($_POST['nome_kit']), MB_CASE_UPPER, 'utf-8');
     $numero_produtos = $_POST['total'];
     for ($i = 1; $i <= $numero_produtos; $i++) {
         $cod_athos_produto = $_POST['cod_athos_' . $i];
@@ -43,6 +43,7 @@ require('../externo/connect.php');
     <html lang="en">
 
     <head>
+        <title>Mercado Livre | Cadastrar Kit</title>
         <link rel="shortcut icon" href="../imagens/icon.ico" type="image/x-icon">
         <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="../externo/style.css">

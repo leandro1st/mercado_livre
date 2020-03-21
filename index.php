@@ -94,6 +94,9 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 <li class="nav-item px-1">
                     <a class="nav-link" href="excluir/"><i class="far fa-trash-alt text-danger" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
+                <li class="nav-item px-1">
+                    <a class="nav-link" href="info.php"><i class="fas fa-question-circle text-primary" style="font-size: 24px; vertical-align: middle"></i></a>
+                </li>
             </ul>
             <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='imagens/example.png' width='130px'>"></i>
             <form class="form-inline my-2 my-lg-0" method="POST" action="pesquisar/">
@@ -165,10 +168,10 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                         <thead>
                                             <tr class="text-center">
                                                 <th scope="col" width="8%">#</th>
-                                                <th scope="col" width="35%">Nome do produto</th>
+                                                <th scope="col" width="30%">Nome do produto</th>
                                                 <th scope="col" width="2%">Quantidade</th>
-                                                <th scope="col" width="13,75%">Preço</th>
-                                                <th scope="col" width="13,75%">Preço Total</th>
+                                                <th scope="col" width="16,25%">Preço</th>
+                                                <th scope="col" width="16,25%">Preço Total</th>
                                                 <th scope="col" width="13,75%">NCM</th>
                                                 <th scope="col" width="13,75%">CEST</th>
                                                 <!-- <th scope="col" width="13,75%">Kit nome</th> -->
@@ -188,7 +191,13 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                     <td>R$ <?php echo number_format($vetor['preco'], 2, ',', '') ?></td>
                                                     <td>R$ <?php echo number_format($vetor['preco_total'], 2, ',', '') ?></td>
                                                     <td><?php echo $vetor['ncm'] ?></td>
-                                                    <td><?php echo $vetor['cest'] ?></td>
+                                                    <td>
+                                                        <?php if ($vetor['cest'] == 0) {
+                                                            echo "–";
+                                                        } else {
+                                                            echo $vetor['cest'];
+                                                        } ?>
+                                                    </td>
                                                     <!-- <td><?php echo $vetor['kit_nome'] ?></td> -->
                                                 </tr>
                                                 <?php if ($j == $numero_repetido - 1) { ?>

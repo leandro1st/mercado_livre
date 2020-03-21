@@ -149,6 +149,9 @@ if (isset($_POST['nome_do_kit'])) {
                     <li class="nav-item px-1">
                         <a class="nav-link" href="../excluir/"><i class="far fa-trash-alt text-danger" style="font-size: 24px; vertical-align: middle"></i></a>
                     </li>
+                    <li class="nav-item px-1">
+                        <a class="nav-link" href="../info.php"><i class="fas fa-question-circle text-primary" style="font-size: 24px; vertical-align: middle"></i></a>
+                    </li>
                     <li class="nav-item px-1 active">
                         <a class="nav-link underline" href="#"><i class="fas fa-search text-white" style="font-size: 24px; vertical-align: middle"></i></a>
                     </li>
@@ -213,10 +216,10 @@ if (isset($_POST['nome_do_kit'])) {
                     <thead>
                         <tr class="text-center">
                             <th scope="col" width="8%">#</th>
-                            <th scope="col" width="35%">Nome do produto</th>
+                            <th scope="col" width="30%">Nome do produto</th>
                             <th scope="col" width="1%">Quantidade</th>
-                            <th scope="col" width="13,75%">Preço</th>
-                            <th scope="col" width="13,75%">Preço Total</th>
+                            <th scope="col" width="16,25%">Preço</th>
+                            <th scope="col" width="16,25%">Preço Total</th>
                             <th scope="col" width="13,75%">NCM</th>
                             <th scope="col" width="13,75%">CEST</th>
                             <th scope="col" width="1%"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
@@ -285,7 +288,13 @@ if (isset($_POST['nome_do_kit'])) {
                                 <!-- Coluna do preço do produto -->
                                 <td>R$ <span id="preco_total-<?php echo $vetor_kit['id'] ?>"><?php echo number_format($vetor_kit['preco_total'], 2, ',', '') ?></span></td>
                                 <td><?php echo $vetor_kit['ncm'] ?></td>
-                                <td><?php echo $vetor_kit['cest'] ?></td>
+                                <td>
+                                    <?php if ($vetor_kit['cest'] == 0) {
+                                        echo "–";
+                                    } else {
+                                        echo $vetor_kit['cest'];
+                                    } ?>
+                                </td>
                                 <td>
                                     <i class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" title="Editar preço de <?php echo $vetor_kit['nome'] ?>" onclick="texto_input(<?php echo $vetor_kit['id'] ?>)"></i>
                                 </td>
