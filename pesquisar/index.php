@@ -94,7 +94,7 @@ if (isset($_POST['nome_do_kit'])) {
 
                 // CEST
                 document.getElementById('cest-' + id_produto + '').innerHTML = '';
-                document.getElementById('input_cest-' + id_produto).type = 'text';
+                document.getElementById('input_cest-' + id_produto).type = 'number';
 
                 // Icone confirmar
                 document.getElementById('span-' + id_produto + '').style.cursor = 'pointer';
@@ -127,13 +127,13 @@ if (isset($_POST['nome_do_kit'])) {
                     data: $('#form-' + id_produto).serialize(),
                     success: function(data) {
                         // Alterando os valores dos inputs do modal
-                        document.getElementById('nome_produto_modal').innerHTML = nome;
+                        document.getElementById('nome_produto_modal').innerHTML = nome.toUpperCase();
 
                         document.getElementById('athos_antigo_modal').innerHTML = document.getElementById('athos_modal-' + id_produto).value;
                         document.getElementById('athos_novo_modal').innerHTML = cod_athos;
 
                         document.getElementById('nome_antigo_modal').innerHTML = document.getElementById('nome_modal-' + id_produto).value;
-                        document.getElementById('nome_novo_modal').innerHTML = nome;
+                        document.getElementById('nome_novo_modal').innerHTML = nome.toUpperCase();
 
                         document.getElementById('quantidade_antigo_modal').innerHTML = document.getElementById('quantidade_modal-' + id_produto).value;
                         document.getElementById('quantidade_novo_modal').innerHTML = quantidade;
@@ -142,7 +142,7 @@ if (isset($_POST['nome_do_kit'])) {
                         document.getElementById('preco_novo_modal').innerHTML = "R$ " + preco_novo_ptBR;
 
                         document.getElementById('ncm_antigo_modal').innerHTML = document.getElementById('ncm_modal-' + id_produto).value;
-                        document.getElementById('ncm_novo_modal').innerHTML = ncm;
+                        document.getElementById('ncm_novo_modal').innerHTML = ncm.toUpperCase();
 
                         // Cest antigo
                         if (document.getElementById('cest_modal-' + id_produto).value != "0000000") {
@@ -174,7 +174,7 @@ if (isset($_POST['nome_do_kit'])) {
                         document.getElementById('preco_total-' + id_produto).innerHTML = preco_total_novo_ptBR;
 
                         document.getElementById('input_ncm-' + id_produto).type = 'hidden';
-                        document.getElementById('ncm-' + id_produto).innerHTML = ncm;
+                        document.getElementById('ncm-' + id_produto).innerHTML = ncm.toUpperCase();
 
                         document.getElementById('input_cest-' + id_produto).type = 'hidden';
                         if (cest == "0000000" || cest == "") {
@@ -353,12 +353,12 @@ if (isset($_POST['nome_do_kit'])) {
                     <thead>
                         <tr class="text-center table-warning">
                             <th class="theader_top" scope="col" width="9%">#</th>
-                            <th class="theader_top" scope="col" width="38%">Nome do produto</th>
+                            <th class="theader_top" scope="col" width="37%">Nome do produto</th>
                             <th class="theader_top" scope="col" width="1%">Qtde</th>
                             <th class="theader_top" scope="col" width="13%">Preço</th>
                             <th class="theader_top" scope="col" width="13%">Total</th>
                             <th class="theader_top" scope="col" width="13%">NCM</th>
-                            <th class="theader_top" scope="col" width="12%">CEST</th>
+                            <th class="theader_top" scope="col" width="13%">CEST</th>
                             <th class="theader_top" scope="col" width="1%" colspan="2"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
                         </tr>
                     </thead>
