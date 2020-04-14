@@ -21,7 +21,7 @@ if (isset($_GET["term"])) {
         foreach ($result as $row) {
             $temp_array = array();
             $temp_array['value'] = $row['id_kit'];
-            $temp_array['label'] = '<div class="row" style="margin: 0; display: flex; justify-content: center; align-items: center"><div class="col">' . $row['kit_nome'] . ' <span style="font-size: 14px">(#' . $row['id_kit'] . ')</span></div></div>';
+            $temp_array['label'] = '<button onclick="document.getElementById("form_pesquisa").submit()" style="text-align: left; background: none; color: inherit; border: none; font: inherit; cursor: pointer; outline: inherit"><div class="row" style="margin: 0; display: flex; justify-content: center; align-items: center"><div class="col">' . $row['kit_nome'] . ' <span style="font-size: 14px">(#' . $row['id_kit'] . ')</span></div></div></button>';
             $array_kit[] = $temp_array;
         }
     } else {

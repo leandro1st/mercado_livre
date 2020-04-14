@@ -127,7 +127,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 </li>
             </ul>
             <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='../imagens/example.png' width='130px'>"></i>
-            <form class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
+            <form id="form_pesquisa" class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
                 <input class="form-control mr-sm-2" id="nome_do_kit" name="nome_do_kit" placeholder="Código/Nome do kit" aria-label="Search" autocomplete="off" style="width: 300px; background-color: #eee; border-radius: 9999px; border: none; padding-left: 20px; padding-right: 42px">
                 <div id="div_autocomplete">
                 </div>
@@ -181,12 +181,14 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 ?>
                     <div class="card" id="card-<?php echo $id_do_kit ?>">
                         <?php if ($i == 0) { ?>
-                            <div class="card-header" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
+                            <!-- <div class="card-header" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer"> -->
+                            <div class="card-header collapsed" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
                                 <h5 class="accordion-toggle" style="margin: 0px">
                                     <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
                                 </h5>
                             </div>
-                            <div id="collapse_<?php echo $i ?>" class="collapse show" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
+                            <!-- <div id="collapse_<?php echo $i ?>" class="collapse show" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits"> -->
+                            <div id="collapse_<?php echo $i ?>" class="collapse" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
                             <?php } else { ?>
                                 <div class="card-header collapsed" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
                                     <h5 class="accordion-toggle" style="margin: 0px">
@@ -198,14 +200,14 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                 <div class="card-body" style="padding: 10px 40px 10px 40px;">
                                     <table class="table table-hover">
                                         <thead>
-                                            <tr class="text-center">
-                                                <th scope="col" width="8%">#</th>
-                                                <th scope="col" width="30%">Nome do produto</th>
-                                                <th scope="col" width="2%">Quantidade</th>
-                                                <th scope="col" width="16,25%">Preço</th>
-                                                <th scope="col" width="16,25%">Preço Total</th>
-                                                <th scope="col" width="13,75%">NCM</th>
-                                                <th scope="col" width="13,75%">CEST</th>
+                                            <tr class="text-center table-warning">
+                                                <th scope="col" width="9%">#</th>
+                                                <th scope="col" width="39%">Nome do produto</th>
+                                                <th scope="col" width="1%">Qtde</th>
+                                                <th scope="col" width="13%">Preço</th>
+                                                <th scope="col" width="13%">Total</th>
+                                                <th scope="col" width="13%">NCM</th>
+                                                <th scope="col" width="12%">CEST</th>
                                                 <!-- <th scope="col" width="13,75%">Kit nome</th> -->
                                             </tr>
                                         </thead>

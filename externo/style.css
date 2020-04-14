@@ -206,9 +206,14 @@ a:link {
     border-top: 2px solid #5bc0de;
 }
 
+/* remove first border line from table */
 .table>thead>tr>td, .table>thead>tr>th {
-    /* remove first border line from table */
     border: 0;
+}
+
+/* vertical align for table lines/columns */
+.table>tbody>tr>td {
+    vertical-align: middle;
 }
 
 .hr-success {

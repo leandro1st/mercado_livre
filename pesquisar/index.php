@@ -18,7 +18,7 @@ if (isset($_POST['nome_do_kit'])) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>
+        <title id="nome_kit_html">
             <?php if ($nome_kit_post == '' || preg_match('/^[\pZ\pC]+|[\pZ\pC]+$/u', $nome_kit_post)) { ?>
                 Mercado Livre | Pesquisar
             <?php } else if ($num_kits == 0) { ?>
@@ -52,6 +52,12 @@ if (isset($_POST['nome_do_kit'])) {
                 margin-left: -30px !important;
                 top: 55% !important;
             }
+
+            .theader_top {
+                position: sticky;
+                top: 60px;
+                z-index: 1;
+            }
         </style>
         <script>
             // alert($(window).width());
@@ -61,18 +67,42 @@ if (isset($_POST['nome_do_kit'])) {
 
             // Função para alterar o preço antigo
             function texto_input(id_produto) {
+                // Código Athos
+                document.getElementById('athos-' + id_produto + '').innerHTML = '';
+                document.getElementById('input_athos-' + id_produto).type = 'text';
+                document.getElementById('input_athos-' + id_produto).focus();
+                // Resentando o valor do input, pois o cursor estava começando da direita
+                var copia_athos = document.getElementById('input_athos-' + id_produto).value;
+                document.getElementById('input_athos-' + id_produto).value = '';
+                document.getElementById('input_athos-' + id_produto).value = copia_athos;
+
+                // Nome
+                document.getElementById('nome-' + id_produto + '').innerHTML = '';
+                document.getElementById('input_nome-' + id_produto).type = 'text';
+
+                // Quantidade
+                document.getElementById('quantidade-' + id_produto + '').innerHTML = '';
+                document.getElementById('input_quantidade-' + id_produto).type = 'text';
+
                 // Alterando o conteúdo de preco-x e mostrando input para modificar o preço
                 document.getElementById('preco-' + id_produto + '').innerHTML = '';
-                document.getElementById('input-' + id_produto).type = 'text';
-                document.getElementById('input-' + id_produto).focus();
-                // Resentando o valor do input, pois o cursor estava começando da direita
-                var copia_preco = document.getElementById('input-' + id_produto).value;
-                document.getElementById('input-' + id_produto).value = '';
-                document.getElementById('input-' + id_produto).value = copia_preco;
+                document.getElementById('input_preco-' + id_produto).type = 'text';
+
+                // NCM
+                document.getElementById('ncm-' + id_produto + '').innerHTML = '';
+                document.getElementById('input_ncm-' + id_produto).type = 'text';
+
+                // CEST
+                document.getElementById('cest-' + id_produto + '').innerHTML = '';
+                document.getElementById('input_cest-' + id_produto).type = 'text';
+
+                // Icone confirmar
+                document.getElementById('span-' + id_produto + '').style.cursor = 'pointer';
+                document.getElementById('icone-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: 1; pointer-events: auto';
 
                 // Currency mask 
                 $(document).ready(function() {
-                    $('#input-' + id_produto).maskMoney({
+                    $('#input_preco-' + id_produto).maskMoney({
                         prefix: "R$ ",
                         decimal: ",",
                         thousands: ".",
@@ -81,7 +111,7 @@ if (isset($_POST['nome_do_kit'])) {
             }
 
             // Função para alterar mask, enviar valores através do ajax, alterar valores de exibição do preço unitário/total do produto
-            function alterar_preco(id_produto, preco_novo, nome, quantidade) {
+            function alterar_info(id_produto, preco_novo, nome, quantidade, cod_athos, ncm, cest) {
                 //Alterando a mask 
                 preco_novo_sem_R$ = preco_novo.replace("R$ ", "");
                 preco_novo_ptBR = preco_novo_sem_R$.replace(/\./g, "");
@@ -98,13 +128,64 @@ if (isset($_POST['nome_do_kit'])) {
                     success: function(data) {
                         // Alterando os valores dos inputs do modal
                         document.getElementById('nome_produto_modal').innerHTML = nome;
+
+                        document.getElementById('athos_antigo_modal').innerHTML = document.getElementById('athos_modal-' + id_produto).value;
+                        document.getElementById('athos_novo_modal').innerHTML = cod_athos;
+
+                        document.getElementById('nome_antigo_modal').innerHTML = document.getElementById('nome_modal-' + id_produto).value;
+                        document.getElementById('nome_novo_modal').innerHTML = nome;
+
+                        document.getElementById('quantidade_antigo_modal').innerHTML = document.getElementById('quantidade_modal-' + id_produto).value;
+                        document.getElementById('quantidade_novo_modal').innerHTML = quantidade;
+
                         document.getElementById('preco_antigo_modal').innerHTML = "R$ " + document.getElementById('preco_velho-' + id_produto).value;
                         document.getElementById('preco_novo_modal').innerHTML = "R$ " + preco_novo_ptBR;
-                        $('#modalCadastrado').modal('show');
-                        // Alterando os valores de exibição do preço unitário e preço total do produto
-                        document.getElementById('input-' + id_produto).type = 'hidden';
+
+                        document.getElementById('ncm_antigo_modal').innerHTML = document.getElementById('ncm_modal-' + id_produto).value;
+                        document.getElementById('ncm_novo_modal').innerHTML = ncm;
+
+                        // Cest antigo
+                        if (document.getElementById('cest_modal-' + id_produto).value != "0000000") {
+                            document.getElementById('cest_antigo_modal').innerHTML = document.getElementById('cest_modal-' + id_produto).value;
+                        } else {
+                            document.getElementById('cest_antigo_modal').innerHTML = "–";
+                        }
+                        // Cest novo
+                        if (cest == "0000000" || cest == "") {
+                            document.getElementById('cest_novo_modal').innerHTML = "–";
+                        } else {
+                            document.getElementById('cest_novo_modal').innerHTML = cest;
+                        }
+
+                        $('#modalAlteradoInfo').modal('show');
+
+                        // Alterando os valores de exibição
+                        document.getElementById('input_athos-' + id_produto).type = 'hidden';
+                        document.getElementById('athos-' + id_produto).innerHTML = cod_athos;
+
+                        document.getElementById('input_nome-' + id_produto).type = 'hidden';
+                        document.getElementById('nome-' + id_produto).innerHTML = nome.toUpperCase();
+
+                        document.getElementById('input_quantidade-' + id_produto).type = 'hidden';
+                        document.getElementById('quantidade-' + id_produto).innerHTML = quantidade;
+
+                        document.getElementById('input_preco-' + id_produto).type = 'hidden';
                         document.getElementById('preco-' + id_produto).innerHTML = span_preco;
                         document.getElementById('preco_total-' + id_produto).innerHTML = preco_total_novo_ptBR;
+
+                        document.getElementById('input_ncm-' + id_produto).type = 'hidden';
+                        document.getElementById('ncm-' + id_produto).innerHTML = ncm;
+
+                        document.getElementById('input_cest-' + id_produto).type = 'hidden';
+                        if (cest == "0000000" || cest == "") {
+                            document.getElementById('cest-' + id_produto).innerHTML = "–";
+                        } else {
+                            document.getElementById('cest-' + id_produto).innerHTML = cest;
+                        }
+
+                        document.getElementById('span-' + id_produto + '').style.cursor = 'not-allowed';
+                        document.getElementById('icone-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
+
                     },
                     error: function(data) {
                         alert("Ocorreu um erro!");
@@ -112,6 +193,7 @@ if (isset($_POST['nome_do_kit'])) {
                 });
             }
 
+            // Autocomplete (ferramenta de busca)
             $(document).ready(function() {
                 $('#nome_do_kit').autocomplete({
                     source: "../pesquisar/pesquisar_autocomplete.php",
@@ -127,6 +209,49 @@ if (isset($_POST['nome_do_kit'])) {
                         .appendTo(ul);
                 };
             });
+
+            // Função alterar nome do kit
+            function alterar_nome_kit(id_kit, nome_kit_novo) {
+                $.ajax({
+                    method: 'POST',
+                    url: 'alterar_nome_kit.php',
+                    data: $('#form-kit').serialize(),
+                    success: function(data) {
+                        // Alterando os valores dos inputs/title/breadcrumb
+                        document.getElementById('titulo_kit').innerHTML = nome_kit_novo.toUpperCase();
+                        document.getElementById('nome_kit_html').innerHTML = "Mercado Livre | " + nome_kit_novo.toUpperCase() + " (#" + id_kit.toString() + ")"
+                        document.getElementById('kit_nome_breadcrumb').innerHTML = nome_kit_novo.toUpperCase();
+                        document.getElementById('input_nome_kit').type = 'hidden';
+                        // Desativando botão
+                        document.getElementById('span_titulo').style.cursor = 'not-allowed';
+                        document.getElementById('icone_titulo').style.cssText = 'color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none';
+
+                        // Modal
+                        document.getElementById('nome_kit_antigo_modal').innerHTML = document.getElementById('nome_kit_modal').value;
+                        document.getElementById('nome_kit_novo_modal').innerHTML = nome_kit_novo.toUpperCase();
+                        $('#modalAlteradoNomeKit').modal('show');
+                    },
+                    error: function(data) {
+                        alert("Ocorreu um erro!");
+                    }
+                });
+            };
+
+            function texto_input_nome_kit() {
+                // Alterando o conteúdo de span e mostrando input para modificar o nome do kit
+                document.getElementById('titulo_kit').innerHTML = '';
+                document.getElementById('input_nome_kit').type = 'text';
+                document.getElementById('input_nome_kit').focus();
+
+                // Resentando o valor do input, pois o cursor estava começando da direita
+                var copia_nome_kit = document.getElementById('input_nome_kit').value;
+                document.getElementById('input_nome_kit').value = '';
+                document.getElementById('input_nome_kit').value = copia_nome_kit;
+
+                // Ativando botão
+                document.getElementById('span_titulo').style.cursor = 'pointer';
+                document.getElementById('icone_titulo').style.cssText = 'color: #0cf249; font-size: 30px; opacity: 1; pointer-events: auto';
+            };
         </script>
     </head>
 
@@ -157,7 +282,7 @@ if (isset($_POST['nome_do_kit'])) {
                     </li>
                 </ul>
                 <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='../imagens/example.png' width='130px'>"></i>
-                <form class="form-inline my-2 my-lg-0" method="POST" action="./">
+                <form id="form_pesquisa" class="form-inline my-2 my-lg-0" method="POST" action="./">
                     <input class="form-control mr-sm-2" id="nome_do_kit" name="nome_do_kit" placeholder="Código/Nome do kit" aria-label="Search" autocomplete="off" style="width: 300px; background-color: #eee; border-radius: 9999px; border: none; padding-left: 20px; padding-right: 42px">
                     <div id="div_autocomplete">
                     </div>
@@ -176,8 +301,8 @@ if (isset($_POST['nome_do_kit'])) {
                         <?php } else if ($num_kits == 0) { ?>
                             Pesquisar | <?php echo $nome_kit_post ?>
                         <?php } else { ?>
-                            Pesquisar | <?php echo $vetor_mostrar_nome_kit['kit_nome'] . " <small>(#" . $vetor_mostrar_nome_kit['id_kit'] . ")</small>" ?>
-                        <?php } ?>
+                            Pesquisar | <span id="kit_nome_breadcrumb"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . "</span><small> (#" . $vetor_mostrar_nome_kit['id_kit'] . ")</small>" ?>
+                            <?php } ?>
                     </a>
                 </li>
             </ol>
@@ -208,21 +333,33 @@ if (isset($_POST['nome_do_kit'])) {
         <?php } else { ?>
             <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
                 <h1 style="text-align: center">
-                    <span style="color: #daeff5; font-family: Comic Sans MS"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . " </span><b><span style='font-size: 24px; color: #ffa21f'>(#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
+                    <form id="form-kit" method="POST">
+                        <!-- Nome do kit antigo para exibir no modal -->
+                        <input type="hidden" id="nome_kit_modal" class="form-control" value="<?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>">
+                        <!-- Código do kit a enviar -->
+                        <input type="hidden" id="id_kit" name="id_kit" class="form-control" value="<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>">
+                        <!-- Input pra alterar nome do kit -->
+                        <center><input type="hidden" id="input_nome_kit" name="nome_kit_novo" class="form-control form-control-lg col-10" value="<?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>" placeholder="Novo nome do kit"></center>
+                    </form>
+                    <span id="titulo_kit" style="color: #daeff5; font-family: Comic Sans MS"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . "</span><b><span style='font-size: 24px; color: #ffa21f'> (#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
+                        <i class="far fa-edit font-weight-bold" style="color: #0cf249; font-size: 30px; cursor: pointer;" onclick="texto_input_nome_kit()"></i>
+                        <span id="span_titulo" style="cursor: not-allowed">
+                            <i id="icone_titulo" class="fas fa-check-square font-weight-bold" style="color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none;" data-toggle="tooltip" data-placement="bottom" title="Confirmar alteração do nome do kit" onclick="alterar_nome_kit('<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>', document.getElementById('input_nome_kit').value)" onkeydown="return event.key != 'Enter';"></i>
+                        </span>
                 </h1>
             </header>
             <main class="container">
                 <table class="table table-hover">
                     <thead>
-                        <tr class="text-center">
-                            <th scope="col" width="8%">#</th>
-                            <th scope="col" width="30%">Nome do produto</th>
-                            <th scope="col" width="1%">Quantidade</th>
-                            <th scope="col" width="16,25%">Preço</th>
-                            <th scope="col" width="16,25%">Preço Total</th>
-                            <th scope="col" width="13,75%">NCM</th>
-                            <th scope="col" width="13,75%">CEST</th>
-                            <th scope="col" width="1%"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
+                        <tr class="text-center table-warning">
+                            <th class="theader_top" scope="col" width="9%">#</th>
+                            <th class="theader_top" scope="col" width="38%">Nome do produto</th>
+                            <th class="theader_top" scope="col" width="1%">Qtde</th>
+                            <th class="theader_top" scope="col" width="13%">Preço</th>
+                            <th class="theader_top" scope="col" width="13%">Total</th>
+                            <th class="theader_top" scope="col" width="13%">NCM</th>
+                            <th class="theader_top" scope="col" width="12%">CEST</th>
+                            <th class="theader_top" scope="col" width="1%" colspan="2"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -268,40 +405,85 @@ if (isset($_POST['nome_do_kit'])) {
                             $preco_total_kit = $preco_total_kit + $vetor_kit['preco_total'];
                         ?>
                             <tr class="text-center" id="linha-<?php echo $vetor_kit['id'] ?>">
-                                <td><?php echo $vetor_kit['cod_athos'] ?></td>
-                                <td style="max-width: 400px; word-wrap: break-word;"><?php echo $vetor_kit['nome'] ?></td>
-                                <td><?php echo $vetor_kit['quantidade'] ?></td>
-                                <!-- Coluna do preço do produto -->
                                 <form id="form-<?php echo $vetor_kit['id'] ?>" method="POST">
                                     <input type="hidden" name="id_produto" value="<?php echo $vetor_kit['id'] ?>">
-                                    <input type="hidden" id="quantidade-<?php echo $vetor_kit['id'] ?>" name="quantidade" value="<?php echo $vetor_kit['quantidade'] ?>">
+                                    <td>
+                                        <!-- Input pra mostrar no modal -->
+                                        <input type="hidden" id="athos_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['cod_athos'] ?>">
+                                        <!-- Input pra alterar o cod athos -->
+                                        <input type="hidden" id="input_athos-<?php echo $vetor_kit['id'] ?>" name="athos_novo" class="form-control" value="<?php echo $vetor_kit['cod_athos'] ?>" placeholder="Código Athos novo" onkeydown="return event.key != 'Enter';">
+                                        <span id="athos-<?php echo $vetor_kit['id'] ?>">
+                                            <?php echo $vetor_kit['cod_athos'] ?>
+                                        </span>
+                                    </td>
+                                    <td style="max-width: 400px; word-wrap: break-word;">
+                                        <!-- Input pra mostrar no modal -->
+                                        <input type="hidden" id="nome_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['nome'] ?>">
+                                        <!-- Input pra alterar o nome do produto -->
+                                        <input type="hidden" id="input_nome-<?php echo $vetor_kit['id'] ?>" name="nome_novo" class="form-control" value="<?php echo $vetor_kit['nome'] ?>" placeholder="Nome novo" onkeydown="return event.key != 'Enter';">
+
+                                        <span id="nome-<?php echo $vetor_kit['id'] ?>">
+                                            <?php echo $vetor_kit['nome'] ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- Input pra mostrar no modal -->
+                                        <input type="hidden" id="quantidade_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['quantidade'] ?>">
+                                        <!-- Input pra alterar a quantidade -->
+                                        <input type="hidden" id="input_quantidade-<?php echo $vetor_kit['id'] ?>" name="quantidade" class="form-control" value="<?php echo $vetor_kit['quantidade'] ?>" placeholder="Quantidade nova" onkeydown="return event.key != 'Enter';">
+                                        <span id="quantidade-<?php echo $vetor_kit['id'] ?>">
+                                            <?php echo $vetor_kit['quantidade'] ?>
+                                        </span>
+                                    </td>
+                                    <!-- Coluna do preço do produto -->
                                     <td id="coluna-<?php echo $vetor_kit['id'] ?>">
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="preco_velho-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>">
                                         <!-- Input pra alterar o preço -->
-                                        <input type="hidden" id="input-<?php echo $vetor_kit['id'] ?>" name="preco_novo" class="form-control" value="R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>" placeholder="Preço novo" onblur="alterar_preco('<?php echo $vetor_kit['id'] ?>', document.getElementById('input-<?php echo $vetor_kit['id'] ?>').value, '<?php echo $vetor_kit['nome'] ?>', '<?php echo $vetor_kit['quantidade'] ?>'); mudarVetor('<?php echo $j ?>', document.getElementById('input-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('quantidade-<?php echo $vetor_kit['id'] ?>').value)" onkeydown="return event.key != 'Enter';">
+                                        <input type="hidden" id="input_preco-<?php echo $vetor_kit['id'] ?>" name="preco_novo" class="form-control" value="R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>" placeholder="Preço novo" onkeydown="return event.key != 'Enter';">
                                         <span id="preco-<?php echo $vetor_kit['id'] ?>">
                                             R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>
                                         </span>
                                     </td>
+                                    <!-- Coluna do preço do produto -->
+                                    <td>R$ <span id="preco_total-<?php echo $vetor_kit['id'] ?>"><?php echo number_format($vetor_kit['preco_total'], 2, ',', '') ?></span></td>
+                                    <td>
+                                        <!-- Input pra mostrar no modal -->
+                                        <input type="hidden" id="ncm_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['ncm'] ?>">
+                                        <!-- Input pra alterar o ncm -->
+                                        <input type="hidden" id="input_ncm-<?php echo $vetor_kit['id'] ?>" name="ncm_novo" class="form-control" value="<?php echo $vetor_kit['ncm'] ?>" placeholder="NCM novo" onkeydown="return event.key != 'Enter';">
+
+                                        <span id="ncm-<?php echo $vetor_kit['id'] ?>">
+                                            <?php echo $vetor_kit['ncm'] ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- Input pra mostrar no modal -->
+                                        <input type="hidden" id="cest_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['cest'] ?>">
+                                        <!-- Input pra alterar o cest -->
+                                        <input type="hidden" id="input_cest-<?php echo $vetor_kit['id'] ?>" name="cest_novo" class="form-control" value="<?php echo $vetor_kit['cest'] ?>" placeholder="CEST novo" onkeydown="return event.key != 'Enter';">
+
+                                        <span id="cest-<?php echo $vetor_kit['id'] ?>">
+                                            <?php if ($vetor_kit['cest'] == 0) {
+                                                echo "–";
+                                            } else {
+                                                echo $vetor_kit['cest'];
+                                            } ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <i class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" title="Editar <?php echo $vetor_kit['nome'] ?>" onclick="texto_input(<?php echo $vetor_kit['id'] ?>)"></i>
+                                    </td>
+                                    <td>
+                                        <span id="span-<?php echo $vetor_kit['id'] ?>" style="cursor: not-allowed">
+                                            <i id="icone-<?php echo $vetor_kit['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" title="Confirmar alterações de <?php echo $vetor_kit['nome'] ?>" onclick="alterar_info('<?php echo $vetor_kit['id'] ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_athos-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_kit['id'] ?>').value); mudarVetor('<?php echo $j ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value)"></i>
+                                        </span>
+                                    </td>
                                 </form>
-                                <!-- Coluna do preço do produto -->
-                                <td>R$ <span id="preco_total-<?php echo $vetor_kit['id'] ?>"><?php echo number_format($vetor_kit['preco_total'], 2, ',', '') ?></span></td>
-                                <td><?php echo $vetor_kit['ncm'] ?></td>
-                                <td>
-                                    <?php if ($vetor_kit['cest'] == 0) {
-                                        echo "–";
-                                    } else {
-                                        echo $vetor_kit['cest'];
-                                    } ?>
-                                </td>
-                                <td>
-                                    <i class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" title="Editar preço de <?php echo $vetor_kit['nome'] ?>" onclick="texto_input(<?php echo $vetor_kit['id'] ?>)"></i>
-                                </td>
                             </tr>
                             <?php if ($j == $num_kits - 1) { ?>
                                 <tr class="text-center">
-                                    <td colspan="8" style="border-top-color: #5cb85c; border-top-width: 2px;">
+                                    <td colspan="9" style="border-top-color: #5cb85c; border-top-width: 2px;">
                                         <font style="font-size: 24px" class="lead font-weight-bold">R$ <span id="preco_total_kit"><?php echo number_format($preco_total_kit, 2, ',', '') ?></span></font>
                                     </td>
                                 </tr>
@@ -315,12 +497,13 @@ if (isset($_POST['nome_do_kit'])) {
                 </div>
             </main>
         <?php } ?>
-        <div class="modal fade" id="modalCadastrado" tabindex="-1" role="dialog" aria-labelledby="modalCadastradoTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+        <!-- Modal alteração preço unitario -->
+        <div class="modal fade" id="modalAlteradoInfo" tabindex="-1" role="dialog" aria-labelledby="modalAlteradoInfoTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title text-success" id="modalTitle">
-                            Preço de <span id="nome_produto_modal"></span> alterado!
+                            Informações de <span id="nome_produto_modal"></span> alteradas!
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -328,8 +511,109 @@ if (isset($_POST['nome_do_kit'])) {
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            <p class="lead"><b>Preço antigo: </b><span id="preco_antigo_modal"></span></p>
-                            <p class="lead"><b>Preço novo: </b><span id="preco_novo_modal"></span></p>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr class="text-center text-warning table-warning lead">
+                                        <th width="5%"></th>
+                                        <th>ANTIGO</th>
+                                        <th>NOVO</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr class="lead">
+                                        <td class="text-right">
+                                            <b>Cód. Athos</b>
+                                        </td>
+                                        <td>
+                                            <span id="athos_antigo_modal"></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-success" id="athos_novo_modal"></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="lead">
+                                        <td class="text-right">
+                                            <b>Nome</b>
+                                        </td>
+                                        <td>
+                                            <span id="nome_antigo_modal"></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-success" id="nome_novo_modal"></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="lead">
+                                        <td class="text-right">
+                                            <b>Quantidade</b>
+                                        </td>
+                                        <td>
+                                            <span id="quantidade_antigo_modal"></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-success" id="quantidade_novo_modal"></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="lead">
+                                        <td class="text-right">
+                                            <b>Preço</b>
+                                        </td>
+                                        <td>
+                                            <span id="preco_antigo_modal"></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-success" id="preco_novo_modal"></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="lead">
+                                        <td class="text-right">
+                                            <b>NCM</b>
+                                        </td>
+                                        <td>
+                                            <span id="ncm_antigo_modal"></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-success" id="ncm_novo_modal"></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="lead">
+                                        <td class="text-right">
+                                            <b>CEST</b>
+                                        </td>
+                                        <td>
+                                            <span id="cest_antigo_modal"></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-success" id="cest_novo_modal"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <p class="lead"><b>Preço antigo: </b><span id="preco_antigo_modal"></span></p> -->
+                            <!-- <p class="lead text-success"><b>Preço novo: </b><span id="preco_novo_modal"></span></p> -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal alteração nome kit -->
+        <div class="modal fade" id="modalAlteradoNomeKit" tabindex="-1" role="dialog" aria-labelledby="modalAlteradoNomeKitTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-success" id="modalTitle">
+                            Nome do kit alterado!
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <p class="lead"><b>Nome antigo: </b><span id="nome_kit_antigo_modal"></span></p>
+                            <p class="lead text-success"><b>Nome novo: </b><span id="nome_kit_novo_modal"></span></p>
                         </div>
                     </div>
                     <div class="modal-footer">
