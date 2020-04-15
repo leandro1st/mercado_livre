@@ -90,6 +90,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 minLength: 1,
                 select: function(event, ui) {
                     $('#nome_do_kit').val(ui.item.value);
+                    $('#form_pesquisa').submit();
                 },
                 appendTo: "#div_autocomplete"
             }).data('ui-autocomplete')._renderItem = function(ul, item) {

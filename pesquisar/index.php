@@ -58,6 +58,10 @@ if (isset($_POST['nome_do_kit'])) {
                 top: 60px;
                 z-index: 1;
             }
+
+            .bs-tooltip-top {
+                margin-bottom: 4px;
+            }
         </style>
         <script>
             // alert($(window).width());
@@ -200,6 +204,7 @@ if (isset($_POST['nome_do_kit'])) {
                     minLength: 1,
                     select: function(event, ui) {
                         $('#nome_do_kit').val(ui.item.value);
+                        $('#form_pesquisa').submit();
                     },
                     appendTo: "#div_autocomplete"
                 }).data('ui-autocomplete')._renderItem = function(ul, item) {
@@ -342,14 +347,14 @@ if (isset($_POST['nome_do_kit'])) {
                         <center><input type="hidden" id="input_nome_kit" name="nome_kit_novo" class="form-control form-control-lg col-10" value="<?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>" placeholder="Novo nome do kit"></center>
                     </form>
                     <span id="titulo_kit" style="color: #daeff5; font-family: Comic Sans MS"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . "</span><b><span style='font-size: 24px; color: #ffa21f'> (#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
-                        <i class="far fa-edit font-weight-bold" style="color: #0cf249; font-size: 30px; cursor: pointer;" onclick="texto_input_nome_kit()"></i>
+                        <i class="far fa-edit font-weight-bold" style="color: #0cf249; font-size: 30px; cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Editar nome do kit" onclick="texto_input_nome_kit()"></i>
                         <span id="span_titulo" style="cursor: not-allowed">
                             <i id="icone_titulo" class="fas fa-check-square font-weight-bold" style="color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none;" data-toggle="tooltip" data-placement="bottom" title="Confirmar alteração do nome do kit" onclick="alterar_nome_kit('<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>', document.getElementById('input_nome_kit').value)" onkeydown="return event.key != 'Enter';"></i>
                         </span>
                 </h1>
             </header>
             <main class="container">
-                <table class="table table-hover">
+                <table class="table table-hover table-striped">
                     <thead>
                         <tr class="text-center table-warning">
                             <th class="theader_top" scope="col" width="9%">#</th>
@@ -627,11 +632,19 @@ if (isset($_POST['nome_do_kit'])) {
             <footer id="footer1" class="footer" style="margin-bottom: -250px">
                 <!-- style="/*margin-bottom: -100px*/" -->
             <?php } else { ?>
-                <footer id="footer1" class="footer" style="margin-bottom: -250px">
+                <footer id="footer1" class="footer" style="margin-bottom: -290px">
                     <!-- style="/*margin-bottom: -200px*/" -->
                 <?php } ?>
                 <!-- Footer Elements -->
                 <div style="background-color: #3e4551; padding: 16px">
+                    <!-- Mostra se o kit existir  -->
+                    <?php if ($num_kits > 0) { ?>
+                        <div class="container">
+                            <p class="lead" style="font-size: 18px; color: #c4c4c4">
+                                <i class="fas fa-exclamation-triangle text-warning" style="margin-right: 8px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="top" title="Dados adicionais <b>(fora de São Paulo)</b>"></i>Devido a Liminar ADI 5464, as empresas optantes pelo Simples Nacional estão desobrigadas a recolher o imposto DIFAL
+                            </p>
+                        </div>
+                    <?php } ?>
                     <center>
                         <div class="row" style="display: inline-block">
                             <a href="https://www.facebook.com/sakamototen/" class="btn-social btn-facebook" style="margin-right: 40px;"><i class="fab fa-facebook-f"></i></a>

@@ -29,7 +29,7 @@ require('../externo/connect.php');
         $preco_final = str_replace(',', '.', $preco3);
 
         $preco_total_produto = (int) $quantidade_produto * (float) $preco_final;
-        $ncm_produto = $_POST['ncm_' . $i];
+        $ncm_produto = mb_convert_case(trim($_POST['ncm_' . $i]), MB_CASE_UPPER, 'utf-8');
         $cest_produto = $_POST['cest_' . $i];
 
         $cadastrar = mysqli_query($connect, "INSERT INTO $kits($cod_athos, $nome, $quantidade, $preco, $preco_total, $ncm, $cest, $kit_nome, $id_kit, $hora_cadastro) VALUES ('$cod_athos_produto', '$nome_produto', '$quantidade_produto', '$preco_final', '$preco_total_produto', '$ncm_produto', '$cest_produto', '$nome_kit', '$proximo_id', '$agora')");

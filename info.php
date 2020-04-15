@@ -47,6 +47,7 @@
                 minLength: 1,
                 select: function(event, ui) {
                     $('#nome_do_kit').val(ui.item.value);
+                    $('#form_pesquisa').submit();
                 },
                 appendTo: "#div_autocomplete"
             }).data('ui-autocomplete')._renderItem = function(ul, item) {
@@ -84,7 +85,7 @@
                 </li>
             </ul>
             <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='imagens/example.png' width='130px'>"></i>
-            <form class="form-inline my-2 my-lg-0" method="POST" action="pesquisar/">
+            <form id="form_pesquisa" class="form-inline my-2 my-lg-0" method="POST" action="pesquisar/">
                 <input class="form-control mr-sm-2" id="nome_do_kit" name="nome_do_kit" placeholder="Código/Nome do kit" aria-label="Search" autocomplete="off" style="width: 300px; background-color: #eee; border-radius: 9999px; border: none; padding-left: 20px; padding-right: 42px">
                 <div id="div_autocomplete">
                 </div>
