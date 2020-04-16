@@ -86,7 +86,7 @@ if (isset($_POST['nome_do_kit'])) {
 
                 // Quantidade
                 document.getElementById('quantidade-' + id_produto + '').innerHTML = '';
-                document.getElementById('input_quantidade-' + id_produto).type = 'text';
+                document.getElementById('input_quantidade-' + id_produto).type = 'number';
 
                 // Alterando o conteúdo de preco-x e mostrando input para modificar o preço
                 document.getElementById('preco-' + id_produto + '').innerHTML = '';
@@ -358,8 +358,8 @@ if (isset($_POST['nome_do_kit'])) {
                     <thead>
                         <tr class="text-center table-warning">
                             <th class="theader_top" scope="col" width="9%">#</th>
-                            <th class="theader_top" scope="col" width="37%">Nome do produto</th>
-                            <th class="theader_top" scope="col" width="1%">Qtde</th>
+                            <th class="theader_top" scope="col" width="28%">Nome do produto</th>
+                            <th class="theader_top" scope="col" width="10%">Qtde <span class="text-primary">(<?php echo $num_kits ?>)</span></th>
                             <th class="theader_top" scope="col" width="13%">Preço</th>
                             <th class="theader_top" scope="col" width="13%">Total</th>
                             <th class="theader_top" scope="col" width="13%">NCM</th>

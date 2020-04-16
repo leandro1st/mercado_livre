@@ -27,13 +27,40 @@ if (isset($_GET["term"])) {
 
     $total_row = $statement->rowCount();
 
+    // Query para encontrar kits de acordo com o termo buscado
+    $query_pesquisar_kit = "SELECT id_kit FROM kits WHERE " . implode(" AND ", $searchTermBits) . "  GROUP BY id_kit ORDER BY kit_nome ASC";
+    $statement2 = $connect->prepare($query_pesquisar_kit);
+    $statement2->execute();
+    $vetor_kits_encontrados = $statement2->fetchAll();
+
+    // Array para armazenar preço total de cada kit encontrado
+    $array_precos = array();
+    foreach ($vetor_kits_encontrados as $kit) {
+        $vetor_id = $kit['id_kit'];
+        // Query para filtrar kit repetido
+        $query_pesquisar_kits_repetidos = "SELECT preco_total FROM kits WHERE id_kit = '$vetor_id'";
+        $statement3 = $connect->prepare($query_pesquisar_kits_repetidos);
+        $statement3->execute();
+        $vetor_kit_repetido = $statement3->fetchAll();
+        $preco_total_kit = 0;
+        // Loop para armazenar preço total do kit
+        foreach ($vetor_kit_repetido as $kit_repetido) {
+            $preco_total_kit += $kit_repetido['preco_total'];
+        }
+        // Appending to array
+        array_push($array_precos, $preco_total_kit);
+    }
+
     $array_kit = array();
     if ($total_row > 0) {
+        // Variavel de controle para acessar cada posição do array
+        $x = 0;
         foreach ($result as $row) {
             $temp_array = array();
             $temp_array['value'] = $row['id_kit'];
-            $temp_array['label'] = '<div class="row" style="margin: 0; display: flex; justify-content: center; align-items: center"><div class="col">' . $row['kit_nome'] . ' <span style="font-size: 14px">(#' . $row['id_kit'] . ')</span></div></div>';
+            $temp_array['label'] = '<div class="row" style="margin: 0; display: flex; justify-content: center; align-items: center"><div class="col">' . $row['kit_nome'] . ' <span style="font-size: 14px">(#' . $row['id_kit'] . ')</span><br><small class="font-weight-bold text-danger float-right" style="font-size: 17px"> R$ ' . number_format($array_precos[$x], 2, ',', '') . '</small></div></div>';
             $array_kit[] = $temp_array;
+            $x++;
         }
     } else {
         // $array_kit['value'] = '';
