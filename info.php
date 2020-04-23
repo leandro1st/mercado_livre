@@ -93,6 +93,12 @@
             </form>
         </div>
     </nav>
+    <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
+        <ol class="breadcrumb" style="background: none; margin: 0;">
+            <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i> Página Inicial</a></li>
+            <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        </ol>
+    </nav>
     <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
         <center>
             <h1 style="color: #daeff5">FAQ</h1>
