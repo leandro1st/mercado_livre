@@ -27,6 +27,8 @@
             var new_label_quantidade = "<div id='div_form_quantidade_" + num_input + "' class='form-group'><label id='label_quantidade_" + num_input + "' for='quantidade_" + num_input + "'><b>Quantidade do produto " + num_input + ": </b></label><input type='number' class='form-control' id='quantidade_" + num_input + "' name='quantidade_" + num_input + "' placeholder='Quantidade do produto " + num_input + "' onkeyup='alterar(" + num_input + ", document.getElementById(`quantidade_" + num_input + "`).value, document.getElementById(`preco_" + num_input + "`).value)'><div id='div_quantidade_" + num_input + "' class='invalid-feedback'>Forneça a quantidade do produto " + num_input + "!</div></div>";
             var new_label_preco = "<div id='div_form_preco_" + num_input + "' class='form-group'><label id='label_preco_" + num_input + "' for='preco_" + num_input + "'><b>Preço do produto " + num_input + ": </b><input type='hidden' class='form-control' id='preco_total_" + num_input + "' value='0,00' readonly></label><input type='text' class='form-control' id='preco_" + num_input + "' name='preco_" + num_input + "' placeholder='Preço do produto " + num_input + "' onkeyup='alterar(" + num_input + ", document.getElementById(`quantidade_" + num_input + "`).value, document.getElementById(`preco_" + num_input + "`).value)'><div id='div_preco_" + num_input + "' class='invalid-feedback'>Forneça o preço do produto " + num_input + "!</div></div>";
             var new_label_ncm = "<div id='div_form_ncm_" + num_input + "' class='form-group'><label id='label_ncm_" + num_input + "' for='ncm_" + num_input + "'><b>NCM do produto " + num_input + ": </b></label><input type='text' class='form-control' id='ncm_" + num_input + "' name='ncm_" + num_input + "' placeholder='NCM do produto " + num_input + "'><div id='div_ncm_" + num_input + "' class='invalid-feedback'>Forneça o NCM do produto " + num_input + "!</div></div>";
+            var new_label_csosn = "<div id='div_form_csosn_" + num_input + "' class='form-group'><label id='label_csosn_" + num_input + "' for='csosn_" + num_input + "'><b>CSOSN do produto " + num_input + ": </b></label><input type='number' class='form-control' id='csosn_" + num_input + "' name='csosn_" + num_input + "' placeholder='CSOSN do produto " + num_input + "'><div id='div_csosn_" + num_input + "' class='invalid-feedback'>Forneça o CSOSN do produto " + num_input + "!</div></div>";
+            var new_label_cfop = "<div id='div_form_cfop_" + num_input + "' class='form-group'><label id='label_cfop_" + num_input + "' for='cfop_" + num_input + "'><b>CFOP do produto " + num_input + ": </b></label><input type='number' class='form-control' id='cfop_" + num_input + "' name='cfop_" + num_input + "' placeholder='CFOP do produto " + num_input + "'><div id='div_cfop_" + num_input + "' class='invalid-feedback'>Forneça o CFOP do produto " + num_input + "!</div></div>";
             var new_label_cest = "<div id='div_form_cest_" + num_input + "' class='form-group'><label id='label_cest_" + num_input + "' for='cest_" + num_input + "'><b>CEST do produto " + num_input + ": </b></label><input type='number' class='form-control' id='cest_" + num_input + "' name='cest_" + num_input + "' placeholder='CEST do produto " + num_input + "'><div id='div_cest_" + num_input + "' class='invalid-feedback'></div></div>";
 
             // var new_input_cod_athos = "";
@@ -49,6 +51,10 @@
             // $('#div_produto_novo').append(new_input_preco);
             $('#div_produto_novo').append(new_label_ncm);
             // $('#div_produto_novo').append(new_input_ncm);
+            $('#div_produto_novo').append(new_label_csosn);
+            // $('#div_produto_novo').append(new_input_csosn);
+            $('#div_produto_novo').append(new_label_cfop);
+            // $('#div_produto_novo').append(new_input_cfop);
             $('#div_produto_novo').append(new_label_cest);
             // $('#div_produto_novo').append(new_input_cest);
 
@@ -59,6 +65,8 @@
             document.getElementById('quantidade_' + num_input).required = true;
             document.getElementById('preco_' + num_input).required = true;
             document.getElementById('ncm_' + num_input).required = true;
+            document.getElementById('csosn_' + num_input).required = true;
+            document.getElementById('cfop_' + num_input).required = true;
 
             $(document).ready(function() {
                 $("#preco_" + num_input).maskMoney({
@@ -95,6 +103,14 @@
                 $('#label_ncm_' + ultimo_num_input).remove();
                 $('#ncm_' + ultimo_num_input).remove();
                 $('#div_ncm_' + ultimo_num_input).remove();
+                $('#div_form_csosn_' + ultimo_num_input).remove();
+                $('#label_csosn_' + ultimo_num_input).remove();
+                $('#csosn_' + ultimo_num_input).remove();
+                $('#div_csosn_' + ultimo_num_input).remove();
+                $('#div_form_cfop_' + ultimo_num_input).remove();
+                $('#label_cfop_' + ultimo_num_input).remove();
+                $('#cfop_' + ultimo_num_input).remove();
+                $('#div_cfop_' + ultimo_num_input).remove();
                 $('#div_form_cest_' + ultimo_num_input).remove();
                 $('#label_cest_' + ultimo_num_input).remove();
                 $('#cest_' + ultimo_num_input).remove();
@@ -295,6 +311,26 @@
                 <input type="text" id="ncm_1" name="ncm_1" class="form-control" placeholder="NCM do produto 1" required>
                 <div class="invalid-feedback">
                     Forneça o NCM do produto 1!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="csosn_1">
+                    <b>CSOSN do produto 1:</b>
+                </label>
+                <input type="number" id="csosn_1" name="csosn_1" class="form-control" placeholder="CSOSN do produto 1" required>
+                <div class="invalid-feedback">
+                    Forneça o CSOSN do produto 1!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cfop_1">
+                    <b>CFOP do produto 1:</b>
+                </label>
+                <input type="number" id="cfop_1" name="cfop_1" class="form-control" placeholder="CFOP do produto 1" required>
+                <div class="invalid-feedback">
+                    Forneça o CFOP do produto 1!
                 </div>
             </div>
 

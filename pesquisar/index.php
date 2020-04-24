@@ -96,6 +96,14 @@ if (isset($_POST['nome_do_kit'])) {
                 document.getElementById('ncm-' + id_produto + '').innerHTML = '';
                 document.getElementById('input_ncm-' + id_produto).type = 'text';
 
+                // CSOSN
+                document.getElementById('csosn-' + id_produto + '').innerHTML = '';
+                document.getElementById('input_csosn-' + id_produto).type = 'number';
+
+                // CFOP
+                document.getElementById('cfop-' + id_produto + '').innerHTML = '';
+                document.getElementById('input_cfop-' + id_produto).type = 'number';
+
                 // CEST
                 document.getElementById('cest-' + id_produto + '').innerHTML = '';
                 document.getElementById('input_cest-' + id_produto).type = 'number';
@@ -115,7 +123,7 @@ if (isset($_POST['nome_do_kit'])) {
             }
 
             // Função para alterar mask, enviar valores através do ajax, alterar valores de exibição do preço unitário/total do produto
-            function alterar_info(id_produto, preco_novo, nome, quantidade, cod_athos, ncm, cest) {
+            function alterar_info(id_produto, preco_novo, nome, quantidade, cod_athos, ncm, csosn, cfop, cest) {
                 //Alterando a mask 
                 preco_novo_sem_R$ = preco_novo.replace("R$ ", "");
                 preco_novo_ptBR = preco_novo_sem_R$.replace(/\./g, "");
@@ -148,6 +156,32 @@ if (isset($_POST['nome_do_kit'])) {
                         document.getElementById('ncm_antigo_modal').innerHTML = document.getElementById('ncm_modal-' + id_produto).value;
                         document.getElementById('ncm_novo_modal').innerHTML = ncm.toUpperCase();
 
+                        // csosn antigo
+                        if (document.getElementById('csosn_modal-' + id_produto).value != "0000000") {
+                            document.getElementById('csosn_antigo_modal').innerHTML = document.getElementById('csosn_modal-' + id_produto).value;
+                        } else {
+                            document.getElementById('csosn_antigo_modal').innerHTML = "–";
+                        }
+                        // csosn novo
+                        if (csosn == "0000000" || csosn == "") {
+                            document.getElementById('csosn_novo_modal').innerHTML = "–";
+                        } else {
+                            document.getElementById('csosn_novo_modal').innerHTML = csosn;
+                        }
+
+                        // cfop antigo
+                        if (document.getElementById('cfop_modal-' + id_produto).value != "0000000") {
+                            document.getElementById('cfop_antigo_modal').innerHTML = document.getElementById('cfop_modal-' + id_produto).value;
+                        } else {
+                            document.getElementById('cfop_antigo_modal').innerHTML = "–";
+                        }
+                        // cfop novo
+                        if (cfop == "0000000" || cfop == "") {
+                            document.getElementById('cfop_novo_modal').innerHTML = "–";
+                        } else {
+                            document.getElementById('cfop_novo_modal').innerHTML = cfop;
+                        }
+
                         // Cest antigo
                         if (document.getElementById('cest_modal-' + id_produto).value != "0000000") {
                             document.getElementById('cest_antigo_modal').innerHTML = document.getElementById('cest_modal-' + id_produto).value;
@@ -179,6 +213,20 @@ if (isset($_POST['nome_do_kit'])) {
 
                         document.getElementById('input_ncm-' + id_produto).type = 'hidden';
                         document.getElementById('ncm-' + id_produto).innerHTML = ncm.toUpperCase();
+
+                        document.getElementById('input_csosn-' + id_produto).type = 'hidden';
+                        if (csosn == "0000000" || csosn == "") {
+                            document.getElementById('csosn-' + id_produto).innerHTML = "–";
+                        } else {
+                            document.getElementById('csosn-' + id_produto).innerHTML = csosn;
+                        }
+
+                        document.getElementById('input_cfop-' + id_produto).type = 'hidden';
+                        if (cfop == "0000000" || cfop == "") {
+                            document.getElementById('cfop-' + id_produto).innerHTML = "–";
+                        } else {
+                            document.getElementById('cfop-' + id_produto).innerHTML = cfop;
+                        }
 
                         document.getElementById('input_cest-' + id_produto).type = 'hidden';
                         if (cest == "0000000" || cest == "") {
@@ -257,6 +305,17 @@ if (isset($_POST['nome_do_kit'])) {
                 document.getElementById('span_titulo').style.cursor = 'pointer';
                 document.getElementById('icone_titulo').style.cssText = 'color: #0cf249; font-size: 30px; opacity: 1; pointer-events: auto';
             };
+
+            function copy(element) {
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val($(element).text()).select();
+                document.execCommand("copy");
+                $temp.remove();
+
+                // $('#icone_texto').attr('title', 'Texto copiado para a área de transferência!').tooltip('_fixTitle').tooltip('show');
+                $('#icone_texto').tooltip('dispose').attr('title', 'Copiado!').tooltip('show');
+            }
         </script>
     </head>
 
@@ -353,17 +412,19 @@ if (isset($_POST['nome_do_kit'])) {
                         </span>
                 </h1>
             </header>
-            <main class="container">
+            <main class="container-fluid">
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr class="text-center table-warning">
-                            <th class="theader_top" scope="col" width="9%">#</th>
-                            <th class="theader_top" scope="col" width="28%">Nome do produto</th>
-                            <th class="theader_top" scope="col" width="10%">Qtde <span class="text-primary">(<?php echo $num_kits ?>)</span></th>
-                            <th class="theader_top" scope="col" width="13%">Preço</th>
+                            <th class="theader_top" scope="col" width="7%">#</th>
+                            <th class="theader_top" scope="col" width="25%">Nome do produto</th>
+                            <th class="theader_top" scope="col" width="8%">Qtde <span class="text-primary">(<?php echo $num_kits ?>)</span></th>
+                            <th class="theader_top" scope="col" width="10%">Preço</th>
                             <th class="theader_top" scope="col" width="13%">Total</th>
-                            <th class="theader_top" scope="col" width="13%">NCM</th>
-                            <th class="theader_top" scope="col" width="13%">CEST</th>
+                            <th class="theader_top" scope="col" width="10%">NCM</th>
+                            <th class="theader_top" scope="col" width="8%">CSOSN</th>
+                            <th class="theader_top" scope="col" width="8%">CFOP</th>
+                            <th class="theader_top" scope="col" width="10%">CEST</th>
                             <th class="theader_top" scope="col" width="1%" colspan="2"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
                         </tr>
                     </thead>
@@ -464,6 +525,34 @@ if (isset($_POST['nome_do_kit'])) {
                                     </td>
                                     <td>
                                         <!-- Input pra mostrar no modal -->
+                                        <input type="hidden" id="csosn_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['csosn'] ?>">
+                                        <!-- Input pra alterar o csosn -->
+                                        <input type="hidden" id="input_csosn-<?php echo $vetor_kit['id'] ?>" name="csosn_novo" class="form-control" value="<?php echo $vetor_kit['csosn'] ?>" placeholder="CSOSN novo" onkeydown="return event.key != 'Enter';">
+
+                                        <span id="csosn-<?php echo $vetor_kit['id'] ?>">
+                                            <?php if ($vetor_kit['csosn'] == 0) {
+                                                echo "–";
+                                            } else {
+                                                echo $vetor_kit['csosn'];
+                                            } ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- Input pra mostrar no modal -->
+                                        <input type="hidden" id="cfop_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['cfop'] ?>">
+                                        <!-- Input pra alterar o cfop -->
+                                        <input type="hidden" id="input_cfop-<?php echo $vetor_kit['id'] ?>" name="cfop_novo" class="form-control" value="<?php echo $vetor_kit['cfop'] ?>" placeholder="CFOP novo" onkeydown="return event.key != 'Enter';">
+
+                                        <span id="cfop-<?php echo $vetor_kit['id'] ?>">
+                                            <?php if ($vetor_kit['cfop'] == 0) {
+                                                echo "–";
+                                            } else {
+                                                echo $vetor_kit['cfop'];
+                                            } ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="cest_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['cest'] ?>">
                                         <!-- Input pra alterar o cest -->
                                         <input type="hidden" id="input_cest-<?php echo $vetor_kit['id'] ?>" name="cest_novo" class="form-control" value="<?php echo $vetor_kit['cest'] ?>" placeholder="CEST novo" onkeydown="return event.key != 'Enter';">
@@ -481,14 +570,14 @@ if (isset($_POST['nome_do_kit'])) {
                                     </td>
                                     <td>
                                         <span id="span-<?php echo $vetor_kit['id'] ?>" style="cursor: not-allowed">
-                                            <i id="icone-<?php echo $vetor_kit['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" title="Confirmar alterações de <?php echo $vetor_kit['nome'] ?>" onclick="alterar_info('<?php echo $vetor_kit['id'] ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_athos-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_kit['id'] ?>').value); mudarVetor('<?php echo $j ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value)"></i>
+                                            <i id="icone-<?php echo $vetor_kit['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" title="Confirmar alterações de <?php echo $vetor_kit['nome'] ?>" onclick="alterar_info('<?php echo $vetor_kit['id'] ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_athos-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_csosn-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_cfop-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_kit['id'] ?>').value); mudarVetor('<?php echo $j ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value)"></i>
                                         </span>
                                     </td>
                                 </form>
                             </tr>
                             <?php if ($j == $num_kits - 1) { ?>
                                 <tr class="text-center">
-                                    <td colspan="9" style="border-top-color: #5cb85c; border-top-width: 2px;">
+                                    <td colspan="11" style="border-top-color: #5cb85c; border-top-width: 2px;">
                                         <font style="font-size: 24px" class="lead font-weight-bold">R$ <span id="preco_total_kit"><?php echo number_format($preco_total_kit, 2, ',', '') ?></span></font>
                                     </td>
                                 </tr>
@@ -582,6 +671,28 @@ if (isset($_POST['nome_do_kit'])) {
                                     </tr>
                                     <tr class="lead">
                                         <td class="text-right">
+                                            <b>CSOSN</b>
+                                        </td>
+                                        <td>
+                                            <span id="csosn_antigo_modal"></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-success" id="csosn_novo_modal"></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="lead">
+                                        <td class="text-right">
+                                            <b>CFOP</b>
+                                        </td>
+                                        <td>
+                                            <span id="cfop_antigo_modal"></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-success" id="cfop_novo_modal"></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="lead">
+                                        <td class="text-right">
                                             <b>CEST</b>
                                         </td>
                                         <td>
@@ -641,7 +752,8 @@ if (isset($_POST['nome_do_kit'])) {
                     <?php if ($num_kits > 0) { ?>
                         <div class="container">
                             <p class="lead" style="font-size: 18px; color: #c4c4c4">
-                                <i class="fas fa-exclamation-triangle text-warning" style="margin-right: 8px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="top" title="Dados adicionais <b>(fora de São Paulo)</b>"></i>Devido a Liminar ADI 5464, as empresas optantes pelo Simples Nacional estão desobrigadas a recolher o imposto DIFAL
+                                <!-- Dados adicionais <b>(fora de São Paulo)</b> -->
+                                <i id="icone_texto" onclick="copy('#texto')" class="fas fa-exclamation-triangle text-warning" style="margin-right: 8px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="top" title="Copiar para a área de transferência"></i><span id="texto">Devido a Liminar ADI 5464, as empresas optantes pelo Simples Nacional estão desobrigadas a recolher o imposto DIFAL</span>
                             </p>
                         </div>
                     <?php } ?>

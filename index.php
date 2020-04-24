@@ -177,7 +177,9 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                 <th scope="col" width="1%">Qtde</th>
                                                 <th scope="col" width="13%">Preço</th>
                                                 <th scope="col" width="13%">Total</th>
-                                                <th scope="col" width="13%">NCM</th>
+                                                <th scope="col" width="4%">NCM</th>
+                                                <th scope="col" width="4%">CSOSN</th>
+                                                <th scope="col" width="5%">CFOP</th>
                                                 <th scope="col" width="12%">CEST</th>
                                                 <!-- <th scope="col" width="13,75%">Kit nome</th> -->
                                             </tr>
@@ -197,6 +199,22 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                     <td>R$ <?php echo number_format($vetor['preco_total'], 2, ',', '') ?></td>
                                                     <td><?php echo $vetor['ncm'] ?></td>
                                                     <td>
+                                                        <?php if ($vetor['csosn'] == 0) {
+                                                            echo "–";
+                                                        } else {
+                                                            echo $vetor['csosn'];
+                                                        } ?>
+
+                                                    </td>
+                                                    <td>
+                                                        <?php if ($vetor['cfop'] == 0) {
+                                                            echo "–";
+                                                        } else {
+                                                            echo $vetor['cfop'];
+                                                        } ?>
+
+                                                    </td>
+                                                    <td>
                                                         <?php if ($vetor['cest'] == 0) {
                                                             echo "–";
                                                         } else {
@@ -207,7 +225,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                 </tr>
                                                 <?php if ($j == $numero_repetido - 1) { ?>
                                                     <tr class="text-center">
-                                                        <td colspan="7" style="border-top-color: #5cb85c; border-top-width: 2px;">
+                                                        <td colspan="9" style="border-top-color: #5cb85c; border-top-width: 2px;">
                                                             <font style="font-size: 24px" class="lead font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '') ?></font>
                                                         </td>
                                                     </tr>

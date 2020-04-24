@@ -10,6 +10,8 @@
 	$preco = 'preco';
 	$preco_total = 'preco_total';
 	$ncm = 'ncm';
+	$csosn = 'csosn';
+	$cfop = 'cfop';
 	$cest = 'cest';
 	$kit_nome = 'kit_nome';
 	$id_kit = 'id_kit';
