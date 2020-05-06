@@ -157,26 +157,26 @@ if (isset($_POST['nome_do_kit'])) {
                         document.getElementById('ncm_novo_modal').innerHTML = ncm.toUpperCase();
 
                         // csosn antigo
-                        if (document.getElementById('csosn_modal-' + id_produto).value != "0000000") {
+                        if (document.getElementById('csosn_modal-' + id_produto).value != "0") {
                             document.getElementById('csosn_antigo_modal').innerHTML = document.getElementById('csosn_modal-' + id_produto).value;
                         } else {
                             document.getElementById('csosn_antigo_modal').innerHTML = "–";
                         }
                         // csosn novo
-                        if (csosn == "0000000" || csosn == "") {
+                        if (csosn == "0" || csosn == "") {
                             document.getElementById('csosn_novo_modal').innerHTML = "–";
                         } else {
                             document.getElementById('csosn_novo_modal').innerHTML = csosn;
                         }
 
                         // cfop antigo
-                        if (document.getElementById('cfop_modal-' + id_produto).value != "0000000") {
+                        if (document.getElementById('cfop_modal-' + id_produto).value != "0") {
                             document.getElementById('cfop_antigo_modal').innerHTML = document.getElementById('cfop_modal-' + id_produto).value;
                         } else {
                             document.getElementById('cfop_antigo_modal').innerHTML = "–";
                         }
                         // cfop novo
-                        if (cfop == "0000000" || cfop == "") {
+                        if (cfop == "0" || cfop == "") {
                             document.getElementById('cfop_novo_modal').innerHTML = "–";
                         } else {
                             document.getElementById('cfop_novo_modal').innerHTML = cfop;
@@ -215,14 +215,14 @@ if (isset($_POST['nome_do_kit'])) {
                         document.getElementById('ncm-' + id_produto).innerHTML = ncm.toUpperCase();
 
                         document.getElementById('input_csosn-' + id_produto).type = 'hidden';
-                        if (csosn == "0000000" || csosn == "") {
+                        if (csosn == "0" || csosn == "") {
                             document.getElementById('csosn-' + id_produto).innerHTML = "–";
                         } else {
                             document.getElementById('csosn-' + id_produto).innerHTML = csosn;
                         }
 
                         document.getElementById('input_cfop-' + id_produto).type = 'hidden';
-                        if (cfop == "0000000" || cfop == "") {
+                        if (cfop == "0" || cfop == "") {
                             document.getElementById('cfop-' + id_produto).innerHTML = "–";
                         } else {
                             document.getElementById('cfop-' + id_produto).innerHTML = cfop;
@@ -592,7 +592,7 @@ if (isset($_POST['nome_do_kit'])) {
             </main>
         <?php } ?>
         <!-- Modal alteração preço unitario -->
-        <div class="modal fade" id="modalAlteradoInfo" tabindex="-1" role="dialog" aria-labelledby="modalAlteradoInfoTitle" aria-hidden="true">
+        <div class="modal fade" id="modalAlteradoInfo" tabindex="-1" role="dialog" aria-labelledby="modalAlteradoInfoTitle" aria-hidden="true" onkeypress="$('#modalAlteradoInfo').modal('toggle');">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -715,7 +715,7 @@ if (isset($_POST['nome_do_kit'])) {
             </div>
         </div>
         <!-- Modal alteração nome kit -->
-        <div class="modal fade" id="modalAlteradoNomeKit" tabindex="-1" role="dialog" aria-labelledby="modalAlteradoNomeKitTitle" aria-hidden="true">
+        <div class="modal fade" id="modalAlteradoNomeKit" tabindex="-1" role="dialog" aria-labelledby="modalAlteradoNomeKitTitle" aria-hidden="true" onkeypress="$('#modalAlteradoNomeKit').modal('toggle');">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
