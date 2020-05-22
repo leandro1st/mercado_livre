@@ -36,7 +36,7 @@ if (isset($_POST['nome_do_kit'])) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
         <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../maskmoney/src/jquery.maskMoney.js" type="text/javascript"></script>
+        <script src="../maskmoney/dist/jquery.maskMoney.min.js" type="text/javascript"></script>
         <style>
             #img_nothing {
                 /* position: absolute !important; */
@@ -135,7 +135,7 @@ if (isset($_POST['nome_do_kit'])) {
                 var span_preco = "<span id='preco-" + id_produto + "'>R$ " + preco_novo_ptBR + "</span>";
                 $.ajax({
                     method: 'POST',
-                    url: 'alterar.php',
+                    url: 'alterar/alterar.php',
                     data: $('#form-' + id_produto).serialize(),
                     success: function(data) {
                         // Alterando os valores dos inputs do modal
@@ -267,7 +267,7 @@ if (isset($_POST['nome_do_kit'])) {
             function alterar_nome_kit(id_kit, nome_kit_novo) {
                 $.ajax({
                     method: 'POST',
-                    url: 'alterar_nome_kit.php',
+                    url: 'alterar/alterar_nome_kit.php',
                     data: $('#form-kit').serialize(),
                     success: function(data) {
                         // Alterando os valores dos inputs/title/breadcrumb
@@ -340,6 +340,9 @@ if (isset($_POST['nome_do_kit'])) {
                     </li>
                     <li class="nav-item px-1">
                         <a class="nav-link" href="../info.php"><i class="fas fa-question-circle text-primary" style="font-size: 24px; vertical-align: middle"></i></a>
+                    </li>
+                    <li class="nav-item px-1">
+                        <a class="nav-link" href="../alterar/troca_temporaria.php"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
                     </li>
                     <li class="nav-item px-1 active">
                         <a class="nav-link underline" href="#"><i class="fas fa-search text-white" style="font-size: 24px; vertical-align: middle"></i></a>

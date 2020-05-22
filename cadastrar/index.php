@@ -215,6 +215,9 @@
                 <li class="nav-item px-1">
                     <a class="nav-link" href="../info.php"><i class="fas fa-question-circle text-primary" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
+                <li class="nav-item px-1">
+                    <a class="nav-link" href="../alterar/troca_temporaria.php"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
+                </li>
                 <!-- <li class="nav-item px-1 text-success"><br>
                     R$ <span id="subtotal">0,00</span>
                 </li> -->
