@@ -53,12 +53,6 @@ if (isset($_POST['nome_do_kit'])) {
                 top: 55% !important;
             }
 
-            .theader_top {
-                position: sticky;
-                top: 60px;
-                z-index: 1;
-            }
-
             .bs-tooltip-top {
                 margin-bottom: 4px;
             }
