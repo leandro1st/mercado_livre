@@ -129,7 +129,7 @@ if (isset($_POST['nome_do_kit'])) {
                 var span_preco = "<span id='preco-" + id_produto + "'>R$ " + preco_novo_ptBR + "</span>";
                 $.ajax({
                     method: 'POST',
-                    url: 'alterar/alterar.php',
+                    url: '../alterar/alterar.php',
                     data: $('#form-' + id_produto).serialize(),
                     success: function(data) {
                         // Alterando os valores dos inputs do modal
@@ -261,7 +261,7 @@ if (isset($_POST['nome_do_kit'])) {
             function alterar_nome_kit(id_kit, nome_kit_novo) {
                 $.ajax({
                     method: 'POST',
-                    url: 'alterar/alterar_nome_kit.php',
+                    url: '../alterar/alterar_nome_kit.php',
                     data: $('#form-kit').serialize(),
                     success: function(data) {
                         // Alterando os valores dos inputs/title/breadcrumb
