@@ -1,3 +1,8 @@
+<?php
+require('../externo/connect.php');
+$pesquisar_ultimo_cadastro = mysqli_query($connect, "SELECT $kit_nome, $hora_cadastro FROM $kits ORDER BY hora_cadastro DESC limit 1");
+$vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +19,7 @@
     <script src="../jquery/jquery-3.4.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../maskmoney/src/jquery.maskMoney.js" type="text/javascript"></script>
+    <script src="../maskmoney/dist/jquery.maskMoney.min.js" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
             $('#form_cadastrar')[0].reset();
@@ -184,6 +189,11 @@
             }
             document.getElementById('subtotal').innerHTML = soma.toFixed(2).replace(".", ",");
         }
+
+        // quando o scroll é feito na janela, esconde o tooltip 
+        window.onscroll = function (oEvent) {
+            $('#icone_ultimo_cadastro').tooltip('hide');
+        }        
     </script>
     <style>
         #div_botoes {
@@ -234,8 +244,13 @@
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
             <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="fas fa-edit"></i> Cadastrar Kit</a></li>
+            <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="fas fa-edit"></i> Cadastrar Kit</a>
+                <i id="icone_ultimo_cadastro" class="fas fa-sticky-note text-warning" style="cursor: pointer" data-toggle="tooltip" data-trigger="click hover focus" data-html="true" data-placement="bottom" title="<span class='lead'><b><i class='fas fa-history text-warning'></i> Último cadastro: </b><?php echo $vetor_ultimo['kit_nome'] . "<small> (" . date('d/m/Y H:i:s', strtotime($vetor_ultimo['hora_cadastro'])) . ")</small></span>" ?>"></i>
+            </li>
         </ol>
+        
+
+        </p>
     </nav>
     <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
         <center>

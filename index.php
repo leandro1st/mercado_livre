@@ -2,7 +2,7 @@
 require('externo/connect.php');
 $pesquisar = mysqli_query($connect, "SELECT * FROM $kits ORDER BY $kit_nome");
 $pesquisar2 = mysqli_query($connect, "SELECT COUNT(*) c, $id_kit, $kit_nome, $hora_cadastro FROM $kits GROUP BY $id_kit HAVING c >= 1 ORDER BY $kit_nome");
-$pesquisar_ultimo_cadastro = mysqli_query($connect, "SELECT $kit_nome FROM $kits ORDER BY hora_cadastro DESC limit 1");
+$pesquisar_ultimo_cadastro = mysqli_query($connect, "SELECT $kit_nome, $hora_cadastro FROM $kits ORDER BY hora_cadastro DESC limit 1");
 $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
 
 // $num_kits = 0;
@@ -134,7 +134,9 @@ $num_kits = mysqli_num_rows($pesquisar2);
         </div>
         <p class='lead' style='padding-top: 8%; font-size: 40px; text-align: center;'>Comece cadastrando novos kits!</p>
     <?php } else { ?>
-        <p class="lead" style="position: absolute; margin: 15px 0 0 25px; font-size: 18px"><b>Último cadastro: </b><?php echo $vetor_ultimo['kit_nome'] ?></p>
+        <p class="lead" style="position: absolute; margin: 15px 0 0 25px; font-size: 18px">
+            <b><i class="fas fa-history text-warning"></i> Último cadastro: </b><?php echo $vetor_ultimo['kit_nome'] . " <span style='font-size: 16px'>(" . date("d/m/Y H:i:s", strtotime($vetor_ultimo['hora_cadastro'])) . ")</span>" ?>
+        </p>
         <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
             <center>
                 <h1 style="color: #daeff5">Mercado Livre</h1>
