@@ -1,7 +1,7 @@
 <?php
 require('../externo/connect.php');
 // Using 'group by' to avoid selecting repeated 'cod_athos'
-$pesquisar = mysqli_query($connect, "SELECT id, cod_athos, nome, ncm, csosn, cfop, cest FROM $kits GROUP BY $cod_athos ORDER BY $csosn, $nome");
+$pesquisar = mysqli_query($connect, "SELECT id, cod_athos, nome, ncm, csosn, cfop, cest, COUNT(*) as produto_total_kits FROM $kits GROUP BY $cod_athos ORDER BY $csosn, $nome");
 
 // $num_produtos = 0;
 $num_produtos = mysqli_num_rows($pesquisar);
@@ -45,6 +45,11 @@ $num_produtos = mysqli_num_rows($pesquisar);
             left: 50% !important;
             margin-left: -30px !important;
             top: 55% !important;
+        }
+
+        /* adding some margin between element and tooltip */
+        .bs-tooltip-right {
+            margin-left: 5px;
         }
     </style>
     <script>
@@ -251,6 +256,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                         $csosn_produto = $vetor_produto['csosn'];
                         $cfop_produto = $vetor_produto['cfop'];
                         $cest_produto = $vetor_produto['cest'];
+                        $produto_total_kits = $vetor_produto['produto_total_kits'];
                     ?>
                         <tr class="text-center" id="linha-<?php echo $vetor_produto['id'] ?>">
                             <form id="form-<?php echo $vetor_produto['id'] ?>" method="POST">
@@ -267,7 +273,10 @@ $num_produtos = mysqli_num_rows($pesquisar);
                                     <input type="hidden" id="input_nome-<?php echo $vetor_produto['id'] ?>" name="nome_novo" class="form-control" value="<?php echo $vetor_produto['nome'] ?>" placeholder="Nome novo" onkeydown="return event.key != 'Enter';">
 
                                     <span id="nome-<?php echo $vetor_produto['id'] ?>">
-                                        <?php echo $vetor_produto['nome'] ?>
+                                        <!-- Nome e número de kits que contém determinado produto -->
+                                        <?php echo $vetor_produto['nome'] . "<span class='noselect font-weight-bold text-success' data-toggle='tooltip' data-html='true' data-placement='right' title='Há <b><span class=" . "text-success" . ">" . $vetor_produto['produto_total_kits'] . "</span></b>";
+                                        echo $produto_total_kits == 1 ? " kit" : " kits";
+                                        echo " que contém o produto <b>" . $vetor_produto['nome'] . "</b>'> (" . $vetor_produto['produto_total_kits'] . ")</span>" ?>
                                     </span>
                                 </td>
                                 <td>

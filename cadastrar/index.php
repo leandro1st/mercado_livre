@@ -190,7 +190,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             document.getElementById('subtotal').innerHTML = soma.toFixed(2).replace(".", ",");
         }
 
-        // quando o scroll é feito na janela, esconde o tooltip 
+        // Quando o scroll é feito na janela, esconde o tooltip icone_ultimo_cadastro
         window.onscroll = function (oEvent) {
             $('#icone_ultimo_cadastro').tooltip('hide');
         }        
