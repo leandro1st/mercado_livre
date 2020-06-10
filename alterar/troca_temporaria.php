@@ -95,6 +95,8 @@ $num_produtos = mysqli_num_rows($pesquisar);
             document.getElementById('input_nome-' + id_produto).value = '';
             document.getElementById('input_nome-' + id_produto).value = copia_nome;
 
+            document.getElementById('span_produto_total_kits-' + id_produto).style.display = "none";
+
             // NCM
             document.getElementById('ncm-' + id_produto + '').innerHTML = '';
             document.getElementById('input_ncm-' + id_produto).type = 'text';
@@ -113,10 +115,11 @@ $num_produtos = mysqli_num_rows($pesquisar);
 
             // Icone confirmar
             document.getElementById('span-' + id_produto + '').style.cursor = 'pointer';
-            document.getElementById('icone-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: 1; pointer-events: auto';
+            document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: 1; pointer-events: auto';
         }
 
-        function alterar_info(id_produto, cod_athos, nome, ncm, csosn, cfop, cest) {
+        // Alterando as informações
+        function alterar_info(id_produto, cod_athos, nome, ncm, csosn, cfop, cest, produto_total_kits) {
             $.ajax({
                 method: 'POST',
                 url: 'alterar_temporario.php',
@@ -128,6 +131,15 @@ $num_produtos = mysqli_num_rows($pesquisar);
 
                     document.getElementById('input_nome-' + id_produto).type = 'hidden';
                     document.getElementById('nome-' + id_produto).innerHTML = nome.toUpperCase();
+
+                    document.getElementById('span_produto_total_kits-' + id_produto).style.display = "inline";
+                    // Alterando conteúdo do tooltip
+                    if (produto_total_kits == 1) {
+                        var texto_tooltip_novo = "Há <b><span class='text-success'>" + produto_total_kits + "</span></b> kit que contém o produto <b><span class='text-warning'>" + nome.toUpperCase() + "</span></b>";
+                    } else {
+                        var texto_tooltip_novo = "Há <b><span class='text-success'>" + produto_total_kits + "</span></b> kits que contém o produto <b><span class='text-warning'>" + nome.toUpperCase() + "</span></b>";
+                    }
+                    $('#span_produto_total_kits-' + id_produto).attr('data-original-title', texto_tooltip_novo);
 
                     document.getElementById('input_ncm-' + id_produto).type = 'hidden';
                     document.getElementById('ncm-' + id_produto).innerHTML = ncm.toUpperCase();
@@ -153,9 +165,22 @@ $num_produtos = mysqli_num_rows($pesquisar);
                         document.getElementById('cest-' + id_produto).innerHTML = cest;
                     }
 
+                    // Ícones
+                    $('#icone_editar-' + id_produto).attr('data-original-title', 'Editar ' + nome.toUpperCase());
                     document.getElementById('span-' + id_produto + '').style.cursor = 'not-allowed';
-                    document.getElementById('icone-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
+                    $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + nome.toUpperCase());
+                    document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
 
+                    // if number of rows affected > 0, adding new class
+                    if (data > 0) {
+                        $('#linha-' + id_produto).fadeOut(0, function() {
+                            $(this).addClass('table-success');
+                        }).fadeIn(300);
+                    } else {
+                        $('#linha-' + id_produto).fadeOut(0, function() {
+                            // nothing happens
+                        }).fadeIn(300);
+                    }
                 },
                 error: function(data) {
                     alert("Ocorreu um erro!");
@@ -272,12 +297,16 @@ $num_produtos = mysqli_num_rows($pesquisar);
                                     <!-- Input pra alterar o nome do produto -->
                                     <input type="hidden" id="input_nome-<?php echo $vetor_produto['id'] ?>" name="nome_novo" class="form-control" value="<?php echo $vetor_produto['nome'] ?>" placeholder="Nome novo" onkeydown="return event.key != 'Enter';">
 
+                                    <!-- Nome do produto -->
                                     <span id="nome-<?php echo $vetor_produto['id'] ?>">
-                                        <!-- Nome e número de kits que contém determinado produto -->
-                                        <?php echo $vetor_produto['nome'] . "<span class='noselect font-weight-bold text-success' data-toggle='tooltip' data-html='true' data-placement='right' title='Há <b><span class=" . "text-success" . ">" . $vetor_produto['produto_total_kits'] . "</span></b>";
-                                        echo $produto_total_kits == 1 ? " kit" : " kits";
-                                        echo " que contém o produto <b>" . $vetor_produto['nome'] . "</b>'> (" . $vetor_produto['produto_total_kits'] . ")</span>" ?>
+                                        <?php echo $vetor_produto['nome']; ?>
                                     </span>
+                                    <!-- Número de kits que contém determinado produto -->
+                                    <?php if ($vetor_produto['produto_total_kits'] == 1) { ?>
+                                        <span id="span_produto_total_kits-<?php echo $vetor_produto['id'] ?>" class="noselect font-weight-bold text-success" data-toggle="tooltip" data-html="true" data-placement="right" title="Há <b><span class='text-success'><?php echo $vetor_produto['produto_total_kits'] ?></span></b> kit que contém o produto <b><span class='text-warning'><?php echo $vetor_produto['nome'] ?></span></b>">(<?php echo $vetor_produto['produto_total_kits'] ?>)</span>
+                                    <?php } else { ?>
+                                        <span id="span_produto_total_kits-<?php echo $vetor_produto['id'] ?>" class="noselect font-weight-bold text-success" data-toggle="tooltip" data-html="true" data-placement="right" title="Há <b><span class='text-success'><?php echo $vetor_produto['produto_total_kits'] ?></span></b> kits que contém o produto <b><span class='text-warning'><?php echo $vetor_produto['nome'] ?></span></b>">(<?php echo $vetor_produto['produto_total_kits'] ?>)</span>
+                                    <?php } ?>
                                 </td>
                                 <td>
                                     <!-- Input pra alterar o ncm -->
@@ -324,11 +353,11 @@ $num_produtos = mysqli_num_rows($pesquisar);
                                     </span>
                                 </td>
                                 <td>
-                                    <i class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" title="Editar <?php echo $vetor_produto['nome'] ?>" onclick="texto_input(<?php echo $vetor_produto['id'] ?>)"></i>
+                                    <i id="icone_editar-<?php echo $vetor_produto['id'] ?>" class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" title="Editar <?php echo $vetor_produto['nome'] ?>" onclick="texto_input(<?php echo $vetor_produto['id'] ?>)"></i>
                                 </td>
                                 <td>
                                     <span id="span-<?php echo $vetor_produto['id'] ?>" style="cursor: not-allowed">
-                                        <i id="icone-<?php echo $vetor_produto['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" title="Confirmar alterações de <?php echo $vetor_produto['nome'] ?>" onclick="alterar_info('<?php echo $vetor_produto['id'] ?>', document.getElementById('input_athos-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_csosn-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_cfop-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_produto['id'] ?>').value)"></i>
+                                        <i id="icone_confirmar-<?php echo $vetor_produto['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" title="Confirmar alterações de <?php echo $vetor_produto['nome'] ?>" onclick="alterar_info('<?php echo $vetor_produto['id'] ?>', document.getElementById('input_athos-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_csosn-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_cfop-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_produto['id'] ?>').value, '<?php echo $vetor_produto['produto_total_kits'] ?>')"></i>
                                     </span>
                                 </td>
                             </form>
