@@ -114,7 +114,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
             document.getElementById('input_cest-' + id_produto).type = 'number';
 
             // Icone confirmar
-            document.getElementById('span-' + id_produto + '').style.cursor = 'pointer';
+            document.getElementById('span_icone_confirmar-' + id_produto + '').style.cursor = 'pointer';
             document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: 1; pointer-events: auto';
         }
 
@@ -167,7 +167,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
 
                     // Ícones
                     $('#icone_editar-' + id_produto).attr('data-original-title', 'Editar ' + nome.toUpperCase());
-                    document.getElementById('span-' + id_produto + '').style.cursor = 'not-allowed';
+                    document.getElementById('span_icone_confirmar-' + id_produto + '').style.cursor = 'not-allowed';
                     $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + nome.toUpperCase());
                     document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
 
@@ -356,7 +356,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                                     <i id="icone_editar-<?php echo $vetor_produto['id'] ?>" class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" title="Editar <?php echo $vetor_produto['nome'] ?>" onclick="texto_input(<?php echo $vetor_produto['id'] ?>)"></i>
                                 </td>
                                 <td>
-                                    <span id="span-<?php echo $vetor_produto['id'] ?>" style="cursor: not-allowed">
+                                    <span id="span_icone_confirmar-<?php echo $vetor_produto['id'] ?>" style="cursor: not-allowed">
                                         <i id="icone_confirmar-<?php echo $vetor_produto['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" title="Confirmar alterações de <?php echo $vetor_produto['nome'] ?>" onclick="alterar_info('<?php echo $vetor_produto['id'] ?>', document.getElementById('input_athos-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_csosn-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_cfop-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_produto['id'] ?>').value, '<?php echo $vetor_produto['produto_total_kits'] ?>')"></i>
                                     </span>
                                 </td>
