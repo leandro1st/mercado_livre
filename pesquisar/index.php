@@ -56,6 +56,18 @@ if (isset($_POST['nome_do_kit'])) {
             .bs-tooltip-top {
                 margin-bottom: 4px;
             }
+
+            .button_border {
+                border-width: 3px !important;
+            }
+
+            .btn-outline-warning {
+                color: #daeff5 !important;
+            }
+
+            .btn-outline-warning:hover {
+                color: #000000 !important;
+            }
         </style>
         <script>
             // alert($(window).width());
@@ -260,6 +272,25 @@ if (isset($_POST['nome_do_kit'])) {
                 };
             });
 
+            // Função que permite a alteração do nome do kit
+            function texto_input_nome_kit() {
+                // Escondendo botão de clone
+                document.getElementById('btn_nome_kit').style.display = 'none';
+                // Alterando o conteúdo de span e mostrando input para modificar o nome do kit
+                document.getElementById('titulo_kit').innerHTML = '';
+                document.getElementById('input_nome_kit').type = 'text';
+                document.getElementById('input_nome_kit').focus();
+
+                // Resentando o valor do input, pois o cursor estava começando da direita
+                var copia_nome_kit = document.getElementById('input_nome_kit').value;
+                document.getElementById('input_nome_kit').value = '';
+                document.getElementById('input_nome_kit').value = copia_nome_kit;
+
+                // Ativando botão
+                document.getElementById('span_titulo').style.cursor = 'pointer';
+                document.getElementById('icone_titulo').style.cssText = 'color: #0cf249; font-size: 30px; opacity: 1; pointer-events: auto';
+            };
+
             // Função alterar nome do kit
             function alterar_nome_kit(id_kit, nome_kit_novo) {
                 $.ajax({
@@ -272,6 +303,11 @@ if (isset($_POST['nome_do_kit'])) {
                         document.getElementById('nome_kit_html').innerHTML = "Mercado Livre | " + nome_kit_novo.toUpperCase() + " (#" + id_kit.toString() + ")"
                         document.getElementById('kit_nome_breadcrumb').innerHTML = nome_kit_novo.toUpperCase();
                         document.getElementById('input_nome_kit').type = 'hidden';
+                        // Alterando nome do kit dentro do tooltip e exibindo o botão novamente
+                        $('#btn_nome_kit').attr('data-original-title', 'Clonar ' + nome_kit_novo.toUpperCase());
+                        document.getElementById('btn_nome_kit').style.display = "block";
+                        // Alterando o nome do kit dentro do modal Clonar
+                        document.getElementById('nome_kit_modal_clonado').innerHTML = nome_kit_novo.toUpperCase();
                         // Desativando botão
                         document.getElementById('span_titulo').style.cursor = 'not-allowed';
                         document.getElementById('icone_titulo').style.cssText = 'color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none';
@@ -287,21 +323,21 @@ if (isset($_POST['nome_do_kit'])) {
                 });
             };
 
-            function texto_input_nome_kit() {
-                // Alterando o conteúdo de span e mostrando input para modificar o nome do kit
-                document.getElementById('titulo_kit').innerHTML = '';
-                document.getElementById('input_nome_kit').type = 'text';
-                document.getElementById('input_nome_kit').focus();
-
-                // Resentando o valor do input, pois o cursor estava começando da direita
-                var copia_nome_kit = document.getElementById('input_nome_kit').value;
-                document.getElementById('input_nome_kit').value = '';
-                document.getElementById('input_nome_kit').value = copia_nome_kit;
-
-                // Ativando botão
-                document.getElementById('span_titulo').style.cursor = 'pointer';
-                document.getElementById('icone_titulo').style.cssText = 'color: #0cf249; font-size: 30px; opacity: 1; pointer-events: auto';
-            };
+            // Função para clonar kit
+            function clonar() {
+                $.ajax({
+                    method: 'POST',
+                    url: '../cadastrar/clonar.php',
+                    data: $('#form-kit').serialize(),
+                    success: function(data) {
+                        document.getElementById('texto_modal_clonado').innerHTML = data;
+                        $('#modalKitClonado').modal('show');
+                    },
+                    error: function(data) {
+                        alert("Ocorreu um erro!");
+                    }
+                });
+            }
 
             function copy(element) {
                 var $temp = $("<input>");
@@ -396,21 +432,25 @@ if (isset($_POST['nome_do_kit'])) {
             <?php } ?>
         <?php } else { ?>
             <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
-                <h1 style="text-align: center">
-                    <form id="form-kit" method="POST">
+                <form id="form-kit" method="POST">
+                    <h1 style="text-align: center">
                         <!-- Nome do kit antigo para exibir no modal -->
                         <input type="hidden" id="nome_kit_modal" class="form-control" value="<?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>">
                         <!-- Código do kit a enviar -->
                         <input type="hidden" id="id_kit" name="id_kit" class="form-control" value="<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>">
                         <!-- Input pra alterar nome do kit -->
                         <center><input type="hidden" id="input_nome_kit" name="nome_kit_novo" class="form-control form-control-lg col-10" value="<?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>" placeholder="Novo nome do kit"></center>
-                    </form>
-                    <span id="titulo_kit" style="color: #daeff5; font-family: Comic Sans MS"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . "</span><b><span style='font-size: 24px; color: #ffa21f'> (#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
+                        <span id="titulo_kit" style="color: #daeff5; font-family: Comic Sans MS"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . "</span><b><span style='font-size: 24px; color: #ffa21f'> (#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
                         <i class="far fa-edit font-weight-bold" style="color: #0cf249; font-size: 30px; cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Editar nome do kit" onclick="texto_input_nome_kit()"></i>
                         <span id="span_titulo" style="cursor: not-allowed">
                             <i id="icone_titulo" class="fas fa-check-square font-weight-bold" style="color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none;" data-toggle="tooltip" data-placement="bottom" title="Confirmar alteração do nome do kit" onclick="alterar_nome_kit('<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>', document.getElementById('input_nome_kit').value)" onkeydown="return event.key != 'Enter';"></i>
                         </span>
-                </h1>
+                    </h1>
+                    <!-- botão clonar -->
+                    <button type="button" id="btn_nome_kit" class="btn btn-outline-warning button_border text-center" style="display: block; margin: 20px auto 0 auto" data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="Clonar <?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>" onclick="clonar()">
+                        <i class="fas fa-clone"></i><b> CLONAR</b>
+                    </button>
+                </form>
             </header>
             <main class="container-fluid">
                 <table class="table table-hover table-striped">
@@ -730,6 +770,31 @@ if (isset($_POST['nome_do_kit'])) {
                         <div class="container">
                             <p class="lead"><b>Nome antigo: </b><span id="nome_kit_antigo_modal"></span></p>
                             <p class="lead text-success"><b>Nome novo: </b><span id="nome_kit_novo_modal"></span></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal kit clonado -->
+        <div class="modal fade" id="modalKitClonado" tabindex="-1" role="dialog" aria-labelledby="modalKitClonadoTitle" aria-hidden="true" onkeypress="$('#modalKitClonado').modal('toggle');">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-success" id="modalTitle">
+                            <span id="nome_kit_modal_clonado"><?php echo $vetor_mostrar_nome_kit['kit_nome'] ?></span> foi clonado com sucesso!
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <b>
+                                <p id="texto_modal_clonado" class="lead"></p>
+                            </b>
                         </div>
                     </div>
                     <div class="modal-footer">
