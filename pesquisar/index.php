@@ -365,8 +365,16 @@ if (isset($_POST['nome_do_kit'])) {
                     <li class="nav-item px-1">
                         <a class="nav-link" href="../"><i class="fas fa-home" style="font-size: 24px; vertical-align: middle"></i></a>
                     </li>
-                    <li class="nav-item px-1">
-                        <a class="nav-link" href="../cadastrar/"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
+                    <li class="nav-item px-1 dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="../cadastrar/"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="../cadastrar/associar.php"><i class="fas fa-link text-secondary" style="padding-right: 5px"></i> Associar Produto</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item px-1">
                         <a class="nav-link" href="../excluir/"><i class="far fa-trash-alt text-danger" style="font-size: 24px; vertical-align: middle"></i></a>
@@ -441,10 +449,10 @@ if (isset($_POST['nome_do_kit'])) {
                         <!-- Input pra alterar nome do kit -->
                         <center><input type="hidden" id="input_nome_kit" name="nome_kit_novo" class="form-control form-control-lg col-10" value="<?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>" placeholder="Novo nome do kit"></center>
                         <span id="titulo_kit" style="color: #daeff5; font-family: Comic Sans MS"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . "</span><b><span style='font-size: 24px; color: #ffa21f'> (#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
-                        <i class="far fa-edit font-weight-bold" style="color: #0cf249; font-size: 30px; cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Editar nome do kit" onclick="texto_input_nome_kit()"></i>
-                        <span id="span_titulo" style="cursor: not-allowed">
-                            <i id="icone_titulo" class="fas fa-check-square font-weight-bold" style="color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none;" data-toggle="tooltip" data-placement="bottom" title="Confirmar alteração do nome do kit" onclick="alterar_nome_kit('<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>', document.getElementById('input_nome_kit').value)" onkeydown="return event.key != 'Enter';"></i>
-                        </span>
+                            <i class="far fa-edit font-weight-bold" style="color: #0cf249; font-size: 30px; cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Editar nome do kit" onclick="texto_input_nome_kit()"></i>
+                            <span id="span_titulo" style="cursor: not-allowed">
+                                <i id="icone_titulo" class="fas fa-check-square font-weight-bold" style="color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none;" data-toggle="tooltip" data-placement="bottom" title="Confirmar alteração do nome do kit" onclick="alterar_nome_kit('<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>', document.getElementById('input_nome_kit').value)" onkeydown="return event.key != 'Enter';"></i>
+                            </span>
                     </h1>
                     <!-- botão clonar -->
                     <button type="button" id="btn_nome_kit" class="btn btn-outline-warning button_border text-center" style="display: block; margin: 20px auto 0 auto" data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="Clonar <?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>" onclick="clonar()">

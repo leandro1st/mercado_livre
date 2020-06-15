@@ -295,3 +295,23 @@ a:link {
     user-select: none;
     /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
+
+/* Dropdown menu margin */
+ul.navbar-nav li.dropdown>ul.dropdown-menu {
+    margin-left: 3.2px;
+}
+
+/* Dropdown on hover */
+ul.navbar-nav li.dropdown:hover>ul.dropdown-menu {
+    display: block;
+}
+
+
+.navbar-nav .dropdown-menu {
+    margin-top: 0px;
+}
+
+/* striped dropdown menu item */
+.dropdown-menu>li:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.05);
+}

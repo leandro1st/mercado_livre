@@ -74,8 +74,16 @@
                 <li class="nav-item px-1">
                     <a class="nav-link" href="./"><i class="fas fa-home" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
-                <li class="nav-item px-1">
-                    <a class="nav-link" href="cadastrar/"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
+                <li class="nav-item px-1 dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="cadastrar/"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="cadastrar/associar.php"><i class="fas fa-link text-secondary" style="padding-right: 5px"></i> Associar Produto</a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item px-1">
                     <a class="nav-link" href="excluir/"><i class="far fa-trash-alt text-danger" style="font-size: 24px; vertical-align: middle"></i></a>
