@@ -1,7 +1,8 @@
 <?php
 require('../externo/connect.php');
 // Using 'group by' to avoid selecting repeated 'cod_athos'
-$pesquisar = mysqli_query($connect, "SELECT id, cod_athos, nome, ncm, csosn, cfop, cest, COUNT(*) as produto_total_kits FROM $kits GROUP BY $cod_athos ORDER BY $csosn, $nome");
+// $pesquisar = mysqli_query($connect, "SELECT id, cod_athos, nome, ncm, csosn, cfop, cest, COUNT(*) as produto_total_kits FROM $kits GROUP BY $cod_athos ORDER BY $csosn, $nome");
+$pesquisar = mysqli_query($connect, "SELECT id, cod_athos, nome, ncm, csosn, cfop, cest, COUNT(*) as produto_total_kits FROM $kits GROUP BY $cod_athos ORDER BY $nome");
 
 // $num_produtos = 0;
 $num_produtos = mysqli_num_rows($pesquisar);

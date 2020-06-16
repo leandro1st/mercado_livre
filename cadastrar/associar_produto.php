@@ -19,10 +19,13 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="../externo/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <script src="../jquery/jquery-3.4.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../maskmoney/dist/jquery.maskMoney.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-pt_BR.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#form_associar')[0].reset();
@@ -158,8 +161,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                 <label for="id_kit">
                     <b>Nome do Kit:</b>
                 </label>
-                <select id="id_kit" name="id_kit" class="custom-select" required>
-                    <option value="" selected disabled></option>
+                <select id="id_kit" name="id_kit" class="selectpicker show-tick" data-live-search="true" data-width="fit" data-size="6" title="Selecione um kit" data-none-results-text="<span style='padding: 0 17px 0 17px'>Nenhum resultado encontrado!</span>" required>
                     <?php
                     for ($i = 0; $i < $numero_kits; $i++) {
                         $vetor_kit = mysqli_fetch_array($pesquisar_todos_kits);
@@ -170,7 +172,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                     ?>
                 </select>
                 <div class="invalid-feedback">Selecione um kit para associar o produto!</div>
-            </div><br>
+            </div>
             <div class="form-group">
                 <label for="cod_athos">
                     <b>Código Athos do produto:</b>
