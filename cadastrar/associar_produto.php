@@ -82,6 +82,24 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
         #div_botoes {
             border-width: 2px !important;
         }
+
+        /* data-none-results-text */
+        li.no-results {
+            padding: .25rem 1.5rem !important;
+            margin: 0 !important;
+            background-color: transparent !important;
+        }
+
+        /* custom cancel button */
+        input[type="search"]::-webkit-search-cancel-button {
+            -webkit-appearance: none;
+            margin: 0px;
+            height: 20px;
+            width: 20px;
+            background: #d9534f;
+            -webkit-mask: url(../imagens/times-solid.svg) center / contain no-repeat;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -161,7 +179,8 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                 <label for="id_kit">
                     <b>Nome do Kit:</b>
                 </label>
-                <select id="id_kit" name="id_kit" class="selectpicker show-tick" data-live-search="true" data-width="fit" data-size="6" title="Selecione um kit" data-none-results-text="<span style='padding: 0 17px 0 17px'>Nenhum resultado encontrado!</span>" required>
+                <!--  style='padding: 0 17px 0 17px' -->
+                <select id="id_kit" name="id_kit" class="selectpicker show-tick" data-live-search="true" data-width="fit" data-size="6" title="Selecione um kit" data-none-results-text="Nenhum resultado encontrado!" required>
                     <?php
                     for ($i = 0; $i < $numero_kits; $i++) {
                         $vetor_kit = mysqli_fetch_array($pesquisar_todos_kits);

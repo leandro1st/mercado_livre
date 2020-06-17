@@ -73,7 +73,7 @@ if (!isset($_POST['id_kit'])) {
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            <h5 class="lead text-success"><b><?php echo $nome_produto ?></b> associado ao <b><?php echo $nome_kit ?></b> com sucesso!</h5>
+                            <h5 class="lead text-success"><b><?php echo $nome_produto ?></b> associado ao <b><?php echo $nome_kit ?> <small>(#<?php echo $id_do_kit ?>)</small></b> com sucesso!</h5>
                         </div>
                     </div>
                     <div class="modal-footer">
