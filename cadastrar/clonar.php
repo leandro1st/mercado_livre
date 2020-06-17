@@ -43,9 +43,9 @@ for ($i = 0; $i < $numero_produtos; $i++) {
 if ($flag) {
     echo "<span style='margin-bottom: 5px; display: block'><b>Código do kit clonado: </b>" . $proximo_id . "</span>";
     if ($numero_produtos == 1) {
-        echo "<span class='text-success'><b>" . $numero_produtos . " produto</b> foi clonado com sucesso!</span>";
+        echo "<input type='hidden' class='form-control' id='kit' name='nome_do_kit' value='" . $proximo_id . "'><span class='text-success'><b>" . $numero_produtos . " produto</b> foi clonado com sucesso!</span>";
     } else {
-        echo "<span class='text-success'><b>" . $numero_produtos . " produtos</b> foram clonados com sucesso!</span>";
+        echo "<input type='hidden' class='form-control' id='kit' name='nome_do_kit' value='" . $proximo_id . "'><span class='text-success'><b>" . $numero_produtos . " produtos</b> foram clonados com sucesso!</span>";
     }
 }
 ?>

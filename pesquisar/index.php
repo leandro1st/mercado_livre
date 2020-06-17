@@ -787,30 +787,35 @@ if (isset($_POST['nome_do_kit'])) {
             </div>
         </div>
         <!-- Modal kit clonado -->
-        <div class="modal fade" id="modalKitClonado" tabindex="-1" role="dialog" aria-labelledby="modalKitClonadoTitle" aria-hidden="true" onkeypress="$('#modalKitClonado').modal('toggle');">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title text-success" id="modalTitle">
-                            <span id="nome_kit_modal_clonado"><?php echo $vetor_mostrar_nome_kit['kit_nome'] ?></span> foi clonado com sucesso!
-                        </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <b>
-                                <p id="texto_modal_clonado" class="lead"></p>
-                            </b>
+        <form id="form_pesquisar_clone" method="POST" action="./">
+            <!-- form é enviado quando o modal perde o foco ou alguma tecla é pressionada (inclusive o ESC) -->
+            <div class="modal fade" id="modalKitClonado" tabindex="-1" role="dialog" aria-labelledby="modalKitClonadoTitle" aria-hidden="true" onkeydown="document.forms['form_pesquisar_clone'].submit();" onfocusout="document.forms['form_pesquisar_clone'].submit();">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title text-success" id="modalTitle">
+                                <span id="nome_kit_modal_clonado"><?php echo $vetor_mostrar_nome_kit['kit_nome'] ?></span> foi clonado com sucesso!
+                            </h4>
+                            <!-- form é enviado quando o usuário clica no ícone X -->
+                            <button type="button" class="close" aria-label="Close" onclick="document.forms['form_pesquisar_clone'].submit();">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="">OK</button>
+                        <div class="modal-body">
+                            <div class="container">
+                                <b>
+                                    <p id="texto_modal_clonado" class="lead"></p>
+                                </b>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- form é enviado quando o usuário clica no botão OK -->
+                            <button type="submit" class="btn btn-success">OK</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
         <!-- Footer -->
         <?php if ($num_kits == 0) { ?>
             <footer id="footer1" class="footer" style="margin-bottom: -250px">
