@@ -213,7 +213,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                     <table class="table table-hover">
                                         <thead>
                                             <tr class="text-center table-warning">
-                                                <th scope="col" width="9%">#</th>
+                                                <th scope="col" width="9%">Athos</th>
                                                 <th scope="col" width="39%">Nome do produto</th>
                                                 <th scope="col" width="1%">Qtde</th>
                                                 <th scope="col" width="13%">Preço</th>

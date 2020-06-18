@@ -464,7 +464,7 @@ if (isset($_POST['nome_do_kit'])) {
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr class="text-center table-warning">
-                            <th class="theader_top" scope="col" width="7%">#</th>
+                            <th class="theader_top" scope="col" width="7%">Athos</th>
                             <th class="theader_top" scope="col" width="25%">Nome do produto</th>
                             <th class="theader_top" scope="col" width="8%">Qtde <span class="text-primary">(<?php echo $num_kits ?>)</span></th>
                             <th class="theader_top" scope="col" width="10%">Preço</th>

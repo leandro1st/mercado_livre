@@ -270,7 +270,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
             <table class="table table-hover table-striped">
                 <thead>
                     <tr class="text-center table-warning">
-                        <th class="theader_top" scope="col" width="5%">#</th>
+                        <th class="theader_top" scope="col" width="5%">Athos</th>
                         <th class="theader_top" scope="col" width="35%">Nome do produto</th>
                         <th class="theader_top" scope="col" width="12%">NCM</th>
                         <th class="theader_top" scope="col" width="12%">CSOSN</th>
