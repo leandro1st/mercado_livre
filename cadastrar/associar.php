@@ -2,7 +2,7 @@
 
 if (!isset($_POST['id_kit'])) {
     header("location:associar_produto.php");
-} elseif (trim($_POST['id_kit'] == "") || trim($_POST['id_kit'] == null) || trim($_POST['cod_athos']) == "") {
+} elseif (trim($_POST['id_kit'] == "") || trim($_POST['id_kit'] == null) || trim($_POST['cod_athos_1']) == "") {
     header("location:associar_produto.php");
 } else {
     require('../externo/connect.php');
@@ -19,7 +19,7 @@ if (!isset($_POST['id_kit'])) {
     $agora = date("Y-m-d H:i:s");
 
     // Código athos
-    $cod_athos_produto = $_POST['cod_athos'];
+    $cod_athos_produto = $_POST['cod_athos_1'];
     // Nome do produto
     $nome_produto = mb_convert_case(trim($_POST['produto']), MB_CASE_UPPER, 'utf-8');
     // Quantidade

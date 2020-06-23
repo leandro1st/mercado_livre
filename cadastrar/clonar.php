@@ -47,5 +47,7 @@ if ($flag) {
     } else {
         echo "<input type='hidden' class='form-control' id='kit' name='nome_do_kit' value='" . $proximo_id . "'><span class='text-success'><b>" . $numero_produtos . " produtos</b> foram clonados com sucesso!</span>";
     }
+} else {
+    echo "<span class='text-danger'><b>Nenhum produto foi clonado, pois não há produtos nesse kit!</span>";
 }
 ?>

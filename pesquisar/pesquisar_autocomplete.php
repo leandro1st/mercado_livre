@@ -58,7 +58,7 @@ if (isset($_GET["term"])) {
         foreach ($result as $row) {
             $temp_array = array();
             $temp_array['value'] = $row['id_kit'];
-            $temp_array['label'] = '<div class="row" style="margin: 0; display: flex; justify-content: center; align-items: center"><div class="col">' . $row['kit_nome'] . ' <span style="font-size: 14px">(#' . $row['id_kit'] . ')</span><br><small class="font-weight-bold text-danger float-right" style="font-size: 17px"> R$ ' . number_format($array_precos[$x], 2, ',', '') . '</small></div></div>';
+            $temp_array['label'] = '<div class="row" style="margin: 0; display: flex; justify-content: center; align-items: center"><div class="col">' . $row['kit_nome'] . ' <span style="font-size: 14px">(#' . $row['id_kit'] . ')</span><br><small class="font-weight-bold text-danger float-right" style="font-size: 17px"> R$ ' . number_format($array_precos[$x], 2, ',', '.') . '</small></div></div>';
             $array_kit[] = $temp_array;
             $x++;
         }

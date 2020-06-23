@@ -27,10 +27,10 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
 
         function add() {
             var num_input = parseInt($('#total').val()) + 1;
-            var new_label_cod_athos = "<div id='div_form_cod_athos_" + num_input + "' class='form-group'><label id='label_cod_athos_" + num_input + "' for='cod_athos_" + num_input + "'><b>Código Athos do produto " + num_input + ": </b></label><input type='text' class='form-control' id='cod_athos_" + num_input + "' name='cod_athos_" + num_input + "' placeholder='Código Athos do produto " + num_input + "'><div id='div_cod_athos_" + num_input + "' class='invalid-feedback'>Forneça o código Athos do produto " + num_input + "!</div></div>";
+            var new_label_cod_athos = "<div id='div_form_cod_athos_" + num_input + "' class='form-group'><label id='label_cod_athos_" + num_input + "' for='cod_athos_" + num_input + "'><b>Código Athos do produto " + num_input + ": </b></label><input type='text' class='form-control' id='cod_athos_" + num_input + "' name='cod_athos_" + num_input + "' placeholder='Código Athos do produto " + num_input + "' onkeyup='pesquisar_produto(" + num_input + ")'><div id='div_cod_athos_" + num_input + "' class='invalid-feedback'>Forneça o código Athos do produto " + num_input + "!</div></div>";
             var new_label_nome = "<div id='div_form_produto_" + num_input + "' class='form-group'><label id='label_produto_" + num_input + "' for='produto_" + num_input + "'><b>Nome do produto " + num_input + ": </b></label><input type='text' class='form-control' id='produto_" + num_input + "' name='produto_" + num_input + "' placeholder='Nome do produto " + num_input + "'><div id='div_produto_" + num_input + "' class='invalid-feedback'>Forneça o nome do produto " + num_input + "!</div></div>";
             var new_label_quantidade = "<div id='div_form_quantidade_" + num_input + "' class='form-group'><label id='label_quantidade_" + num_input + "' for='quantidade_" + num_input + "'><b>Quantidade do produto " + num_input + ": </b></label><input type='number' class='form-control' id='quantidade_" + num_input + "' name='quantidade_" + num_input + "' placeholder='Quantidade do produto " + num_input + "' onkeyup='alterar(" + num_input + ", document.getElementById(`quantidade_" + num_input + "`).value, document.getElementById(`preco_" + num_input + "`).value)'><div id='div_quantidade_" + num_input + "' class='invalid-feedback'>Forneça a quantidade do produto " + num_input + "!</div></div>";
-            var new_label_preco = "<div id='div_form_preco_" + num_input + "' class='form-group'><label id='label_preco_" + num_input + "' for='preco_" + num_input + "'><b>Preço do produto " + num_input + ": </b><input type='hidden' class='form-control' id='preco_total_" + num_input + "' value='0,00' readonly></label><input type='text' class='form-control' id='preco_" + num_input + "' name='preco_" + num_input + "' placeholder='Preço do produto " + num_input + "' onkeyup='alterar(" + num_input + ", document.getElementById(`quantidade_" + num_input + "`).value, document.getElementById(`preco_" + num_input + "`).value)'><div id='div_preco_" + num_input + "' class='invalid-feedback'>Forneça o preço do produto " + num_input + "!</div></div>";
+            var new_label_preco = "<div id='div_form_preco_" + num_input + "' class='form-group'><label id='label_preco_" + num_input + "' for='preco_" + num_input + "'><b>Preço do produto " + num_input + ": </b><input type='hidden' class='form-control' id='preco_total_" + num_input + "' value='0.00' readonly></label><input type='text' class='form-control' id='preco_" + num_input + "' name='preco_" + num_input + "' placeholder='Preço do produto " + num_input + "' onkeyup='alterar(" + num_input + ", document.getElementById(`quantidade_" + num_input + "`).value, document.getElementById(`preco_" + num_input + "`).value)'><div id='div_preco_" + num_input + "' class='invalid-feedback'>Forneça o preço do produto " + num_input + "!</div></div>";
             var new_label_ncm = "<div id='div_form_ncm_" + num_input + "' class='form-group'><label id='label_ncm_" + num_input + "' for='ncm_" + num_input + "'><b>NCM do produto " + num_input + ": </b></label><input type='text' class='form-control' id='ncm_" + num_input + "' name='ncm_" + num_input + "' placeholder='NCM do produto " + num_input + "'><div id='div_ncm_" + num_input + "' class='invalid-feedback'>Forneça o NCM do produto " + num_input + "!</div></div>";
             var new_label_csosn = "<div id='div_form_csosn_" + num_input + "' class='form-group'><label id='label_csosn_" + num_input + "' for='csosn_" + num_input + "'><b>CSOSN do produto " + num_input + ": </b></label><input type='number' class='form-control' id='csosn_" + num_input + "' name='csosn_" + num_input + "' placeholder='CSOSN do produto " + num_input + "'><div id='div_csosn_" + num_input + "' class='invalid-feedback'>Forneça o CSOSN do produto " + num_input + "!</div></div>";
             var new_label_cfop = "<div id='div_form_cfop_" + num_input + "' class='form-group'><label id='label_cfop_" + num_input + "' for='cfop_" + num_input + "'><b>CFOP do produto " + num_input + ": </b></label><input type='number' class='form-control' id='cfop_" + num_input + "' name='cfop_" + num_input + "' placeholder='CFOP do produto " + num_input + "'><div id='div_cfop_" + num_input + "' class='invalid-feedback'>Forneça o CFOP do produto " + num_input + "!</div></div>";
@@ -128,17 +128,16 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             soma = 0.00;
             if (ultimo_num_input == 1) {
                 for (x = 1; x <= ultimo_num_input; x++) {
-                    preco = parseFloat(document.getElementById('preco_total_' + x).value.replace(",", "."));
+                    preco = parseFloat(document.getElementById('preco_total_' + x).value);
                     soma += preco;
                 }
-                document.getElementById('subtotal').innerHTML = soma.toFixed(2).replace(".", ",");
             } else {
                 for (x = 1; x < ultimo_num_input; x++) {
-                    preco = parseFloat(document.getElementById('preco_total_' + x).value.replace(",", "."));
+                    preco = parseFloat(document.getElementById('preco_total_' + x).value);
                     soma += preco;
                 }
-                document.getElementById('subtotal').innerHTML = soma.toFixed(2).replace(".", ",");
             }
+            document.getElementById('subtotal').innerHTML = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(soma);
         }
 
         $(document).ready(function() {
@@ -178,22 +177,44 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             preco_calculo = preco_ptBR.replace(",", ".");
             // Preço total novo
             preco_total = (quantidade * preco_calculo).toFixed(2).toString();
-            preco_total_ptBR = preco_total.replace(".", ",")
             // Mostrar preço novo
-            document.getElementById('preco_total_' + num_input).value = preco_total_ptBR;
+            document.getElementById('preco_total_' + num_input).value = preco_total;
             // Cálculo do preço total
             soma = 0.00;
             for (x = 1; x <= ultimo_num_input; x++) {
-                preco = parseFloat(document.getElementById('preco_total_' + x).value.replace(",", "."));
+                preco = parseFloat(document.getElementById('preco_total_' + x).value);
                 soma += preco;
             }
-            document.getElementById('subtotal').innerHTML = soma.toFixed(2).replace(".", ",");
+            document.getElementById('subtotal').innerHTML = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(soma);
         }
 
         // Quando o scroll é feito na janela, esconde o tooltip icone_ultimo_cadastro
-        window.onscroll = function (oEvent) {
+        window.onscroll = function(oEvent) {
             $('#icone_ultimo_cadastro').tooltip('hide');
-        }        
+        }
+
+        // Pesquisa os dados do produto a partir do código Athos fornecido
+        function pesquisar_produto(num_input) {
+            $.ajax({
+                method: 'POST',
+                url: '../pesquisar/pesquisa_produto.php',
+                data: $('#form_cadastrar').serialize(),
+                success: function(data) {
+                    // Dividindo a data em um array de strings
+                    dados_produto = data.split("|");
+                    // Preenchendo automaticamente de acordo com o código Athos fornecido
+                    // Se o código não existir no banco, os campos não serão preenchidos
+                    document.getElementById('produto_' + num_input).value = dados_produto[1].trim();
+                    document.getElementById('ncm_' + num_input).value = dados_produto[3].trim();
+                    document.getElementById('csosn_' + num_input).value = dados_produto[2].trim();
+                    document.getElementById('cfop_' + num_input).value = dados_produto[5].trim();
+                    document.getElementById('cest_' + num_input).value = dados_produto[4].trim();
+                },
+                error: function(data) {
+                    alert("Ocorreu um erro!");
+                }
+            });
+        }
     </script>
     <style>
         #div_botoes {
@@ -256,7 +277,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                 <i id="icone_ultimo_cadastro" class="fas fa-sticky-note text-warning" style="cursor: pointer" data-toggle="tooltip" data-trigger="click hover focus" data-html="true" data-placement="bottom" title="<span class='lead'><b><i class='fas fa-history text-warning'></i> Último cadastro: </b><?php echo $vetor_ultimo['kit_nome'] . "<small> (" . date('d/m/Y H:i:s', strtotime($vetor_ultimo['hora_cadastro'])) . ")</small></span>" ?>"></i>
             </li>
         </ol>
-        
+
 
         </p>
     </nav>
@@ -271,7 +292,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             <div class="card border-success sticky-top" style="width: 108px; float: right; top: 70px; bottom: 10px; left: 0; right: 0; margin-right: -113px; z-index: 1">
                 <div class="card-footer text-success">
                     <h5 class="card-title text-center" style="margin: 0">Total:</h5>
-                    <p class="card-text text-center lead" style="margin: 0 -12px 0px -12px; font-size: 18px">R$ <span id="subtotal">0,00</span></p>
+                    <p class="card-text text-center lead" style="margin: 0 -12px 0px -12px; font-size: 18px"><span id="subtotal">R$ 0,00</span></p>
                 </div>
             </div>
             <div class="form-group">
@@ -294,7 +315,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                 <label for="cod_athos_1">
                     <b>Código Athos do produto 1:</b>
                 </label>
-                <input type="text" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto 1" required>
+                <input type="text" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto 1" required onkeyup="pesquisar_produto(1)">
                 <div class="invalid-feedback">
                     Forneça o código Athos do produto 1!
                 </div>
@@ -322,7 +343,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
 
             <div class="form-group">
                 <label for="preco_1">
-                    <b>Preço do produto 1:</b><input type="hidden" class="form-control" id="preco_total_1" value="0,00" readonly>
+                    <b>Preço do produto 1:</b><input type="hidden" class="form-control" id="preco_total_1" value="0.00" readonly>
                 </label>
                 <input type="text" id="preco_1" name="preco_1" class="form-control" placeholder="Preço do produto 1" required onkeyup="alterar(1, document.getElementById('quantidade_1').value, document.getElementById('preco_1').value)">
                 <div class="invalid-feedback">

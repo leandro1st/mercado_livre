@@ -118,6 +118,10 @@ if (isset($_POST['nome_do_kit'])) {
                 document.getElementById('span-' + id_produto + '').style.cursor = 'pointer';
                 document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: 1; pointer-events: auto';
 
+                // Ícone deletar produto
+                document.getElementById('icone_excluir-' + id_produto + '').style.cursor = 'not-allowed';
+                document.getElementById('span_excluir-' + id_produto + '').style.cssText = 'opacity: .5; pointer-events: none';
+
                 // Currency mask 
                 $(document).ready(function() {
                     $('#input_preco-' + id_produto).maskMoney({
@@ -130,15 +134,22 @@ if (isset($_POST['nome_do_kit'])) {
 
             // Função para alterar mask, enviar valores através do ajax, alterar valores de exibição do preço unitário/total do produto
             function alterar_info(id_produto, preco_novo, nome, quantidade, cod_athos, ncm, csosn, cfop, cest) {
-                //Alterando a mask 
-                preco_novo_sem_R$ = preco_novo.replace("R$ ", "");
-                preco_novo_ptBR = preco_novo_sem_R$.replace(/\./g, "");
+                //Alterando a mask
+                preco_novo = preco_novo.replace("R$ ", "");
+                preco_novo_ptBR = preco_novo.replace(/\./g, "");
                 preco_novo_calculo = preco_novo_ptBR.replace(",", ".");
+                preco_novo_span = new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                }).format(preco_novo_calculo);
                 // Preço total novo
                 preco_total_novo = (quantidade * preco_novo_calculo).toFixed(2).toString();
-                preco_total_novo_ptBR = preco_total_novo.replace(".", ",")
+                preco_total_novo_ptBR = new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                }).format(preco_total_novo);
                 // Mostrar preço novo
-                var span_preco = "<span id='preco-" + id_produto + "'>R$ " + preco_novo_ptBR + "</span>";
+                var span_preco = "<span id='preco-" + id_produto + "'>" + preco_novo_span + "</span>";
                 $.ajax({
                     method: 'POST',
                     url: '../alterar/alterar.php',
@@ -156,8 +167,8 @@ if (isset($_POST['nome_do_kit'])) {
                         document.getElementById('quantidade_antigo_modal').innerHTML = document.getElementById('quantidade_modal-' + id_produto).value;
                         document.getElementById('quantidade_novo_modal').innerHTML = quantidade;
 
-                        document.getElementById('preco_antigo_modal').innerHTML = "R$ " + document.getElementById('preco_velho-' + id_produto).value;
-                        document.getElementById('preco_novo_modal').innerHTML = "R$ " + preco_novo_ptBR;
+                        document.getElementById('preco_antigo_modal').innerHTML = document.getElementById('preco_velho-' + id_produto).value;
+                        document.getElementById('preco_novo_modal').innerHTML = preco_novo_span;
 
                         document.getElementById('ncm_antigo_modal').innerHTML = document.getElementById('ncm_modal-' + id_produto).value;
                         document.getElementById('ncm_novo_modal').innerHTML = ncm.toUpperCase();
@@ -246,7 +257,10 @@ if (isset($_POST['nome_do_kit'])) {
                         document.getElementById('span-' + id_produto + '').style.cursor = 'not-allowed';
                         $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + nome.toUpperCase());
                         document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
-
+                        // Ícone deletar produto
+                        document.getElementById('icone_excluir-' + id_produto + '').style.cursor = 'pointer';
+                        document.getElementById('span_excluir-' + id_produto + '').style.cssText = 'opacity: 1; pointer-events: auto';
+                        $('#icone_excluir-' + id_produto).attr('data-original-title', 'Excluir ' + nome.toUpperCase());
                     },
                     error: function(data) {
                         alert("Ocorreu um erro!");
@@ -307,7 +321,14 @@ if (isset($_POST['nome_do_kit'])) {
                         $('#btn_nome_kit').attr('data-original-title', 'Clonar ' + nome_kit_novo.toUpperCase());
                         document.getElementById('btn_nome_kit').style.display = "block";
                         // Alterando o nome do kit dentro do modal Clonar
-                        document.getElementById('nome_kit_modal_clonado').innerHTML = nome_kit_novo.toUpperCase();
+                        if (document.getElementById('quantidade_produto_kit').innerHTML == 0) {
+                            document.getElementById('nome_kit_modal_clonado').classList.remove("text-success");
+                            document.getElementById('nome_kit_modal_clonado').classList.add("text-danger");
+                            document.getElementById('nome_kit_modal_clonado').innerHTML = "Ocorreu um erro ao clonar o " + nome_kit_novo.toUpperCase().trim() + "!";
+                        } else {
+                            document.getElementById('nome_kit_modal_clonado').classList.add("text-success");
+                            document.getElementById('nome_kit_modal_clonado').innerHTML = nome_kit_novo.toUpperCase().trim() + " foi clonado com sucesso!";
+                        }
                         // Desativando botão
                         document.getElementById('span_titulo').style.cursor = 'not-allowed';
                         document.getElementById('icone_titulo').style.cssText = 'color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none';
@@ -348,6 +369,67 @@ if (isset($_POST['nome_do_kit'])) {
 
                 // $('#icone_texto').attr('title', 'Texto copiado para a área de transferência!').tooltip('_fixTitle').tooltip('show');
                 $('#icone_texto').tooltip('dispose').attr('title', 'Copiado!').tooltip('show');
+            }
+
+            // Função para enviar dados ao modal
+            function informacoes_produto(nome_produto, id_produto, index_vetor) {
+                document.getElementById("nome_produto_titulo_excluir_modal").innerHTML = nome_produto.trim();
+                document.getElementById("nome_produto_excluir_modal").innerHTML = nome_produto.trim();
+                document.getElementById("produto_modal_excluido").innerHTML = nome_produto.trim();
+                document.getElementById("id_produto_modal").value = id_produto;
+                document.getElementById("index_vetor_produto").value = index_vetor;
+            }
+
+            // Função para exclusão de um produto
+            function excluir_produto(id, index_produto_vetor) {
+                $.ajax({
+                    method: "POST",
+                    url: "../excluir/excluir_produto.php",
+                    data: $('#form_excluir_produto').serialize(),
+                    success: function(data) {
+                        // Remove a linha do produto
+                        $('#linha-' + id).fadeOut(500, function() {
+                            $('#linha-' + id).remove();
+                        });
+
+                        // Exibindo mensagem que o produto foi excluído com sucesso
+                        document.getElementById('produto_modal_body_excluido').innerHTML = data;
+                        $('#modalExcluidoSucesso').modal('show');
+
+                        // Zerando o valor dentro do vetor_precos
+                        vetor_precos[index_produto_vetor] = 0;
+                        // alert(vetor_precos);
+
+                        soma = 0;
+                        // Realizando a soma de todos os valores do vetor
+                        for (var i = 0; i < vetor_precos.length; i++) {
+                            soma = soma + parseFloat(vetor_precos[i]);
+                        }
+                        // Alterando o valor de exibição do preço total do kit
+                        document.getElementById('preco_total_kit').innerHTML = new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL'
+                        }).format(soma);
+                        // document.getElementById('preco_total_kit').innerHTML = soma.toFixed(2).replace(".", ",");
+
+                        // Alterando a exibição da quantidade total de produtos
+                        document.getElementById('quantidade_produto_kit').innerHTML = parseInt(document.getElementById('quantidade_produto_kit').innerHTML) - 1;
+                        if (document.getElementById('quantidade_produto_kit').innerHTML == 0) {
+                            $('#span_quantidade_produtos').attr('data-original-title', 'Não há nenhum produto nesse kit');
+                            // Alterando o nome do kit dentro do modal Clonar
+                            document.getElementById('nome_kit_modal_clonado').classList.add("text-danger");
+                            document.getElementById('nome_kit_modal_clonado').classList.remove("text-success");
+                            document.getElementById('nome_kit_modal_clonado').innerHTML = "Ocorreu um erro ao clonar o " + document.getElementById('titulo_kit').innerHTML.trim() + "!";
+                        } else if (document.getElementById('quantidade_produto_kit').innerHTML == 1) {
+                            $('#span_quantidade_produtos').attr('data-original-title', 'Há ' + document.getElementById('quantidade_produto_kit').innerHTML + ' produto nesse kit');
+                        } else {
+                            $('#span_quantidade_produtos').attr('data-original-title', 'Há ' + document.getElementById('quantidade_produto_kit').innerHTML + ' produtos nesse kit');
+                        }
+                    },
+                    error: function(data) {
+                        alert("Ocorreu um erro!");
+                    }
+                });
             }
         </script>
     </head>
@@ -466,14 +548,21 @@ if (isset($_POST['nome_do_kit'])) {
                         <tr class="text-center table-warning">
                             <th class="theader_top" scope="col" width="7%">Athos</th>
                             <th class="theader_top" scope="col" width="25%">Nome do produto</th>
-                            <th class="theader_top" scope="col" width="8%">Qtde <span class="text-primary">(<?php echo $num_kits ?>)</span></th>
+                            <th class="theader_top" scope="col" width="8%">
+                                Qtde
+                                <?php if ($num_kits == 1) { ?>
+                                    <span id="span_quantidade_produtos" class="text-primary" data-toggle="tooltip" title="Há <?php echo $num_kits ?> produto nesse kit">(<span id="quantidade_produto_kit"><?php echo $num_kits ?></span>)</span>
+                                <?php } else { ?>
+                                    <span id="span_quantidade_produtos" class="text-primary" data-toggle="tooltip" title="Há <?php echo $num_kits ?> produtos nesse kit">(<span id="quantidade_produto_kit"><?php echo $num_kits ?></span>)</span>
+                                <?php } ?>
+                            </th>
                             <th class="theader_top" scope="col" width="10%">Preço</th>
                             <th class="theader_top" scope="col" width="13%">Total</th>
                             <th class="theader_top" scope="col" width="10%">NCM</th>
                             <th class="theader_top" scope="col" width="8%">CSOSN</th>
                             <th class="theader_top" scope="col" width="8%">CFOP</th>
                             <th class="theader_top" scope="col" width="10%">CEST</th>
-                            <th class="theader_top" scope="col" width="1%" colspan="2"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
+                            <th class="theader_top" scope="col" width="1%" colspan="3"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -507,7 +596,11 @@ if (isset($_POST['nome_do_kit'])) {
                                     soma = soma + parseFloat(vetor_precos[i]);
                                 }
                                 // Alterando o valor de exibição do preço total do kit
-                                document.getElementById('preco_total_kit').innerHTML = soma.toFixed(2).replace(".", ",");
+                                document.getElementById('preco_total_kit').innerHTML = new Intl.NumberFormat('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                }).format(soma);
+                                // document.getElementById('preco_total_kit').innerHTML = soma.toFixed(2).replace(".", ",");
                             }
                         </script>
                         <!-- Criando vetor para armazenar os preços, alterar valor de exibição etc -->
@@ -552,15 +645,17 @@ if (isset($_POST['nome_do_kit'])) {
                                     <!-- Coluna do preço do produto -->
                                     <td id="coluna-<?php echo $vetor_kit['id'] ?>">
                                         <!-- Input pra mostrar no modal -->
-                                        <input type="hidden" id="preco_velho-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>">
+                                        <input type="hidden" id="preco_velho-<?php echo $vetor_kit['id'] ?>" class="form-control" value="R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '.') ?>">
                                         <!-- Input pra alterar o preço -->
-                                        <input type="hidden" id="input_preco-<?php echo $vetor_kit['id'] ?>" name="preco_novo" class="form-control" value="R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>" placeholder="Preço novo" onkeydown="return event.key != 'Enter';">
+                                        <input type="hidden" id="input_preco-<?php echo $vetor_kit['id'] ?>" name="preco_novo" class="form-control" value="R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '.') ?>" placeholder="Preço novo" onkeydown="return event.key != 'Enter';">
                                         <span id="preco-<?php echo $vetor_kit['id'] ?>">
-                                            R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '') ?>
+                                            R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '.') ?>
                                         </span>
                                     </td>
                                     <!-- Coluna do preço do produto -->
-                                    <td>R$ <span id="preco_total-<?php echo $vetor_kit['id'] ?>"><?php echo number_format($vetor_kit['preco_total'], 2, ',', '') ?></span></td>
+                                    <td>
+                                        <span id="preco_total-<?php echo $vetor_kit['id'] ?>">R$ <?php echo number_format($vetor_kit['preco_total'], 2, ',', '.') ?></span>
+                                    </td>
                                     <td>
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="ncm_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['ncm'] ?>">
@@ -621,12 +716,17 @@ if (isset($_POST['nome_do_kit'])) {
                                             <i id="icone_confirmar-<?php echo $vetor_kit['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" title="Confirmar alterações de <?php echo $vetor_kit['nome'] ?>" onclick="alterar_info('<?php echo $vetor_kit['id'] ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_athos-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_csosn-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_cfop-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_kit['id'] ?>').value); mudarVetor('<?php echo $j ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value)"></i>
                                         </span>
                                     </td>
+                                    <td>
+                                        <span id="span_excluir-<?php echo $vetor_kit['id'] ?>" data-toggle="modal" data-target="#modalExcluir" onclick="informacoes_produto(document.getElementById('nome-<?php echo $vetor_kit['id'] ?>').innerHTML, '<?php echo $vetor_kit['id']; ?>', '<?php echo $j ?>')">
+                                            <a id="icone_excluir-<?php echo $vetor_kit['id'] ?>" class="fas fa-times" data-toggle="tooltip" title="Excluir <?php echo $vetor_kit['nome'] ?>" style="color: red; font-size: 26px; cursor: pointer;"></a>
+                                        </span>
+                                    </td>
                                 </form>
                             </tr>
                             <?php if ($j == $num_kits - 1) { ?>
                                 <tr class="text-center">
-                                    <td colspan="11" style="border-top-color: #5cb85c; border-top-width: 2px;">
-                                        <font style="font-size: 24px" class="lead font-weight-bold">R$ <span id="preco_total_kit"><?php echo number_format($preco_total_kit, 2, ',', '') ?></span></font>
+                                    <td colspan="12" style="border-top-color: #5cb85c; border-top-width: 2px;">
+                                        <font style="font-size: 24px" class="lead font-weight-bold"><span id="preco_total_kit">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span></font>
                                     </td>
                                 </tr>
                         <?php }
@@ -793,8 +893,8 @@ if (isset($_POST['nome_do_kit'])) {
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title text-success" id="modalTitle">
-                                <span id="nome_kit_modal_clonado"><?php echo $vetor_mostrar_nome_kit['kit_nome'] ?></span> foi clonado com sucesso!
+                            <h4 class="modal-title" id="modalTitle">
+                                <span class="text-success" id="nome_kit_modal_clonado"><?php echo $vetor_mostrar_nome_kit['kit_nome'] ?> foi clonado com sucesso!</span>
                             </h4>
                             <!-- form é enviado quando o usuário clica no ícone X -->
                             <button type="button" class="close" aria-label="Close" onclick="document.forms['form_pesquisar_clone'].submit();">
@@ -816,6 +916,57 @@ if (isset($_POST['nome_do_kit'])) {
                 </div>
             </div>
         </form>
+        <!-- Modal excluir produto -->
+        <form id="form_excluir_produto" method="POST" action="../excluir/excluir_produto.php">
+            <div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="modalExcluirTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title text-danger" id="modalTitle">
+                                Deseja realmente excluir <span id="nome_produto_titulo_excluir_modal"></span>?
+                            </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-9">
+                                    <input id="id_produto_modal" name="id_produto_modal" type="hidden" class="form-control" value="">
+                                    <input id="index_vetor_produto" type="hidden" class="form-control" value="">
+                                    <h5 class="text-warning">Você irá excluir <span id="nome_produto_excluir_modal"></span>!</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" id="btn_modal_excluir" class="btn btn-danger" onclick="excluir_produto(document.getElementById('id_produto_modal').value, document.getElementById('index_vetor_produto').value)" data-dismiss="modal">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- Modal produto excluído com sucesso -->
+        <div class="modal fade" id="modalExcluidoSucesso" tabindex="-1" role="dialog" aria-labelledby="modalExcluidoSucessoTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-success" id="modalTitle">
+                            <span id="produto_modal_excluido"></span> foi excluído com sucesso!
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <span id="produto_modal_body_excluido" class="lead text-success"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Footer -->
         <?php if ($num_kits == 0) { ?>
             <footer id="footer1" class="footer" style="margin-bottom: -250px">

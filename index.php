@@ -208,8 +208,8 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                     <td><?php echo $vetor['cod_athos'] ?></td>
                                                     <td style="max-width: 400px; word-wrap: break-word;"><?php echo $vetor['nome'] ?></td>
                                                     <td><?php echo $vetor['quantidade'] ?></td>
-                                                    <td>R$ <?php echo number_format($vetor['preco'], 2, ',', '') ?></td>
-                                                    <td>R$ <?php echo number_format($vetor['preco_total'], 2, ',', '') ?></td>
+                                                    <td>R$ <?php echo number_format($vetor['preco'], 2, ',', '.') ?></td>
+                                                    <td>R$ <?php echo number_format($vetor['preco_total'], 2, ',', '.') ?></td>
                                                     <td><?php echo $vetor['ncm'] ?></td>
                                                     <td>
                                                         <?php if ($vetor['csosn'] == 0) {
@@ -239,7 +239,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                 <?php if ($j == $numero_repetido - 1) { ?>
                                                     <tr class="text-center">
                                                         <td colspan="9" style="border-top-color: #5cb85c; border-top-width: 2px;">
-                                                            <font style="font-size: 24px" class="lead font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '') ?></font>
+                                                            <span style="font-size: 24px" class="lead font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
                                                         </td>
                                                     </tr>
                                             <?php }

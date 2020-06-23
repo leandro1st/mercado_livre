@@ -72,6 +72,7 @@ require('../externo/connect.php');
                     </div>
                     <div class="modal-body">
                         <div class="container">
+                            <span class="lead" style='margin-bottom: 5px; display: block'><b>Código do kit novo: </b><?php echo $proximo_id ?></span>
                             <?php if ($numero_produtos == 1) { ?>
                                 <h5><?php echo $numero_produtos ?> produto cadastrado com sucesso!</h5>
                             <?php } else { ?>

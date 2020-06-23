@@ -4,6 +4,7 @@
 
 	$id = 'id';
 	$kits = 'kits';
+	$produtos = 'produtos';
 	$cod_athos = 'cod_athos';
 	$nome = 'nome';
 	$quantidade = 'quantidade';
