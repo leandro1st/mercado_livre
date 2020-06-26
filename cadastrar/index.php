@@ -82,6 +82,34 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             });
 
             $('#total').val(num_input);
+
+            // appending new anchor link to nav_links
+            new_anchor = '<a id="link_produto_' + num_input + '" class="nav-link" href="#label_cod_athos_' + num_input + '">Produto ' + num_input + '</a>';
+            $('#nav_links').append(new_anchor);
+            
+            // adjusting scrolltop when anchor link is clicked
+            $(document).ready(function() {
+                $("a[href^='#']").on('click', function(event) {
+                    // store hash
+                    var target = this.hash;
+
+                    // Keep URL unaffected when anchor link is clicked
+                    event.preventDefault();
+
+                    // navbar height
+                    var navOffset = document.getElementById('navigation_bar').clientHeight;
+
+                    // animate
+                    return $('html, body').animate({
+                        scrollTop: $(this.hash).offset().top - navOffset
+                    }, 0, function() {
+                        return false;
+                        // when done, add hash to url
+                        // (default click behaviour)
+                        // return window.history.pushState(null, null, target);
+                    });
+                });
+            });
         }
 
         function remove() {
@@ -137,7 +165,13 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                     soma += preco;
                 }
             }
-            document.getElementById('subtotal').innerHTML = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(soma);
+            document.getElementById('subtotal').innerHTML = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(soma);
+
+            // removing last anchor link from nav_links
+            $('#link_produto_' + ultimo_num_input).remove();
         }
 
         $(document).ready(function() {
@@ -185,7 +219,10 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                 preco = parseFloat(document.getElementById('preco_total_' + x).value);
                 soma += preco;
             }
-            document.getElementById('subtotal').innerHTML = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(soma);
+            document.getElementById('subtotal').innerHTML = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(soma);
         }
 
         // Quando o scroll é feito na janela, esconde o tooltip icone_ultimo_cadastro
@@ -215,16 +252,73 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                 }
             });
         }
+
+        // comparing values from (label_cod_athos - navigation_bar height) and window scroll position
+        // $(document).on('scroll', function() {
+        //     if (window.scrollY >= $('#label_cod_athos_1').offset().top - document.getElementById('navigation_bar').clientHeight) {
+        //         // alert(document.getElementById('navigation_bar').clientHeight);
+        //     }
+        // })
+
+        // setting the location hash to an empty string
+        window.onload = function() {
+            document.location.hash = "";
+        }
+
+        // scrollspy
+        $(document).ready(function() {
+            $("body").scrollspy({
+                target: "#navbar_scroll",
+                offset: document.getElementById('navigation_bar').clientHeight
+            })
+        });
+
+        // adjusting scrolltop when anchor link is clicked
+        $(document).ready(function() {
+            $("a[href^='#']").on('click', function(event) {
+                // store hash
+                var target = this.hash;
+
+                // Keep URL unaffected when anchor link is clicked
+                event.preventDefault();
+
+                // navbar height
+                var navOffset = document.getElementById('navigation_bar').clientHeight;
+
+                // animate
+                return $('html, body').animate({
+                    scrollTop: $(this.hash).offset().top - navOffset
+                }, 0, function() {
+                    return false;
+                    // when done, add hash to url
+                    // (default click behaviour)
+                    // return window.history.pushState(null, null, target);
+                });
+            });
+        });
     </script>
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* scrollspy */
+        body {
+            position: relative !important;
+        }
+
         #div_botoes {
             border-width: 2px !important;
+        }
+
+        .nav-link.active {
+            background-color: #5bc0de !important;
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <nav id="navigation_bar" class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="../">
             <img src="../imagens/logo.png" alt="logo" width="35px">
         </a>
@@ -241,7 +335,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                     <a class="nav-link underline" data-toggle="dropdown" href="javascript:void(0)"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item" href="#"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
+                            <a class="dropdown-item" href="javascript:void(0)"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="associar.php"><i class="fas fa-link text-secondary" style="padding-right: 5px"></i> Associar Produto</a>
@@ -273,126 +367,139 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
             <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="fas fa-edit"></i> Cadastrar Kit</a>
+            <li class="breadcrumb-item active"><a href="javascript:void(0)" class="none_li"><i class="fas fa-edit"></i> Cadastrar Kit</a>
                 <i id="icone_ultimo_cadastro" class="fas fa-sticky-note text-warning" style="cursor: pointer" data-toggle="tooltip" data-trigger="click hover focus" data-html="true" data-placement="bottom" title="<span class='lead'><b><i class='fas fa-history text-warning'></i> Último cadastro: </b><?php echo $vetor_ultimo['kit_nome'] . "<small> (" . date('d/m/Y H:i:s', strtotime($vetor_ultimo['hora_cadastro'])) . ")</small></span>" ?>"></i>
             </li>
         </ol>
-
-
-        </p>
     </nav>
     <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
         <center>
             <h1 style="color: #daeff5">Cadastrar Kit</h1>
         </center>
     </header>
-    <main class="container">
-        <!-- <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;"> -->
-        <form id="form_cadastrar" class="needs-validation" method="post" action="cadastrar.php" novalidate>
-            <div class="card border-success sticky-top" style="width: 108px; float: right; top: 70px; bottom: 10px; left: 0; right: 0; margin-right: -113px; z-index: 1">
-                <div class="card-footer text-success">
-                    <h5 class="card-title text-center" style="margin: 0">Total:</h5>
-                    <p class="card-text text-center lead" style="margin: 0 -12px 0px -12px; font-size: 18px"><span id="subtotal">R$ 0,00</span></p>
+    <main class="container-fluid">
+        <div class="row">
+            <div class="col-2" style="padding: 0; max-width: 143px">
+                <div class="" style="position: sticky; top: 70px;">
+                    <nav id="navbar_scroll" class="navbar navbar-light bg-light" style="border-radius: 0 10px 10px 0;">
+                        <nav id="nav_links" class="nav nav-pills flex-column">
+                            <a class="nav-link" href="#label_cod_athos_1">Produto 1</a>
+                        </nav>
+                    </nav>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="input-group input-group-lg" style="margin-bottom: -12px">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text text-success" id="inputGroup-sizing-lg"><b>Nome do kit</b></span>
+            <div id="scrollspy" class="col" data-spy="scroll" data-target="#navbar_scroll">
+                <!-- <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;"> -->
+                <form id="form_cadastrar" class="needs-validation" method="post" action="cadastrar.php" novalidate>
+                    <div class="form-group">
+                        <div class="input-group input-group-lg" style="margin-bottom: -12px">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text text-success" id="inputGroup-sizing-lg"><b>Nome do kit</b></span>
+                            </div>
+                            <input type="text" name="nome_kit" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Nome do kit" required autofocus style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem">
+                            <div class="invalid-feedback" style="margin-left: 150px">
+                                Forneça o nome do kit!
+                            </div>
+                        </div>
                     </div>
-                    <input type="text" name="nome_kit" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Nome do kit" required autofocus style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem">
-                    <div class="invalid-feedback" style="margin-left: 150px">
-                        Forneça o nome do kit!
+                    <div id="div_botoes" class="sticky-top border border-dark rounded" style="float: right; top: 70px; padding: 8px; background-color: white; z-index: 1">
+                        <!-- white space = 0.25em = 4px -->
+                        <i class="fas fa-plus" style="color: green; font-size: 30px; cursor: pointer; margin-right: 17px" onclick="add()" data-toggle="tooltip" data-placement="bottom" title="Adicionar +1 produto"></i><i class="fas fa-times" style="color: red; font-size: 30px; cursor: pointer" onclick="remove()" data-toggle="tooltip" data-placement="bottom" title="Remover último produto"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="label_cod_athos_1" for="cod_athos_1" style="margin-top: 1.5rem">
+                            <b>Código Athos do produto 1:</b>
+                        </label>
+                        <input type="text" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto 1" required onkeyup="pesquisar_produto(1)">
+                        <div class="invalid-feedback">
+                            Forneça o código Athos do produto 1!
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="produto_1">
+                            <b>Nome do produto 1:</b>
+                        </label>
+                        <input type="text" id="produto_1" name="produto_1" class="form-control" placeholder="Nome do produto 1" required>
+                        <div class="invalid-feedback">
+                            Forneça o nome do produto 1!
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantidade_1">
+                            <b>Quantidade do produto 1:</b>
+                        </label>
+                        <input type="number" id="quantidade_1" name="quantidade_1" class="form-control" placeholder="Quantidade do produto 1" required onkeyup="alterar(1, document.getElementById('quantidade_1').value, document.getElementById('preco_1').value)">
+                        <div class="invalid-feedback">
+                            Forneça a quantidade do produto 1!
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preco_1">
+                            <b>Preço do produto 1:</b><input type="hidden" class="form-control" id="preco_total_1" value="0.00" readonly>
+                        </label>
+                        <input type="text" id="preco_1" name="preco_1" class="form-control" placeholder="Preço do produto 1" required onkeyup="alterar(1, document.getElementById('quantidade_1').value, document.getElementById('preco_1').value)">
+                        <div class="invalid-feedback">
+                            Forneça o preço do produto 1!
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ncm_1">
+                            <b>NCM do produto 1:</b>
+                        </label>
+                        <input type="text" id="ncm_1" name="ncm_1" class="form-control" placeholder="NCM do produto 1" required>
+                        <div class="invalid-feedback">
+                            Forneça o NCM do produto 1!
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="csosn_1">
+                            <b>CSOSN do produto 1:</b>
+                        </label>
+                        <input type="number" id="csosn_1" name="csosn_1" class="form-control" placeholder="CSOSN do produto 1" required>
+                        <div class="invalid-feedback">
+                            Forneça o CSOSN do produto 1!
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cfop_1">
+                            <b>CFOP do produto 1:</b>
+                        </label>
+                        <input type="number" id="cfop_1" name="cfop_1" class="form-control" placeholder="CFOP do produto 1" required>
+                        <div class="invalid-feedback">
+                            Forneça o CFOP do produto 1!
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cest_1">
+                            <b>CEST do produto 1:</b>
+                        </label>
+                        <input type="number" id="cest_1" name="cest_1" class="form-control" placeholder="CEST do produto 1">
+                        <div class="invalid-feedback">
+                        </div>
+                    </div>
+                    <div id="div_produto_novo"></div>
+                    <input type="hidden" class="form-control" name="total" value="1" id="total">
+                    <button type="submit" class="btn btn-success" style="float: right">Cadastrar</button>
+                </form>
+            </div>
+            <div class="col-1" style="padding-left: 0; max-width: 136px">
+                <div class="card border-success sticky-top" style="width: 121px; top: 70px; bottom: 10px; left: 0; right: 0; z-index: 1">
+                    <!-- width: 108px -->
+                    <div class="card-footer text-success">
+                        <h5 class="card-title text-center" style="margin: 0">Total:</h5>
+                        <p class="card-text text-center lead" style="margin: 0 -12px 0px -12px; font-size: 18px"><span id="subtotal">R$ 0,00</span></p>
                     </div>
                 </div>
             </div>
-            <div id="div_botoes" class="sticky-top border border-dark rounded" style="float: right; top: 70px; padding: 8px; background-color: white; z-index: 1">
-                <i class="fas fa-plus" style="color: green; font-size: 30px; cursor: pointer; margin-right: 13px" onclick="add()" data-toggle="tooltip" data-placement="bottom" title="Adicionar +1 produto"></i>
-                <i class="fas fa-times" style="color: red; font-size: 30px; cursor: pointer" onclick="remove()" data-toggle="tooltip" data-placement="bottom" title="Remover último produto"></i>
-            </div><br>
-
-            <div class="form-group">
-                <label for="cod_athos_1">
-                    <b>Código Athos do produto 1:</b>
-                </label>
-                <input type="text" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto 1" required onkeyup="pesquisar_produto(1)">
-                <div class="invalid-feedback">
-                    Forneça o código Athos do produto 1!
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="produto_1">
-                    <b>Nome do produto 1:</b>
-                </label>
-                <input type="text" id="produto_1" name="produto_1" class="form-control" placeholder="Nome do produto 1" required>
-                <div class="invalid-feedback">
-                    Forneça o nome do produto 1!
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="quantidade_1">
-                    <b>Quantidade do produto 1:</b>
-                </label>
-                <input type="number" id="quantidade_1" name="quantidade_1" class="form-control" placeholder="Quantidade do produto 1" required onkeyup="alterar(1, document.getElementById('quantidade_1').value, document.getElementById('preco_1').value)">
-                <div class="invalid-feedback">
-                    Forneça a quantidade do produto 1!
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="preco_1">
-                    <b>Preço do produto 1:</b><input type="hidden" class="form-control" id="preco_total_1" value="0.00" readonly>
-                </label>
-                <input type="text" id="preco_1" name="preco_1" class="form-control" placeholder="Preço do produto 1" required onkeyup="alterar(1, document.getElementById('quantidade_1').value, document.getElementById('preco_1').value)">
-                <div class="invalid-feedback">
-                    Forneça o preço do produto 1!
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="ncm_1">
-                    <b>NCM do produto 1:</b>
-                </label>
-                <input type="text" id="ncm_1" name="ncm_1" class="form-control" placeholder="NCM do produto 1" required>
-                <div class="invalid-feedback">
-                    Forneça o NCM do produto 1!
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="csosn_1">
-                    <b>CSOSN do produto 1:</b>
-                </label>
-                <input type="number" id="csosn_1" name="csosn_1" class="form-control" placeholder="CSOSN do produto 1" required>
-                <div class="invalid-feedback">
-                    Forneça o CSOSN do produto 1!
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="cfop_1">
-                    <b>CFOP do produto 1:</b>
-                </label>
-                <input type="number" id="cfop_1" name="cfop_1" class="form-control" placeholder="CFOP do produto 1" required>
-                <div class="invalid-feedback">
-                    Forneça o CFOP do produto 1!
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="cest_1">
-                    <b>CEST do produto 1:</b>
-                </label>
-                <input type="number" id="cest_1" name="cest_1" class="form-control" placeholder="CEST do produto 1">
-                <div class="invalid-feedback">
-                </div>
-            </div>
-            <div id="div_produto_novo"></div>
-            <input type="hidden" class="form-control" name="total" value="1" id="total">
-            <button type="submit" class="btn btn-success" style="float: right">Cadastrar</button>
-        </form>
+        </div>
     </main>
 
     <!-- Footer -->

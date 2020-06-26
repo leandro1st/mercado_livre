@@ -69,7 +69,10 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
             preco_total = (quantidade * preco_calculo).toFixed(2).toString();
             // Mostrar preço novo
             document.getElementById('preco_total').value = preco_total;
-            document.getElementById('subtotal').innerHTML = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(preco_total);
+            document.getElementById('subtotal').innerHTML = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(preco_total);
 
         }
 
@@ -147,7 +150,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                             <a class="dropdown-item" href="./"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#"><i class="fas fa-link text-secondary" style="padding-right: 5px"></i> Associar produto</a>
+                            <a class="dropdown-item" href="javascript:void(0)"><i class="fas fa-link text-secondary" style="padding-right: 5px"></i> Associar produto</a>
                         </li>
                     </ul>
                 </li>
@@ -176,126 +179,133 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
             <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="fas fa-edit"></i> Associar Produto</a>
+            <li class="breadcrumb-item active"><a href="javascript:void(0)" class="none_li"><i class="fas fa-edit"></i> Associar Produto</a>
                 <i id="icone_ultimo_cadastro" class="fas fa-sticky-note text-warning" style="cursor: pointer" data-toggle="tooltip" data-trigger="click hover focus" data-html="true" data-placement="bottom" title="<span class='lead'><b><i class='fas fa-history text-warning'></i> Último cadastro: </b><?php echo $vetor_ultimo['kit_nome'] . "<small> (" . date('d/m/Y H:i:s', strtotime($vetor_ultimo['hora_cadastro'])) . ")</small></span>" ?>"></i>
             </li>
         </ol>
-
-
-        </p>
     </nav>
     <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
         <center>
             <h1 style="color: #daeff5">Associar Produto</h1>
         </center>
     </header>
-    <main class="container">
-        <!-- <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;"> -->
-        <form id="form_associar" class="needs-validation" method="post" action="associar.php" novalidate>
-            <div class="card border-success sticky-top" style="width: 108px; float: right; top: 70px; bottom: 10px; left: 0; right: 0; margin-right: -113px; z-index: 1">
-                <div class="card-footer text-success">
-                    <h5 class="card-title text-center" style="margin: 0">Total:</h5>
-                    <p class="card-text text-center lead" style="margin: 0 -12px 0px -12px; font-size: 18px"><span id="subtotal">R$ 0,00</span></p>
-                </div>
+    <main class="container-fluid">
+        <div class="row">
+            <div class="col-2" style="padding: 0; max-width: 143px">
+                <!-- só pra deixar um espaço -->
             </div>
-            <div class="form-group">
-                <label for="id_kit">
-                    <b>Nome do Kit:</b>
-                </label>
-                <!--  style='padding: 0 17px 0 17px' -->
-                <select id="id_kit" name="id_kit" class="selectpicker show-tick" data-live-search="true" data-width="fit" data-size="6" title="Selecione um kit" data-none-results-text="Nenhum resultado encontrado!" required>
-                    <?php
-                    for ($i = 0; $i < $numero_kits; $i++) {
-                        $vetor_kit = mysqli_fetch_array($pesquisar_todos_kits);
-                        $nome_kit = $vetor_kit['kit_nome'];
-                        $id_kit = $vetor_kit['id_kit'];
-                        echo "<option value='" . $id_kit . "'>" . $nome_kit . " (#" . $id_kit . ")</option>";
-                    }
-                    ?>
-                </select>
-                <div class="invalid-feedback">Selecione um kit para associar o produto!</div>
-            </div>
-            <div class="form-group">
-                <label for="cod_athos_1">
-                    <b>Código Athos do produto:</b>
-                </label>
-                <input type="text" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto" required onkeyup="pesquisar_produto(1)">
-                <div class="invalid-feedback">
-                    Forneça o código Athos do produto!
-                </div>
-            </div>
+            <div class="col">
+                <!-- <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;"> -->
+                <form id="form_associar" class="needs-validation" method="post" action="associar.php" novalidate>
+                    <div class="form-group">
+                        <label for="id_kit">
+                            <b>Nome do Kit:</b>
+                        </label>
+                        <!--  style='padding: 0 17px 0 17px' -->
+                        <select id="id_kit" name="id_kit" class="selectpicker show-tick" data-live-search="true" data-width="fit" data-size="6" title="Selecione um kit" data-none-results-text="Nenhum resultado encontrado!" required>
+                            <?php
+                            for ($i = 0; $i < $numero_kits; $i++) {
+                                $vetor_kit = mysqli_fetch_array($pesquisar_todos_kits);
+                                $nome_kit = $vetor_kit['kit_nome'];
+                                $id_kit = $vetor_kit['id_kit'];
+                                echo "<option value='" . $id_kit . "'>" . $nome_kit . " (#" . $id_kit . ")</option>";
+                            }
+                            ?>
+                        </select>
+                        <div class="invalid-feedback">Selecione um kit para associar o produto!</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cod_athos_1">
+                            <b>Código Athos do produto:</b>
+                        </label>
+                        <input type="text" id="cod_athos_1" name="cod_athos_1" class="form-control" placeholder="Código Athos do produto" required onkeyup="pesquisar_produto(1)">
+                        <div class="invalid-feedback">
+                            Forneça o código Athos do produto!
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="produto">
-                    <b>Nome do produto:</b>
-                </label>
-                <input type="text" id="produto" name="produto" class="form-control" placeholder="Nome do produto" required>
-                <div class="invalid-feedback">
-                    Forneça o nome do produto!
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="produto">
+                            <b>Nome do produto:</b>
+                        </label>
+                        <input type="text" id="produto" name="produto" class="form-control" placeholder="Nome do produto" required>
+                        <div class="invalid-feedback">
+                            Forneça o nome do produto!
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="quantidade">
-                    <b>Quantidade do produto:</b>
-                </label>
-                <input type="number" id="quantidade" name="quantidade" class="form-control" placeholder="Quantidade do produto" required onkeyup="alterar(document.getElementById('quantidade').value, document.getElementById('preco').value)">
-                <div class="invalid-feedback">
-                    Forneça a quantidade do produto!
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="quantidade">
+                            <b>Quantidade do produto:</b>
+                        </label>
+                        <input type="number" id="quantidade" name="quantidade" class="form-control" placeholder="Quantidade do produto" required onkeyup="alterar(document.getElementById('quantidade').value, document.getElementById('preco').value)">
+                        <div class="invalid-feedback">
+                            Forneça a quantidade do produto!
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="preco">
-                    <b>Preço do produto:</b><input type="hidden" class="form-control" id="preco_total" name="preco_total" value="0.00" readonly>
-                </label>
-                <input type="text" id="preco" name="preco" class="form-control" placeholder="Preço do produto" required onkeyup="alterar(document.getElementById('quantidade').value, document.getElementById('preco').value)">
-                <div class="invalid-feedback">
-                    Forneça o preço do produto!
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="preco">
+                            <b>Preço do produto:</b><input type="hidden" class="form-control" id="preco_total" name="preco_total" value="0.00" readonly>
+                        </label>
+                        <input type="text" id="preco" name="preco" class="form-control" placeholder="Preço do produto" required onkeyup="alterar(document.getElementById('quantidade').value, document.getElementById('preco').value)">
+                        <div class="invalid-feedback">
+                            Forneça o preço do produto!
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="ncm">
-                    <b>NCM do produto:</b>
-                </label>
-                <input type="text" id="ncm" name="ncm" class="form-control" placeholder="NCM do produto" required>
-                <div class="invalid-feedback">
-                    Forneça o NCM do produto!
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="ncm">
+                            <b>NCM do produto:</b>
+                        </label>
+                        <input type="text" id="ncm" name="ncm" class="form-control" placeholder="NCM do produto" required>
+                        <div class="invalid-feedback">
+                            Forneça o NCM do produto!
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="csosn">
-                    <b>CSOSN do produto:</b>
-                </label>
-                <input type="number" id="csosn" name="csosn" class="form-control" placeholder="CSOSN do produto" required>
-                <div class="invalid-feedback">
-                    Forneça o CSOSN do produto!
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="csosn">
+                            <b>CSOSN do produto:</b>
+                        </label>
+                        <input type="number" id="csosn" name="csosn" class="form-control" placeholder="CSOSN do produto" required>
+                        <div class="invalid-feedback">
+                            Forneça o CSOSN do produto!
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="cfop">
-                    <b>CFOP do produto:</b>
-                </label>
-                <input type="number" id="cfop" name="cfop" class="form-control" placeholder="CFOP do produto" required>
-                <div class="invalid-feedback">
-                    Forneça o CFOP do produto!
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="cfop">
+                            <b>CFOP do produto:</b>
+                        </label>
+                        <input type="number" id="cfop" name="cfop" class="form-control" placeholder="CFOP do produto" required>
+                        <div class="invalid-feedback">
+                            Forneça o CFOP do produto!
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="cest">
-                    <b>CEST do produto:</b>
-                </label>
-                <input type="number" id="cest" name="cest" class="form-control" placeholder="CEST do produto">
-                <div class="invalid-feedback">
+                    <div class="form-group">
+                        <label for="cest">
+                            <b>CEST do produto:</b>
+                        </label>
+                        <input type="number" id="cest" name="cest" class="form-control" placeholder="CEST do produto">
+                        <div class="invalid-feedback">
+                        </div>
+                    </div>
+                    <input type="hidden" class="form-control" name="total" value="1" id="total">
+                    <button type="submit" class="btn btn-success" style="float: right">Associar</button>
+                </form>
+            </div>
+            <div class="col-1" style="padding-left: 0; max-width: 136px">
+                <div class="card border-success sticky-top" style="width: 121px; top: 70px; bottom: 10px; left: 0; right: 0; z-index: 1">
+                    <!-- width: 108px -->
+                    <div class="card-footer text-success">
+                        <h5 class="card-title text-center" style="margin: 0">Total:</h5>
+                        <p class="card-text text-center lead" style="margin: 0 -12px 0px -12px; font-size: 18px"><span id="subtotal">R$ 0,00</span></p>
+                    </div>
                 </div>
             </div>
-            <input type="hidden" class="form-control" name="total" value="1" id="total">
-            <button type="submit" class="btn btn-success" style="float: right">Associar</button>
-        </form>
+        </div>
     </main>
 
     <!-- Footer -->

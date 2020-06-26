@@ -89,7 +89,7 @@
                     <a class="nav-link" href="excluir/"><i class="far fa-trash-alt text-danger" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1 active">
-                    <a class="nav-link underline" href="#"><i class="fas fa-question-circle text-primary" style="font-size: 24px; vertical-align: middle"></i></a>
+                    <a class="nav-link underline" href="javascript:void(0)"><i class="fas fa-question-circle text-primary" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1">
                     <a class="nav-link" href="alterar/troca_temporaria.php"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
@@ -107,7 +107,7 @@
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
             <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="fas fa-question-circle"></i> FAQ</a></li>
+            <li class="breadcrumb-item active"><a href="javascript:void(0)" class="none_li"><i class="fas fa-question-circle"></i> FAQ</a></li>
         </ol>
     </nav>
     <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">

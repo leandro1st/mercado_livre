@@ -223,7 +223,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                     <a class="nav-link" href="../info.php"><i class="fas fa-question-circle text-primary" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1 active">
-                    <a class="nav-link underline" href="#"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
+                    <a class="nav-link underline" href="javascript:void(0)"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
             </ul>
             <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='../imagens/example.png' width='130px'>"></i>
@@ -238,7 +238,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
             <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="#" class="none_li"><i class="far fa-clock"></i> Alterar Produto</a></li>
+            <li class="breadcrumb-item active"><a href="javascript:void(0)" class="none_li"><i class="far fa-clock"></i> Alterar Produto</a></li>
         </ol>
     </nav>
     <?php
