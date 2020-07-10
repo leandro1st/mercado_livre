@@ -163,6 +163,9 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                 <li class="nav-item px-1">
                     <a class="nav-link" href="../alterar/troca_temporaria.php"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
+                <li class="nav-item px-1">
+					<a class="nav-link" href="../produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
+				</li>
                 <!-- <li class="nav-item px-1 text-success"><br>
                     R$ <span id="subtotal">0,00</span>
                 </li> -->
