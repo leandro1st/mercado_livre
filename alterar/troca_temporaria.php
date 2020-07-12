@@ -121,73 +121,150 @@ $num_produtos = mysqli_num_rows($pesquisar);
 
         // Alterando as informações
         function alterar_info(id_produto, cod_athos, nome, ncm, csosn, cfop, cest, produto_total_kits) {
-            $.ajax({
-                method: 'POST',
-                url: 'alterar_temporario.php',
-                data: $('#form-' + id_produto).serialize(),
-                success: function(data) {
-                    // Alterando os valores de exibição
-                    //document.getElementById('input_athos-' + id_produto).type = 'hidden';
-                    //document.getElementById('athos-' + id_produto).innerHTML = cod_athos;
+            n = document.getElementById('input_nome-' + id_produto).value.trim();
+            nc = document.getElementById('input_ncm-' + id_produto).value.trim();
+            c = document.getElementById('input_csosn-' + id_produto).value.trim();
+            cf = document.getElementById('input_cfop-' + id_produto).value.trim();
+            ce = document.getElementById('input_cest-' + id_produto).value.trim();
 
-                    document.getElementById('input_nome-' + id_produto).type = 'hidden';
-                    document.getElementById('nome-' + id_produto).innerHTML = nome.toUpperCase();
+            values = [n, nc, c, cf]
+            fields = ["Nome", "NCM", "CSOSN", "CFOP"]
+            empty_fields = []
 
-                    document.getElementById('span_produto_total_kits-' + id_produto).style.display = "inline";
-                    // Alterando conteúdo do tooltip
-                    if (produto_total_kits == 1) {
-                        var texto_tooltip_novo = "Há <b><span class='text-success'>" + produto_total_kits + "</span></b> kit que contém o produto <b><span class='text-warning'>" + nome.toUpperCase() + "</span></b>";
-                    } else {
-                        var texto_tooltip_novo = "Há <b><span class='text-success'>" + produto_total_kits + "</span></b> kits que contém o produto <b><span class='text-warning'>" + nome.toUpperCase() + "</span></b>";
-                    }
-                    $('#span_produto_total_kits-' + id_produto).attr('data-original-title', texto_tooltip_novo);
-
-                    document.getElementById('input_ncm-' + id_produto).type = 'hidden';
-                    document.getElementById('ncm-' + id_produto).innerHTML = ncm.toUpperCase();
-
-                    document.getElementById('input_csosn-' + id_produto).type = 'hidden';
-                    if (csosn == "0" || csosn == "") {
-                        document.getElementById('csosn-' + id_produto).innerHTML = "–";
-                    } else {
-                        document.getElementById('csosn-' + id_produto).innerHTML = csosn;
-                    }
-
-                    document.getElementById('input_cfop-' + id_produto).type = 'hidden';
-                    if (cfop == "0" || cfop == "") {
-                        document.getElementById('cfop-' + id_produto).innerHTML = "–";
-                    } else {
-                        document.getElementById('cfop-' + id_produto).innerHTML = cfop;
-                    }
-
-                    document.getElementById('input_cest-' + id_produto).type = 'hidden';
-                    if (cest == "0000000" || cest == "") {
-                        document.getElementById('cest-' + id_produto).innerHTML = "–";
-                    } else {
-                        document.getElementById('cest-' + id_produto).innerHTML = cest;
-                    }
-
-                    // Ícones
-                    $('#icone_editar-' + id_produto).attr('data-original-title', 'Editar ' + nome.toUpperCase());
-                    document.getElementById('span_icone_confirmar-' + id_produto + '').style.cursor = 'not-allowed';
-                    $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + nome.toUpperCase());
-                    document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
-
-                    // if number of rows affected > 0, adding new class
-                    if (data > 0) {
-                        $('#linha-' + id_produto).fadeOut(0, function() {
-                            $(this).addClass('table-success');
-                        }).fadeIn(300);
-                    } else {
-                        $('#linha-' + id_produto).fadeOut(0, function() {
-                            // nothing happens
-                        }).fadeIn(300);
-                    }
-                },
-                error: function(data) {
-                    alert("Ocorreu um erro!");
+            for (i = 0; i < fields.length; i++) {
+                // alert(values[i]);
+                if (!values[i] || parseInt(values[i]) === 0) {
+                    // appending empty fields to array
+                    empty_fields.push(fields[i]);
                 }
-            });
+            }
+
+            // if array is not empty
+            if (empty_fields.length > 0) {
+                // appending element to list
+                document.getElementById('lista_campos').innerHTML = '<li class="list-group-item">' + empty_fields.join('</li><li class="list-group-item">') + '</li>';
+
+                $('#modalCamposPreenchidos').modal('show');
+            } else {
+                $.ajax({
+                    method: 'POST',
+                    url: 'alterar_temporario.php',
+                    data: $('#form-' + id_produto).serialize(),
+                    success: function(data) {
+                        // Alterando os valores de exibição
+                        //document.getElementById('input_athos-' + id_produto).type = 'hidden';
+                        //document.getElementById('athos-' + id_produto).innerHTML = cod_athos;
+
+                        document.getElementById('input_nome-' + id_produto).type = 'hidden';
+                        document.getElementById('nome-' + id_produto).innerHTML = nome.trim().toUpperCase();
+
+                        document.getElementById('span_produto_total_kits-' + id_produto).style.display = "inline-block";
+                        // Alterando conteúdo do tooltip
+                        if (produto_total_kits == 1) {
+                            var texto_tooltip_novo = "Há <b><span class='text-success'>" + produto_total_kits + "</span></b> kit que contém o produto <b><span class='text-warning'>" + nome.toUpperCase() + "</span></b>";
+                        } else {
+                            var texto_tooltip_novo = "Há <b><span class='text-success'>" + produto_total_kits + "</span></b> kits que contém o produto <b><span class='text-warning'>" + nome.toUpperCase() + "</span></b>";
+                        }
+                        $('#span_produto_total_kits-' + id_produto).attr('data-original-title', texto_tooltip_novo);
+
+                        document.getElementById('input_ncm-' + id_produto).type = 'hidden';
+                        document.getElementById('ncm-' + id_produto).innerHTML = ncm.trim().toUpperCase();
+
+                        document.getElementById('input_csosn-' + id_produto).type = 'hidden';
+                        document.getElementById('csosn-' + id_produto).innerHTML = csosn.trim();
+
+                        document.getElementById('input_cfop-' + id_produto).type = 'hidden';
+                        document.getElementById('cfop-' + id_produto).innerHTML = cfop.trim();
+
+                        document.getElementById('input_cest-' + id_produto).type = 'hidden';
+                        if (parseInt(cest.trim()) === 0 || cest.trim() === "") {
+                            document.getElementById('cest-' + id_produto).innerHTML = "–";
+                        } else {
+                            document.getElementById('cest-' + id_produto).innerHTML = cest.trim();
+                        }
+
+                        // Ícones
+                        $('#icone_editar-' + id_produto).attr('data-original-title', 'Editar ' + nome.toUpperCase());
+                        document.getElementById('span_icone_confirmar-' + id_produto + '').style.cursor = 'not-allowed';
+                        $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + nome.toUpperCase());
+                        document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
+
+                        // if number of rows affected > 0, adding new class
+                        if (data > 0) {
+                            $('#linha-' + id_produto).fadeOut(0, function() {
+                                $(this).addClass('table-success');
+                            }).fadeIn(300);
+                        } else {
+                            $('#linha-' + id_produto).fadeOut(0, function() {
+                                // nothing happens
+                            }).fadeIn(300);
+                        }
+                    },
+                    error: function(data) {
+                        alert("Ocorreu um erro!");
+                    }
+                });
+            }
         }
+
+        // avoiding negative numbers and stuff
+        $(document).ready(function() {
+            for (i = 0; i < vetor_id.length; i++) {
+                csosn = document.getElementById('input_csosn-' + vetor_id[i]);
+                cfop = document.getElementById('input_cfop-' + vetor_id[i]);
+                cest = document.getElementById('input_cest-' + vetor_id[i]);
+
+                // Listen for input event on numInput.
+                csosn.onkeydown = function(e) {
+                    // allowing only numbers, backspace, tab, f5, f6, delete, arrows, c, x, v
+                    if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                            (e.keyCode > 47 && e.keyCode < 58) ||
+                            e.keyCode == 8 ||
+                            e.keyCode == 9 ||
+                            e.keyCode == 116 ||
+                            e.keyCode == 117 ||
+                            e.keyCode == 46 ||
+                            (e.keyCode > 36 && e.keyCode < 41) ||
+                            e.keyCode == 67 ||
+                            e.keyCode == 88 ||
+                            e.keyCode == 86)) {
+                        return false;
+                    }
+                }
+                cfop.onkeydown = function(e) {
+                    // allowing only numbers, backspace, tab, f5, f6, delete, arrows, c, x, v
+                    if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                            (e.keyCode > 47 && e.keyCode < 58) ||
+                            e.keyCode == 8 ||
+                            e.keyCode == 9 ||
+                            e.keyCode == 116 ||
+                            e.keyCode == 117 ||
+                            e.keyCode == 46 ||
+                            (e.keyCode > 36 && e.keyCode < 41) ||
+                            e.keyCode == 67 ||
+                            e.keyCode == 88 ||
+                            e.keyCode == 86)) {
+                        return false;
+                    }
+                }
+                cest.onkeydown = function(e) {
+                    // allowing only numbers, backspace, tab, f5, f6, delete, arrows, c, x, v
+                    if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                            (e.keyCode > 47 && e.keyCode < 58) ||
+                            e.keyCode == 8 ||
+                            e.keyCode == 9 ||
+                            e.keyCode == 116 ||
+                            e.keyCode == 117 ||
+                            e.keyCode == 46 ||
+                            (e.keyCode > 36 && e.keyCode < 41) ||
+                            e.keyCode == 67 ||
+                            e.keyCode == 88 ||
+                            e.keyCode == 86)) {
+                        return false;
+                    }
+                }
+            }
+        });
     </script>
 </head>
 
@@ -226,8 +303,8 @@ $num_produtos = mysqli_num_rows($pesquisar);
                     <a class="nav-link underline" href="javascript:void(0)"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1">
-					<a class="nav-link" href="../produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
-				</li>
+                    <a class="nav-link" href="../produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
+                </li>
             </ul>
             <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='../imagens/example.png' width='130px'>"></i>
             <form id="form_pesquisa" class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
@@ -283,9 +360,19 @@ $num_produtos = mysqli_num_rows($pesquisar);
                     </tr>
                 </thead>
                 <tbody>
+                    <script>
+                        // Criando vetor para armazenar todos os ids dos produtos
+                        var vetor_id = [];
+                    </script>
                     <?php
                     for ($i = 0; $i < $num_produtos; $i++) {
                         $vetor_produto = mysqli_fetch_assoc($pesquisar);
+                    ?>
+                        <script>
+                            // adicionando os códigos dos produtos no array
+                            vetor_id.push("<?php echo $vetor_produto['id'] ?>");
+                        </script>
+                        <?php
                         $id_produto = $vetor_produto['id'];
                         $cod_athos_produto = $vetor_produto['cod_athos'];
                         $nome_produto = $vetor_produto['nome'];
@@ -294,7 +381,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                         $cfop_produto = $vetor_produto['cfop'];
                         $cest_produto = $vetor_produto['cest'];
                         $produto_total_kits = $vetor_produto['produto_total_kits'];
-                    ?>
+                        ?>
                         <tr class="text-center" id="linha-<?php echo $vetor_produto['id'] ?>">
                             <form id="form-<?php echo $vetor_produto['id'] ?>" method="POST">
                                 <input type="hidden" name="id_produto" value="<?php echo $vetor_produto['id'] ?>">
@@ -315,9 +402,9 @@ $num_produtos = mysqli_num_rows($pesquisar);
                                     </span>
                                     <!-- Número de kits que contém determinado produto -->
                                     <?php if ($vetor_produto['produto_total_kits'] == 1) { ?>
-                                        <span id="span_produto_total_kits-<?php echo $vetor_produto['id'] ?>" class="noselect font-weight-bold text-success" data-toggle="tooltip" data-html="true" data-placement="right" title="Há <b><span class='text-success'><?php echo $vetor_produto['produto_total_kits'] ?></span></b> kit que contém o produto <b><span class='text-warning'><?php echo $vetor_produto['nome'] ?></span></b>">(<?php echo $vetor_produto['produto_total_kits'] ?>)</span>
+                                        <span id="span_produto_total_kits-<?php echo $vetor_produto['id'] ?>" class="noselect font-weight-bold badge badge-pill badge-success" data-toggle="tooltip" data-html="true" data-placement="right" title="Há <b><span class='text-success'><?php echo $vetor_produto['produto_total_kits'] ?></span></b> kit que contém o produto <b><span class='text-warning'><?php echo $vetor_produto['nome'] ?></span></b>"><?php echo $vetor_produto['produto_total_kits'] ?></span>
                                     <?php } else { ?>
-                                        <span id="span_produto_total_kits-<?php echo $vetor_produto['id'] ?>" class="noselect font-weight-bold text-success" data-toggle="tooltip" data-html="true" data-placement="right" title="Há <b><span class='text-success'><?php echo $vetor_produto['produto_total_kits'] ?></span></b> kits que contém o produto <b><span class='text-warning'><?php echo $vetor_produto['nome'] ?></span></b>">(<?php echo $vetor_produto['produto_total_kits'] ?>)</span>
+                                        <span id="span_produto_total_kits-<?php echo $vetor_produto['id'] ?>" class="noselect font-weight-bold badge badge-pill badge-success" data-toggle="tooltip" data-html="true" data-placement="right" title="Há <b><span class='text-success'><?php echo $vetor_produto['produto_total_kits'] ?></span></b> kits que contém o produto <b><span class='text-warning'><?php echo $vetor_produto['nome'] ?></span></b>"><?php echo $vetor_produto['produto_total_kits'] ?></span>
                                     <?php } ?>
                                 </td>
                                 <td>
@@ -330,7 +417,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                                 </td>
                                 <td>
                                     <!-- Input pra alterar o csosn -->
-                                    <input type="hidden" id="input_csosn-<?php echo $vetor_produto['id'] ?>" name="csosn_novo" class="form-control" value="<?php echo $vetor_produto['csosn'] ?>" placeholder="CSOSN novo" onkeydown="return event.key != 'Enter';">
+                                    <input type="hidden" id="input_csosn-<?php echo $vetor_produto['id'] ?>" name="csosn_novo" class="form-control" value="<?php echo $vetor_produto['csosn'] ?>" placeholder="CSOSN novo" onkeydown="return event.key != 'Enter';" min="0">
 
                                     <span id="csosn-<?php echo $vetor_produto['id'] ?>">
                                         <?php if ($vetor_produto['csosn'] == 0) {
@@ -342,7 +429,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                                 </td>
                                 <td>
                                     <!-- Input pra alterar o cfop -->
-                                    <input type="hidden" id="input_cfop-<?php echo $vetor_produto['id'] ?>" name="cfop_novo" class="form-control" value="<?php echo $vetor_produto['cfop'] ?>" placeholder="CFOP novo" onkeydown="return event.key != 'Enter';">
+                                    <input type="hidden" id="input_cfop-<?php echo $vetor_produto['id'] ?>" name="cfop_novo" class="form-control" value="<?php echo $vetor_produto['cfop'] ?>" placeholder="CFOP novo" onkeydown="return event.key != 'Enter';" min="0">
 
                                     <span id="cfop-<?php echo $vetor_produto['id'] ?>">
                                         <?php if ($vetor_produto['cfop'] == 0) {
@@ -354,7 +441,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                                 </td>
                                 <td>
                                     <!-- Input pra alterar o cest -->
-                                    <input type="hidden" id="input_cest-<?php echo $vetor_produto['id'] ?>" name="cest_novo" class="form-control" value="<?php echo $vetor_produto['cest'] ?>" placeholder="CEST novo" onkeydown="return event.key != 'Enter';">
+                                    <input type="hidden" id="input_cest-<?php echo $vetor_produto['id'] ?>" name="cest_novo" class="form-control" value="<?php echo $vetor_produto['cest'] ?>" placeholder="CEST novo" onkeydown="return event.key != 'Enter';" min="0">
 
                                     <span id="cest-<?php echo $vetor_produto['id'] ?>">
                                         <?php if ($vetor_produto['cest'] == 0) {
@@ -379,6 +466,32 @@ $num_produtos = mysqli_num_rows($pesquisar);
             </table>
         </main>
     <?php } ?>
+    <!-- Modal campos não preenchidos -->
+    <div class="modal fade" id="modalCamposPreenchidos" tabindex="-1" role="dialog" aria-labelledby="modalCamposPreenchidosTitle" aria-hidden="true" onkeypress="$('#modalCamposPreenchidos').modal('toggle');">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-warning" id="modalTitle">
+                        Há campos a serem preenchidos!
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <p class="lead">Os seguintes campos não foram preenchidos: </p>
+                        <ul id="lista_campos" class="list-group list-group-flush">
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Footer -->
     <?php if ($num_produtos == 0) { ?>
         <footer id="footer1" class="footer" style="margin-bottom: -250px">

@@ -29,12 +29,13 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             var num_input = parseInt($('#total').val()) + 1;
             var new_label_cod_athos = "<div id='div_form_cod_athos_" + num_input + "' class='form-group'><label id='label_cod_athos_" + num_input + "' for='cod_athos_" + num_input + "'><b>Código Athos do produto " + num_input + ": </b></label><input type='text' class='form-control' id='cod_athos_" + num_input + "' name='cod_athos_" + num_input + "' placeholder='Código Athos do produto " + num_input + "' onkeyup='pesquisar_produto(" + num_input + ")'><div id='div_cod_athos_" + num_input + "' class='invalid-feedback'>Forneça o código Athos do produto " + num_input + "!</div></div>";
             var new_label_nome = "<div id='div_form_produto_" + num_input + "' class='form-group'><label id='label_produto_" + num_input + "' for='produto_" + num_input + "'><b>Nome do produto " + num_input + ": </b></label><input type='text' class='form-control' id='produto_" + num_input + "' name='produto_" + num_input + "' placeholder='Nome do produto " + num_input + "'><div id='div_produto_" + num_input + "' class='invalid-feedback'>Forneça o nome do produto " + num_input + "!</div></div>";
-            var new_label_quantidade = "<div id='div_form_quantidade_" + num_input + "' class='form-group'><label id='label_quantidade_" + num_input + "' for='quantidade_" + num_input + "'><b>Quantidade do produto " + num_input + ": </b></label><input type='number' class='form-control' id='quantidade_" + num_input + "' name='quantidade_" + num_input + "' placeholder='Quantidade do produto " + num_input + "' onkeyup='alterar(" + num_input + ", document.getElementById(`quantidade_" + num_input + "`).value, document.getElementById(`preco_" + num_input + "`).value)'><div id='div_quantidade_" + num_input + "' class='invalid-feedback'>Forneça a quantidade do produto " + num_input + "!</div></div>";
+            var new_label_quantidade = "<div id='div_form_quantidade_" + num_input + "' class='form-group'><label id='label_quantidade_" + num_input + "' for='quantidade_" + num_input + "'><b>Quantidade do produto " + num_input + ": </b></label><input min='1' type='number' class='form-control' id='quantidade_" + num_input + "' name='quantidade_" + num_input + "' placeholder='Quantidade do produto " + num_input + "' onkeyup='alterar(" + num_input + ", document.getElementById(`quantidade_" + num_input + "`).value, document.getElementById(`preco_" + num_input + "`).value)'><div id='div_quantidade_" + num_input + "' class='invalid-feedback'>Forneça a quantidade do produto " + num_input + "!</div></div>";
             var new_label_preco = "<div id='div_form_preco_" + num_input + "' class='form-group'><label id='label_preco_" + num_input + "' for='preco_" + num_input + "'><b>Preço do produto " + num_input + ": </b><input type='hidden' class='form-control' id='preco_total_" + num_input + "' value='0.00' readonly></label><input type='text' class='form-control' id='preco_" + num_input + "' name='preco_" + num_input + "' placeholder='Preço do produto " + num_input + "' onkeyup='alterar(" + num_input + ", document.getElementById(`quantidade_" + num_input + "`).value, document.getElementById(`preco_" + num_input + "`).value)'><div id='div_preco_" + num_input + "' class='invalid-feedback'>Forneça o preço do produto " + num_input + "!</div></div>";
             var new_label_ncm = "<div id='div_form_ncm_" + num_input + "' class='form-group'><label id='label_ncm_" + num_input + "' for='ncm_" + num_input + "'><b>NCM do produto " + num_input + ": </b></label><input type='text' class='form-control' id='ncm_" + num_input + "' name='ncm_" + num_input + "' placeholder='NCM do produto " + num_input + "'><div id='div_ncm_" + num_input + "' class='invalid-feedback'>Forneça o NCM do produto " + num_input + "!</div></div>";
-            var new_label_csosn = "<div id='div_form_csosn_" + num_input + "' class='form-group'><label id='label_csosn_" + num_input + "' for='csosn_" + num_input + "'><b>CSOSN do produto " + num_input + ": </b></label><input type='number' class='form-control' id='csosn_" + num_input + "' name='csosn_" + num_input + "' placeholder='CSOSN do produto " + num_input + "'><div id='div_csosn_" + num_input + "' class='invalid-feedback'>Forneça o CSOSN do produto " + num_input + "!</div></div>";
-            var new_label_cfop = "<div id='div_form_cfop_" + num_input + "' class='form-group'><label id='label_cfop_" + num_input + "' for='cfop_" + num_input + "'><b>CFOP do produto " + num_input + ": </b></label><input type='number' class='form-control' id='cfop_" + num_input + "' name='cfop_" + num_input + "' placeholder='CFOP do produto " + num_input + "'><div id='div_cfop_" + num_input + "' class='invalid-feedback'>Forneça o CFOP do produto " + num_input + "!</div></div>";
-            var new_label_cest = "<div id='div_form_cest_" + num_input + "' class='form-group'><label id='label_cest_" + num_input + "' for='cest_" + num_input + "'><b>CEST do produto " + num_input + ": </b></label><input type='number' class='form-control' id='cest_" + num_input + "' name='cest_" + num_input + "' placeholder='CEST do produto " + num_input + "'><div id='div_cest_" + num_input + "' class='invalid-feedback'></div></div>";
+            var new_label_csosn = "<div id='div_form_csosn_" + num_input + "' class='form-group'><label id='label_csosn_" + num_input + "' for='csosn_" + num_input + "'><b>CSOSN do produto " + num_input + ": </b></label><input min='0' type='number' class='form-control' id='csosn_" + num_input + "' name='csosn_" + num_input + "' placeholder='CSOSN do produto " + num_input + "'><div id='div_csosn_" + num_input + "' class='invalid-feedback'>Forneça o CSOSN do produto " + num_input + "!</div></div>";
+            var new_label_cfop = "<div id='div_form_cfop_" + num_input + "' class='form-group'><label id='label_cfop_" + num_input + "' for='cfop_" + num_input + "'><b>CFOP do produto " + num_input + ": </b></label><input min='0' type='number' class='form-control' id='cfop_" + num_input + "' name='cfop_" + num_input + "' placeholder='CFOP do produto " + num_input + "'><div id='div_cfop_" + num_input + "' class='invalid-feedback'>Forneça o CFOP do produto " + num_input + "!</div></div>";
+            var new_label_cest = "<div id='div_form_cest_" + num_input + "' class='form-group'><label id='label_cest_" + num_input + "' for='cest_" + num_input + "'><b>CEST do produto " + num_input + ": </b></label><input min='0' type='number' class='form-control' id='cest_" + num_input + "' name='cest_" + num_input + "' placeholder='CEST do produto " + num_input + "'><div id='div_cest_" + num_input + "' class='invalid-feedback'></div></div>";
+
 
             // var new_input_cod_athos = "";
             // var new_input_nome = "";
@@ -73,6 +74,82 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             document.getElementById('csosn_' + num_input).required = true;
             document.getElementById('cfop_' + num_input).required = true;
 
+            // avoiding negative numbers and stuff
+            quantidade = document.getElementById('quantidade_' + num_input);
+            csosn = document.getElementById('csosn_' + num_input);
+            cfop = document.getElementById('cfop_' + num_input);
+            cest = document.getElementById('cest_' + num_input);
+
+            // Listen for input event on numInput.
+            quantidade.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter, c, x, v
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13 ||
+                        e.keyCode == 67 ||
+                        e.keyCode == 88 ||
+                        e.keyCode == 86)) {
+                    return false;
+                }
+            }
+            csosn.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter, c, x, v
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13 ||
+                        e.keyCode == 67 ||
+                        e.keyCode == 88 ||
+                        e.keyCode == 86)) {
+                    return false;
+                }
+            }
+            cfop.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter, c, x, v
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13 ||
+                        e.keyCode == 67 ||
+                        e.keyCode == 88 ||
+                        e.keyCode == 86)) {
+                    return false;
+                }
+            }
+            cest.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter, c, x, v
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13 ||
+                        e.keyCode == 67 ||
+                        e.keyCode == 88 ||
+                        e.keyCode == 86)) {
+                    return false;
+                }
+            }
+
             $(document).ready(function() {
                 $("#preco_" + num_input).maskMoney({
                     prefix: "R$ ",
@@ -86,7 +163,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             // appending new anchor link to nav_links
             new_anchor = '<a id="link_produto_' + num_input + '" class="nav-link" href="#label_cod_athos_' + num_input + '">Produto ' + num_input + '</a>';
             $('#nav_links').append(new_anchor);
-            
+
             // adjusting scrolltop when anchor link is clicked
             $(document).ready(function() {
                 $("a[href^='#']").on('click', function(event) {
@@ -232,6 +309,8 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
 
         // Pesquisa os dados do produto a partir do código Athos fornecido
         function pesquisar_produto(num_input) {
+            // Atualizando o valor do input 'atual' (codigo athos atual) para enviar via post
+            document.getElementById('atual').value = num_input;
             $.ajax({
                 method: 'POST',
                 url: '../pesquisar/pesquisa_produto.php',
@@ -296,6 +375,84 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                 });
             });
         });
+
+        // avoiding negative numbers and stuff
+        $(document).ready(function() {
+            quantidade = document.getElementById('quantidade_1');
+            csosn = document.getElementById('csosn_1');
+            cfop = document.getElementById('cfop_1');
+            cest = document.getElementById('cest_1');
+
+            // Listen for input event on numInput.
+            quantidade.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter, c, x, v
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13 ||
+                        e.keyCode == 67 ||
+                        e.keyCode == 88 ||
+                        e.keyCode == 86)) {
+                    return false;
+                }
+            }
+            csosn.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter, c, x, v
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13 ||
+                        e.keyCode == 67 ||
+                        e.keyCode == 88 ||
+                        e.keyCode == 86)) {
+                    return false;
+                }
+            }
+            cfop.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter, c, x, v
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13 ||
+                        e.keyCode == 67 ||
+                        e.keyCode == 88 ||
+                        e.keyCode == 86)) {
+                    return false;
+                }
+            }
+            cest.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter, c, x, v
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13 ||
+                        e.keyCode == 67 ||
+                        e.keyCode == 88 ||
+                        e.keyCode == 86)) {
+                    return false;
+                }
+            }
+        });
     </script>
     <style>
         html {
@@ -352,8 +509,8 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                     <a class="nav-link" href="../alterar/troca_temporaria.php"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1">
-					<a class="nav-link" href="../produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
-				</li>
+                    <a class="nav-link" href="../produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
+                </li>
                 <!-- <li class="nav-item px-1 text-success"><br>
                     R$ <span id="subtotal">0,00</span>
                 </li> -->
@@ -434,7 +591,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                         <label for="quantidade_1">
                             <b>Quantidade do produto 1:</b>
                         </label>
-                        <input type="number" id="quantidade_1" name="quantidade_1" class="form-control" placeholder="Quantidade do produto 1" required onkeyup="alterar(1, document.getElementById('quantidade_1').value, document.getElementById('preco_1').value)">
+                        <input type="number" id="quantidade_1" name="quantidade_1" class="form-control" placeholder="Quantidade do produto 1" required onkeyup="alterar(1, document.getElementById('quantidade_1').value, document.getElementById('preco_1').value)" min="1">
                         <div class="invalid-feedback">
                             Forneça a quantidade do produto 1!
                         </div>
@@ -464,7 +621,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                         <label for="csosn_1">
                             <b>CSOSN do produto 1:</b>
                         </label>
-                        <input type="number" id="csosn_1" name="csosn_1" class="form-control" placeholder="CSOSN do produto 1" required>
+                        <input type="number" id="csosn_1" name="csosn_1" class="form-control" placeholder="CSOSN do produto 1" required min="0">
                         <div class="invalid-feedback">
                             Forneça o CSOSN do produto 1!
                         </div>
@@ -474,7 +631,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                         <label for="cfop_1">
                             <b>CFOP do produto 1:</b>
                         </label>
-                        <input type="number" id="cfop_1" name="cfop_1" class="form-control" placeholder="CFOP do produto 1" required>
+                        <input type="number" id="cfop_1" name="cfop_1" class="form-control" placeholder="CFOP do produto 1" required min="0">
                         <div class="invalid-feedback">
                             Forneça o CFOP do produto 1!
                         </div>
@@ -484,11 +641,12 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                         <label for="cest_1">
                             <b>CEST do produto 1:</b>
                         </label>
-                        <input type="number" id="cest_1" name="cest_1" class="form-control" placeholder="CEST do produto 1">
+                        <input type="number" id="cest_1" name="cest_1" class="form-control" placeholder="CEST do produto 1" min="0">
                         <div class="invalid-feedback">
                         </div>
                     </div>
                     <div id="div_produto_novo"></div>
+                    <input type="hidden" class="form-control" name="atual" value="1" id="atual">
                     <input type="hidden" class="form-control" name="total" value="1" id="total">
                     <button type="submit" class="btn btn-success" style="float: right">Cadastrar</button>
                 </form>

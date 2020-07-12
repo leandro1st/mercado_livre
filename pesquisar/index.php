@@ -134,139 +134,244 @@ if (isset($_POST['nome_do_kit'])) {
 
             // Função para alterar mask, enviar valores através do ajax, alterar valores de exibição do preço unitário/total do produto
             function alterar_info(id_produto, preco_novo, nome, quantidade, cod_athos, ncm, csosn, cfop, cest) {
-                //Alterando a mask
-                preco_novo = preco_novo.replace("R$ ", "");
-                preco_novo_ptBR = preco_novo.replace(/\./g, "");
-                preco_novo_calculo = preco_novo_ptBR.replace(",", ".");
-                preco_novo_span = new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL'
-                }).format(preco_novo_calculo);
-                // Preço total novo
-                preco_total_novo = (quantidade * preco_novo_calculo).toFixed(2).toString();
-                preco_total_novo_ptBR = new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL'
-                }).format(preco_total_novo);
-                // Mostrar preço novo
-                var span_preco = "<span id='preco-" + id_produto + "'>" + preco_novo_span + "</span>";
-                $.ajax({
-                    method: 'POST',
-                    url: '../alterar/alterar.php',
-                    data: $('#form-' + id_produto).serialize(),
-                    success: function(data) {
-                        // Alterando os valores dos inputs do modal
-                        document.getElementById('nome_produto_modal').innerHTML = nome.toUpperCase();
+                a = document.getElementById('input_athos-' + id_produto).value.trim();
+                n = document.getElementById('input_nome-' + id_produto).value.trim();
+                q = document.getElementById('input_quantidade-' + id_produto).value.trim();
+                p = document.getElementById('input_preco-' + id_produto).value.trim();
+                nc = document.getElementById('input_ncm-' + id_produto).value.trim();
+                c = document.getElementById('input_csosn-' + id_produto).value.trim();
+                cf = document.getElementById('input_cfop-' + id_produto).value.trim();
+                ce = document.getElementById('input_cest-' + id_produto).value.trim();
 
-                        document.getElementById('athos_antigo_modal').innerHTML = document.getElementById('athos_modal-' + id_produto).value;
-                        document.getElementById('athos_novo_modal').innerHTML = cod_athos;
+                values = [a, n, q, p, nc, c, cf]
+                fields = ["Código Athos", "Nome", "Quantidade", "Preço", "NCM", "CSOSN", "CFOP"]
+                empty_fields = []
 
-                        document.getElementById('nome_antigo_modal').innerHTML = document.getElementById('nome_modal-' + id_produto).value;
-                        document.getElementById('nome_novo_modal').innerHTML = nome.toUpperCase();
-
-                        document.getElementById('quantidade_antigo_modal').innerHTML = document.getElementById('quantidade_modal-' + id_produto).value;
-                        document.getElementById('quantidade_novo_modal').innerHTML = quantidade;
-
-                        document.getElementById('preco_antigo_modal').innerHTML = document.getElementById('preco_velho-' + id_produto).value;
-                        document.getElementById('preco_novo_modal').innerHTML = preco_novo_span;
-
-                        document.getElementById('ncm_antigo_modal').innerHTML = document.getElementById('ncm_modal-' + id_produto).value;
-                        document.getElementById('ncm_novo_modal').innerHTML = ncm.toUpperCase();
-
-                        // csosn antigo
-                        if (document.getElementById('csosn_modal-' + id_produto).value != "0") {
-                            document.getElementById('csosn_antigo_modal').innerHTML = document.getElementById('csosn_modal-' + id_produto).value;
-                        } else {
-                            document.getElementById('csosn_antigo_modal').innerHTML = "–";
-                        }
-                        // csosn novo
-                        if (csosn == "0" || csosn == "") {
-                            document.getElementById('csosn_novo_modal').innerHTML = "–";
-                        } else {
-                            document.getElementById('csosn_novo_modal').innerHTML = csosn;
-                        }
-
-                        // cfop antigo
-                        if (document.getElementById('cfop_modal-' + id_produto).value != "0") {
-                            document.getElementById('cfop_antigo_modal').innerHTML = document.getElementById('cfop_modal-' + id_produto).value;
-                        } else {
-                            document.getElementById('cfop_antigo_modal').innerHTML = "–";
-                        }
-                        // cfop novo
-                        if (cfop == "0" || cfop == "") {
-                            document.getElementById('cfop_novo_modal').innerHTML = "–";
-                        } else {
-                            document.getElementById('cfop_novo_modal').innerHTML = cfop;
-                        }
-
-                        // Cest antigo
-                        if (document.getElementById('cest_modal-' + id_produto).value != "0000000") {
-                            document.getElementById('cest_antigo_modal').innerHTML = document.getElementById('cest_modal-' + id_produto).value;
-                        } else {
-                            document.getElementById('cest_antigo_modal').innerHTML = "–";
-                        }
-                        // Cest novo
-                        if (cest == "0000000" || cest == "") {
-                            document.getElementById('cest_novo_modal').innerHTML = "–";
-                        } else {
-                            document.getElementById('cest_novo_modal').innerHTML = cest;
-                        }
-
-                        $('#modalAlteradoInfo').modal('show');
-
-                        // Alterando os valores de exibição
-                        document.getElementById('input_athos-' + id_produto).type = 'hidden';
-                        document.getElementById('athos-' + id_produto).innerHTML = cod_athos;
-
-                        document.getElementById('input_nome-' + id_produto).type = 'hidden';
-                        document.getElementById('nome-' + id_produto).innerHTML = nome.toUpperCase();
-
-                        document.getElementById('input_quantidade-' + id_produto).type = 'hidden';
-                        document.getElementById('quantidade-' + id_produto).innerHTML = quantidade;
-
-                        document.getElementById('input_preco-' + id_produto).type = 'hidden';
-                        document.getElementById('preco-' + id_produto).innerHTML = span_preco;
-                        document.getElementById('preco_total-' + id_produto).innerHTML = preco_total_novo_ptBR;
-
-                        document.getElementById('input_ncm-' + id_produto).type = 'hidden';
-                        document.getElementById('ncm-' + id_produto).innerHTML = ncm.toUpperCase();
-
-                        document.getElementById('input_csosn-' + id_produto).type = 'hidden';
-                        if (csosn == "0" || csosn == "") {
-                            document.getElementById('csosn-' + id_produto).innerHTML = "–";
-                        } else {
-                            document.getElementById('csosn-' + id_produto).innerHTML = csosn;
-                        }
-
-                        document.getElementById('input_cfop-' + id_produto).type = 'hidden';
-                        if (cfop == "0" || cfop == "") {
-                            document.getElementById('cfop-' + id_produto).innerHTML = "–";
-                        } else {
-                            document.getElementById('cfop-' + id_produto).innerHTML = cfop;
-                        }
-
-                        document.getElementById('input_cest-' + id_produto).type = 'hidden';
-                        if (cest == "0000000" || cest == "") {
-                            document.getElementById('cest-' + id_produto).innerHTML = "–";
-                        } else {
-                            document.getElementById('cest-' + id_produto).innerHTML = cest;
-                        }
-
-                        // Ícones
-                        $('#icone_editar-' + id_produto).attr('data-original-title', 'Editar ' + nome.toUpperCase());
-                        document.getElementById('span-' + id_produto + '').style.cursor = 'not-allowed';
-                        $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + nome.toUpperCase());
-                        document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
-                        // Ícone deletar produto
-                        document.getElementById('icone_excluir-' + id_produto + '').style.cursor = 'pointer';
-                        document.getElementById('span_excluir-' + id_produto + '').style.cssText = 'opacity: 1; pointer-events: auto';
-                        $('#icone_excluir-' + id_produto).attr('data-original-title', 'Excluir ' + nome.toUpperCase());
-                    },
-                    error: function(data) {
-                        alert("Ocorreu um erro!");
+                for (i = 0; i < fields.length; i++) {
+                    // alert(values[i]);
+                    if (!values[i] || parseInt(values[i]) === 0) {
+                        // appending empty fields to array
+                        empty_fields.push(fields[i]);
                     }
-                });
+                }
+
+                // if array is not empty
+                if (empty_fields.length > 0) {
+                    // appending element to list
+                    document.getElementById('lista_campos').innerHTML = '<li class="list-group-item">' + empty_fields.join('</li><li class="list-group-item">') + '</li>';
+
+                    $('#modalCamposPreenchidos').modal('show');
+                } else {
+                    //Alterando a mask
+                    preco_novo = preco_novo.replace("R$ ", "");
+                    preco_novo_ptBR = preco_novo.replace(/\./g, "");
+                    preco_novo_calculo = preco_novo_ptBR.replace(",", ".");
+                    preco_novo_span = new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    }).format(preco_novo_calculo);
+                    // Preço total novo
+                    preco_total_novo = (quantidade * preco_novo_calculo).toFixed(2).toString();
+                    preco_total_novo_ptBR = new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    }).format(preco_total_novo);
+                    // Mostrar preço novo
+                    var span_preco = "<span id='preco-" + id_produto + "'>" + preco_novo_span + "</span>";
+                    $.ajax({
+                        method: 'POST',
+                        url: '../alterar/alterar.php',
+                        data: $('#form-' + id_produto).serialize(),
+                        success: function(data) {
+                            // Alterando os valores dos inputs do modal
+                            document.getElementById('nome_produto_modal').innerHTML = nome.toUpperCase();
+
+                            document.getElementById('athos_antigo_modal').innerHTML = document.getElementById('athos_modal-' + id_produto).value;
+                            document.getElementById('athos_novo_modal').innerHTML = cod_athos;
+
+                            document.getElementById('nome_antigo_modal').innerHTML = document.getElementById('nome_modal-' + id_produto).value;
+                            document.getElementById('nome_novo_modal').innerHTML = nome.toUpperCase();
+
+                            document.getElementById('quantidade_antigo_modal').innerHTML = document.getElementById('quantidade_modal-' + id_produto).value;
+                            document.getElementById('quantidade_novo_modal').innerHTML = quantidade;
+
+                            document.getElementById('preco_antigo_modal').innerHTML = document.getElementById('preco_velho-' + id_produto).value;
+                            document.getElementById('preco_novo_modal').innerHTML = preco_novo_span;
+
+                            document.getElementById('ncm_antigo_modal').innerHTML = document.getElementById('ncm_modal-' + id_produto).value;
+                            document.getElementById('ncm_novo_modal').innerHTML = ncm.toUpperCase();
+
+                            // csosn antigo
+                            if (document.getElementById('csosn_modal-' + id_produto).value != "0") {
+                                document.getElementById('csosn_antigo_modal').innerHTML = document.getElementById('csosn_modal-' + id_produto).value;
+                            } else {
+                                document.getElementById('csosn_antigo_modal').innerHTML = "–";
+                            }
+                            // csosn novo
+                            if (csosn == "0" || csosn == "") {
+                                document.getElementById('csosn_novo_modal').innerHTML = "–";
+                            } else {
+                                document.getElementById('csosn_novo_modal').innerHTML = csosn;
+                            }
+
+                            // cfop antigo
+                            if (document.getElementById('cfop_modal-' + id_produto).value != "0") {
+                                document.getElementById('cfop_antigo_modal').innerHTML = document.getElementById('cfop_modal-' + id_produto).value;
+                            } else {
+                                document.getElementById('cfop_antigo_modal').innerHTML = "–";
+                            }
+                            // cfop novo
+                            if (cfop == "0" || cfop == "") {
+                                document.getElementById('cfop_novo_modal').innerHTML = "–";
+                            } else {
+                                document.getElementById('cfop_novo_modal').innerHTML = cfop;
+                            }
+
+                            // Cest antigo
+                            if (document.getElementById('cest_modal-' + id_produto).value != "0000000") {
+                                document.getElementById('cest_antigo_modal').innerHTML = document.getElementById('cest_modal-' + id_produto).value;
+                            } else {
+                                document.getElementById('cest_antigo_modal').innerHTML = "–";
+                            }
+                            // Cest novo
+                            if (cest == "0000000" || cest == "") {
+                                document.getElementById('cest_novo_modal').innerHTML = "–";
+                            } else {
+                                document.getElementById('cest_novo_modal').innerHTML = cest;
+                            }
+
+                            $('#modalAlteradoInfo').modal('show');
+
+                            // Alterando os valores de exibição
+                            document.getElementById('input_athos-' + id_produto).type = 'hidden';
+                            document.getElementById('athos-' + id_produto).innerHTML = cod_athos;
+
+                            document.getElementById('input_nome-' + id_produto).type = 'hidden';
+                            document.getElementById('nome-' + id_produto).innerHTML = nome.toUpperCase();
+
+                            document.getElementById('input_quantidade-' + id_produto).type = 'hidden';
+                            document.getElementById('quantidade-' + id_produto).innerHTML = quantidade;
+
+                            document.getElementById('input_preco-' + id_produto).type = 'hidden';
+                            document.getElementById('preco-' + id_produto).innerHTML = span_preco;
+                            document.getElementById('preco_total-' + id_produto).innerHTML = preco_total_novo_ptBR;
+
+                            document.getElementById('input_ncm-' + id_produto).type = 'hidden';
+                            document.getElementById('ncm-' + id_produto).innerHTML = ncm.toUpperCase();
+
+                            document.getElementById('input_csosn-' + id_produto).type = 'hidden';
+                            if (csosn == "0" || csosn == "") {
+                                document.getElementById('csosn-' + id_produto).innerHTML = "–";
+                            } else {
+                                document.getElementById('csosn-' + id_produto).innerHTML = csosn;
+                            }
+
+                            document.getElementById('input_cfop-' + id_produto).type = 'hidden';
+                            if (cfop == "0" || cfop == "") {
+                                document.getElementById('cfop-' + id_produto).innerHTML = "–";
+                            } else {
+                                document.getElementById('cfop-' + id_produto).innerHTML = cfop;
+                            }
+
+                            document.getElementById('input_cest-' + id_produto).type = 'hidden';
+                            if (cest == "0000000" || cest == "") {
+                                document.getElementById('cest-' + id_produto).innerHTML = "–";
+                            } else {
+                                document.getElementById('cest-' + id_produto).innerHTML = cest;
+                            }
+
+                            // Ícones
+                            $('#icone_editar-' + id_produto).attr('data-original-title', 'Editar ' + nome.toUpperCase());
+                            document.getElementById('span-' + id_produto + '').style.cursor = 'not-allowed';
+                            $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + nome.toUpperCase());
+                            document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
+                            // Ícone deletar produto
+                            document.getElementById('icone_excluir-' + id_produto + '').style.cursor = 'pointer';
+                            document.getElementById('span_excluir-' + id_produto + '').style.cssText = 'opacity: 1; pointer-events: auto';
+                            $('#icone_excluir-' + id_produto).attr('data-original-title', 'Excluir ' + nome.toUpperCase());
+                        },
+                        error: function(data) {
+                            alert("Ocorreu um erro!");
+                        }
+                    });
+                }
             }
+
+            // avoiding negative numbers and stuff
+            $(document).ready(function() {
+                for (i = 0; i < vetor_id.length; i++) {
+                    quantidade = document.getElementById('input_quantidade-' + vetor_id[i]);
+                    csosn = document.getElementById('input_csosn-' + vetor_id[i]);
+                    cfop = document.getElementById('input_cfop-' + vetor_id[i]);
+                    cest = document.getElementById('input_cest-' + vetor_id[i]);
+
+                    // Listen for input event on numInput.
+                    quantidade.onkeydown = function(e) {
+                        // allowing only numbers, backspace, tab, f5, f6, delete, arrows, c, x, v
+                        if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                                (e.keyCode > 47 && e.keyCode < 58) ||
+                                e.keyCode == 8 ||
+                                e.keyCode == 9 ||
+                                e.keyCode == 116 ||
+                                e.keyCode == 117 ||
+                                e.keyCode == 46 ||
+                                (e.keyCode > 36 && e.keyCode < 41) ||
+                                e.keyCode == 67 ||
+                                e.keyCode == 88 ||
+                                e.keyCode == 86)) {
+                            return false;
+                        }
+                    }
+                    csosn.onkeydown = function(e) {
+                        // allowing only numbers, backspace, tab, f5, f6, delete, arrows, c, x, v
+                        if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                                (e.keyCode > 47 && e.keyCode < 58) ||
+                                e.keyCode == 8 ||
+                                e.keyCode == 9 ||
+                                e.keyCode == 116 ||
+                                e.keyCode == 117 ||
+                                e.keyCode == 46 ||
+                                (e.keyCode > 36 && e.keyCode < 41) ||
+                                e.keyCode == 67 ||
+                                e.keyCode == 88 ||
+                                e.keyCode == 86)) {
+                            return false;
+                        }
+                    }
+                    cfop.onkeydown = function(e) {
+                        // allowing only numbers, backspace, tab, f5, f6, delete, arrows, c, x, v
+                        if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                                (e.keyCode > 47 && e.keyCode < 58) ||
+                                e.keyCode == 8 ||
+                                e.keyCode == 9 ||
+                                e.keyCode == 116 ||
+                                e.keyCode == 117 ||
+                                e.keyCode == 46 ||
+                                (e.keyCode > 36 && e.keyCode < 41) ||
+                                e.keyCode == 67 ||
+                                e.keyCode == 88 ||
+                                e.keyCode == 86)) {
+                            return false;
+                        }
+                    }
+                    cest.onkeydown = function(e) {
+                        // allowing only numbers, backspace, tab, f5, f6, delete, arrows, c, x, v
+                        if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                                (e.keyCode > 47 && e.keyCode < 58) ||
+                                e.keyCode == 8 ||
+                                e.keyCode == 9 ||
+                                e.keyCode == 116 ||
+                                e.keyCode == 117 ||
+                                e.keyCode == 46 ||
+                                (e.keyCode > 36 && e.keyCode < 41) ||
+                                e.keyCode == 67 ||
+                                e.keyCode == 88 ||
+                                e.keyCode == 86)) {
+                            return false;
+                        }
+                    }
+                }
+            });
 
             // Autocomplete (ferramenta de busca)
             $(document).ready(function() {
@@ -307,41 +412,49 @@ if (isset($_POST['nome_do_kit'])) {
 
             // Função alterar nome do kit
             function alterar_nome_kit(id_kit, nome_kit_novo) {
-                $.ajax({
-                    method: 'POST',
-                    url: '../alterar/alterar_nome_kit.php',
-                    data: $('#form-kit').serialize(),
-                    success: function(data) {
-                        // Alterando os valores dos inputs/title/breadcrumb
-                        document.getElementById('titulo_kit').innerHTML = nome_kit_novo.toUpperCase();
-                        document.getElementById('nome_kit_html').innerHTML = "Mercado Livre | " + nome_kit_novo.toUpperCase() + " (#" + id_kit.toString() + ")"
-                        document.getElementById('kit_nome_breadcrumb').innerHTML = nome_kit_novo.toUpperCase();
-                        document.getElementById('input_nome_kit').type = 'hidden';
-                        // Alterando nome do kit dentro do tooltip e exibindo o botão novamente
-                        $('#btn_nome_kit').attr('data-original-title', 'Clonar ' + nome_kit_novo.toUpperCase());
-                        document.getElementById('btn_nome_kit').style.display = "block";
-                        // Alterando o nome do kit dentro do modal Clonar
-                        if (document.getElementById('quantidade_produto_kit').innerHTML == 0) {
-                            document.getElementById('nome_kit_modal_clonado').classList.remove("text-success");
-                            document.getElementById('nome_kit_modal_clonado').classList.add("text-danger");
-                            document.getElementById('nome_kit_modal_clonado').innerHTML = "Ocorreu um erro ao clonar o " + nome_kit_novo.toUpperCase().trim() + "!";
-                        } else {
-                            document.getElementById('nome_kit_modal_clonado').classList.add("text-success");
-                            document.getElementById('nome_kit_modal_clonado').innerHTML = nome_kit_novo.toUpperCase().trim() + " foi clonado com sucesso!";
-                        }
-                        // Desativando botão
-                        document.getElementById('span_titulo').style.cursor = 'not-allowed';
-                        document.getElementById('icone_titulo').style.cssText = 'color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none';
+                nome_kit = document.getElementById('input_nome_kit').value.trim();
 
-                        // Modal
-                        document.getElementById('nome_kit_antigo_modal').innerHTML = document.getElementById('nome_kit_modal').value;
-                        document.getElementById('nome_kit_novo_modal').innerHTML = nome_kit_novo.toUpperCase();
-                        $('#modalAlteradoNomeKit').modal('show');
-                    },
-                    error: function(data) {
-                        alert("Ocorreu um erro!");
-                    }
-                });
+                if (!nome_kit) {
+                    document.getElementById('lista_campo_nome_kit').innerHTML = '<li class="list-group-item">Nome do Kit</li>';
+
+                    $('#modalNomeKitPreenchido').modal('show');
+                } else {
+                    $.ajax({
+                        method: 'POST',
+                        url: '../alterar/alterar_nome_kit.php',
+                        data: $('#form-kit').serialize(),
+                        success: function(data) {
+                            // Alterando os valores dos inputs/title/breadcrumb
+                            document.getElementById('titulo_kit').innerHTML = nome_kit_novo.toUpperCase().trim();
+                            document.getElementById('nome_kit_html').innerHTML = "Mercado Livre | " + nome_kit_novo.toUpperCase().trim() + " (#" + id_kit.toString() + ")"
+                            document.getElementById('kit_nome_breadcrumb').innerHTML = nome_kit_novo.toUpperCase().trim();
+                            document.getElementById('input_nome_kit').type = 'hidden';
+                            // Alterando nome do kit dentro do tooltip e exibindo o botão novamente
+                            $('#btn_nome_kit').attr('data-original-title', 'Clonar ' + nome_kit_novo.toUpperCase().trim());
+                            document.getElementById('btn_nome_kit').style.display = "block";
+                            // Alterando o nome do kit dentro do modal Clonar
+                            if (document.getElementById('quantidade_produto_kit').innerHTML == 0) {
+                                document.getElementById('nome_kit_modal_clonado').classList.remove("text-success");
+                                document.getElementById('nome_kit_modal_clonado').classList.add("text-danger");
+                                document.getElementById('nome_kit_modal_clonado').innerHTML = "Ocorreu um erro ao clonar o " + nome_kit_novo.toUpperCase().trim() + "!";
+                            } else {
+                                document.getElementById('nome_kit_modal_clonado').classList.add("text-success");
+                                document.getElementById('nome_kit_modal_clonado').innerHTML = nome_kit_novo.toUpperCase().trim() + " foi clonado com sucesso!";
+                            }
+                            // Desativando botão
+                            document.getElementById('span_titulo').style.cursor = 'not-allowed';
+                            document.getElementById('icone_titulo').style.cssText = 'color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none';
+
+                            // Modal
+                            document.getElementById('nome_kit_antigo_modal').innerHTML = document.getElementById('nome_kit_modal').value.trim();
+                            document.getElementById('nome_kit_novo_modal').innerHTML = nome_kit_novo.toUpperCase().trim();
+                            $('#modalAlteradoNomeKit').modal('show');
+                        },
+                        error: function(data) {
+                            alert("Ocorreu um erro!");
+                        }
+                    });
+                }
             };
 
             // Função para clonar kit
@@ -554,9 +667,9 @@ if (isset($_POST['nome_do_kit'])) {
                             <th class="theader_top" scope="col" width="8%">
                                 Qtde
                                 <?php if ($num_kits == 1) { ?>
-                                    <span id="span_quantidade_produtos" class="text-primary" data-toggle="tooltip" title="Há <?php echo $num_kits ?> produto nesse kit">(<span id="quantidade_produto_kit"><?php echo $num_kits ?></span>)</span>
+                                    <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" title="Há <?php echo $num_kits ?> produto nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
                                 <?php } else { ?>
-                                    <span id="span_quantidade_produtos" class="text-primary" data-toggle="tooltip" title="Há <?php echo $num_kits ?> produtos nesse kit">(<span id="quantidade_produto_kit"><?php echo $num_kits ?></span>)</span>
+                                    <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" title="Há <?php echo $num_kits ?> produtos nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
                                 <?php } ?>
                             </th>
                             <th class="theader_top" scope="col" width="10%">Preço</th>
@@ -574,14 +687,18 @@ if (isset($_POST['nome_do_kit'])) {
                         <script>
                             // Criando vetor para armazenar todos os preços antigos
                             var vetor_precos = [];
+                            // Criando vetor para armazenar todos os ids dos produtos
+                            var vetor_id = [];
                         </script>
-                        <!-- Loop para armazenar todos os preços dos produtos -->
+                        <!-- Loop para armazenar todos os preços e ids dos produtos -->
                         <?php for ($i = 0; $i < $num_kits; $i++) {
                             $vetor_kit_para_alterar_valores_vetor_javascript = mysqli_fetch_array($procurar_para_alterar_valores_vetor_javascript); ?>
                             <script>
                                 // Adicionando preço na última posição
                                 var novo = "<?php echo $vetor_kit_para_alterar_valores_vetor_javascript['preco_total'] ?>";
                                 vetor_precos.push(novo);
+                                // adicionando os códigos dos produtos no array
+                                vetor_id.push("<?php echo $vetor_kit_para_alterar_valores_vetor_javascript['id'] ?>");
                             </script>
                         <?php } ?>
                         <script>
@@ -640,7 +757,7 @@ if (isset($_POST['nome_do_kit'])) {
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="quantidade_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['quantidade'] ?>">
                                         <!-- Input pra alterar a quantidade -->
-                                        <input type="hidden" id="input_quantidade-<?php echo $vetor_kit['id'] ?>" name="quantidade" class="form-control" value="<?php echo $vetor_kit['quantidade'] ?>" placeholder="Quantidade nova" onkeydown="return event.key != 'Enter';">
+                                        <input type="hidden" id="input_quantidade-<?php echo $vetor_kit['id'] ?>" name="quantidade" class="form-control" value="<?php echo $vetor_kit['quantidade'] ?>" placeholder="Quantidade nova" onkeydown="return event.key != 'Enter';" min="1">
                                         <span id="quantidade-<?php echo $vetor_kit['id'] ?>">
                                             <?php echo $vetor_kit['quantidade'] ?>
                                         </span>
@@ -673,7 +790,7 @@ if (isset($_POST['nome_do_kit'])) {
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="csosn_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['csosn'] ?>">
                                         <!-- Input pra alterar o csosn -->
-                                        <input type="hidden" id="input_csosn-<?php echo $vetor_kit['id'] ?>" name="csosn_novo" class="form-control" value="<?php echo $vetor_kit['csosn'] ?>" placeholder="CSOSN novo" onkeydown="return event.key != 'Enter';">
+                                        <input type="hidden" id="input_csosn-<?php echo $vetor_kit['id'] ?>" name="csosn_novo" class="form-control" value="<?php echo $vetor_kit['csosn'] ?>" placeholder="CSOSN novo" onkeydown="return event.key != 'Enter';" min="0">
 
                                         <span id="csosn-<?php echo $vetor_kit['id'] ?>">
                                             <?php if ($vetor_kit['csosn'] == 0) {
@@ -687,7 +804,7 @@ if (isset($_POST['nome_do_kit'])) {
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="cfop_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['cfop'] ?>">
                                         <!-- Input pra alterar o cfop -->
-                                        <input type="hidden" id="input_cfop-<?php echo $vetor_kit['id'] ?>" name="cfop_novo" class="form-control" value="<?php echo $vetor_kit['cfop'] ?>" placeholder="CFOP novo" onkeydown="return event.key != 'Enter';">
+                                        <input type="hidden" id="input_cfop-<?php echo $vetor_kit['id'] ?>" name="cfop_novo" class="form-control" value="<?php echo $vetor_kit['cfop'] ?>" placeholder="CFOP novo" onkeydown="return event.key != 'Enter';" min="0">
 
                                         <span id="cfop-<?php echo $vetor_kit['id'] ?>">
                                             <?php if ($vetor_kit['cfop'] == 0) {
@@ -701,7 +818,7 @@ if (isset($_POST['nome_do_kit'])) {
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="cest_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['cest'] ?>">
                                         <!-- Input pra alterar o cest -->
-                                        <input type="hidden" id="input_cest-<?php echo $vetor_kit['id'] ?>" name="cest_novo" class="form-control" value="<?php echo $vetor_kit['cest'] ?>" placeholder="CEST novo" onkeydown="return event.key != 'Enter';">
+                                        <input type="hidden" id="input_cest-<?php echo $vetor_kit['id'] ?>" name="cest_novo" class="form-control" value="<?php echo $vetor_kit['cest'] ?>" placeholder="CEST novo" onkeydown="return event.key != 'Enter';" min="0">
 
                                         <span id="cest-<?php echo $vetor_kit['id'] ?>">
                                             <?php if ($vetor_kit['cest'] == 0) {
@@ -865,6 +982,32 @@ if (isset($_POST['nome_do_kit'])) {
                 </div>
             </div>
         </div>
+        <!-- Modal campos não preenchidos -->
+        <div class="modal fade" id="modalCamposPreenchidos" tabindex="-1" role="dialog" aria-labelledby="modalCamposPreenchidosTitle" aria-hidden="true" onkeypress="$('#modalCamposPreenchidos').modal('toggle');">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-warning" id="modalTitle">
+                            Há campos a serem preenchidos!
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <p class="lead">Os seguintes campos não foram preenchidos: </p>
+                            <ul id="lista_campos" class="list-group list-group-flush">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Modal alteração nome kit -->
         <div class="modal fade" id="modalAlteradoNomeKit" tabindex="-1" role="dialog" aria-labelledby="modalAlteradoNomeKitTitle" aria-hidden="true" onkeypress="$('#modalAlteradoNomeKit').modal('toggle');">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -885,6 +1028,32 @@ if (isset($_POST['nome_do_kit'])) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal" onclick="">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal nome kit não preenchido -->
+        <div class="modal fade" id="modalNomeKitPreenchido" tabindex="-1" role="dialog" aria-labelledby="modalNomeKitPreenchidoTitle" aria-hidden="true" onkeypress="$('#modalNomeKitPreenchido').modal('toggle');">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-warning" id="modalTitle">
+                            Há campo a ser preenchido!
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <p class="lead">O seguintes campo não foi preenchido: </p>
+                            <ul id="lista_campo_nome_kit" class="list-group list-group-flush">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="">OK</button>
                     </div>
                 </div>
             </div>

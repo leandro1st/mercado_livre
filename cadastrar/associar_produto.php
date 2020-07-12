@@ -103,6 +103,72 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                 }
             });
         }
+
+        // avoiding negative numbers and stuff
+        $(document).ready(function() {
+            quantidade = document.getElementById('quantidade');
+            csosn = document.getElementById('csosn');
+            cfop = document.getElementById('cfop');
+            cest = document.getElementById('cest');
+
+            // Listen for input event on numInput.
+            quantidade.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13)) {
+                    return false;
+                }
+            }
+            csosn.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13)) {
+                    return false;
+                }
+            }
+            cfop.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13)) {
+                    return false;
+                }
+            }
+            cest.onkeydown = function(e) {
+                // allowing only numbers, backspace, tab, f5, f6, delete, arrows, enter
+                if (!((e.keyCode > 95 && e.keyCode < 106) ||
+                        (e.keyCode > 47 && e.keyCode < 58) ||
+                        e.keyCode == 8 ||
+                        e.keyCode == 9 ||
+                        e.keyCode == 116 ||
+                        e.keyCode == 117 ||
+                        e.keyCode == 46 ||
+                        (e.keyCode > 36 && e.keyCode < 41) ||
+                        e.keyCode == 13)) {
+                    return false;
+                }
+            }
+        });
     </script>
     <style>
         #div_botoes {
@@ -164,8 +230,8 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                     <a class="nav-link" href="../alterar/troca_temporaria.php"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1">
-					<a class="nav-link" href="../produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
-				</li>
+                    <a class="nav-link" href="../produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
+                </li>
                 <!-- <li class="nav-item px-1 text-success"><br>
                     R$ <span id="subtotal">0,00</span>
                 </li> -->
@@ -241,7 +307,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                         <label for="quantidade">
                             <b>Quantidade do produto:</b>
                         </label>
-                        <input type="number" id="quantidade" name="quantidade" class="form-control" placeholder="Quantidade do produto" required onkeyup="alterar(document.getElementById('quantidade').value, document.getElementById('preco').value)">
+                        <input type="number" id="quantidade" name="quantidade" class="form-control" placeholder="Quantidade do produto" required onkeyup="alterar(document.getElementById('quantidade').value, document.getElementById('preco').value)" min="1">
                         <div class="invalid-feedback">
                             Forneça a quantidade do produto!
                         </div>
@@ -271,7 +337,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                         <label for="csosn">
                             <b>CSOSN do produto:</b>
                         </label>
-                        <input type="number" id="csosn" name="csosn" class="form-control" placeholder="CSOSN do produto" required>
+                        <input type="number" id="csosn" name="csosn" class="form-control" placeholder="CSOSN do produto" required min="0">
                         <div class="invalid-feedback">
                             Forneça o CSOSN do produto!
                         </div>
@@ -281,7 +347,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                         <label for="cfop">
                             <b>CFOP do produto:</b>
                         </label>
-                        <input type="number" id="cfop" name="cfop" class="form-control" placeholder="CFOP do produto" required>
+                        <input type="number" id="cfop" name="cfop" class="form-control" placeholder="CFOP do produto" required min="0">
                         <div class="invalid-feedback">
                             Forneça o CFOP do produto!
                         </div>
@@ -291,10 +357,11 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                         <label for="cest">
                             <b>CEST do produto:</b>
                         </label>
-                        <input type="number" id="cest" name="cest" class="form-control" placeholder="CEST do produto">
+                        <input type="number" id="cest" name="cest" class="form-control" placeholder="CEST do produto" min="0">
                         <div class="invalid-feedback">
                         </div>
                     </div>
+                    <input type="hidden" class="form-control" name="atual" value="1" id="atual">
                     <input type="hidden" class="form-control" name="total" value="1" id="total">
                     <button type="submit" class="btn btn-success" style="float: right">Associar</button>
                 </form>
