@@ -23,7 +23,8 @@ if (isset($_POST['nome_do_kit'])) {
                 Mercado Livre | Pesquisar
             <?php } else if ($num_kits == 0) { ?>
                 Mercado Livre | <?php echo $nome_kit_post ?>
-            <?php } else { ?>
+            <?php }
+            else { ?>
                 Mercado Livre | <?php echo $vetor_mostrar_nome_kit['kit_nome'] ?> (#<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>)
             <?php } ?>
         </title>
@@ -68,6 +69,10 @@ if (isset($_POST['nome_do_kit'])) {
             .btn-outline-warning:hover {
                 color: #000000 !important;
             }
+
+            .highlight {
+                background-color: #ACCEF7 !important;
+            }
         </style>
         <script>
             // alert($(window).width());
@@ -77,6 +82,11 @@ if (isset($_POST['nome_do_kit'])) {
 
             // Função para alterar o preço antigo
             function texto_input(id_produto) {
+                // overriding class 'clickable' click event, removing highlight from rows
+                $('.clickable').off('click').on('click', function(event) {
+                    $(this).parent().removeClass('highlight').siblings().removeClass('highlight')
+                });
+                
                 // Código Athos
                 document.getElementById('athos-' + id_produto + '').innerHTML = '';
                 document.getElementById('input_athos-' + id_produto).type = 'text';
@@ -134,6 +144,21 @@ if (isset($_POST['nome_do_kit'])) {
 
             // Função para alterar mask, enviar valores através do ajax, alterar valores de exibição do preço unitário/total do produto
             function alterar_info(id_produto, preco_novo, nome, quantidade, cod_athos, ncm, csosn, cfop, cest) {
+                // overriding class 'clickable' click event
+                // not highlighting when clicking on one of last 3 columns (td)
+                $('.clickable').off('click').on('click', function(event) {
+                    // alert(this.className);
+                    // remove previous parent (tr) highlight class 
+                    if ($(this).parent().hasClass('highlight')) {
+                        $(this).parent().removeClass('highlight');
+                    } else {
+                        // highlight clicked row (parent) and remove class 'highlight' from siblings (tbody tr)
+                        // $(this).parent().addClass('highlight').siblings().removeClass('highlight');
+                        // highlight multiple rows
+                        $(this).parent().addClass('highlight');
+                    }
+                });
+                
                 a = document.getElementById('input_athos-' + id_produto).value.trim();
                 n = document.getElementById('input_nome-' + id_produto).value.trim();
                 q = document.getElementById('input_quantidade-' + id_produto).value.trim();
@@ -534,9 +559,9 @@ if (isset($_POST['nome_do_kit'])) {
                             document.getElementById('nome_kit_modal_clonado').classList.remove("text-success");
                             document.getElementById('nome_kit_modal_clonado').innerHTML = "Ocorreu um erro ao clonar o " + document.getElementById('titulo_kit').innerHTML.trim() + "!";
                         } else if (document.getElementById('quantidade_produto_kit').innerHTML == 1) {
-                            $('#span_quantidade_produtos').attr('data-original-title', 'Há ' + document.getElementById('quantidade_produto_kit').innerHTML + ' produto nesse kit');
+                            $('#span_quantidade_produtos').attr('data-original-title', 'Há <b><span class="text-primary">' + document.getElementById('quantidade_produto_kit').innerHTML + '</span></b> produto nesse kit');
                         } else {
-                            $('#span_quantidade_produtos').attr('data-original-title', 'Há ' + document.getElementById('quantidade_produto_kit').innerHTML + ' produtos nesse kit');
+                            $('#span_quantidade_produtos').attr('data-original-title', 'Há <b><span class="text-primary">' + document.getElementById('quantidade_produto_kit').innerHTML + '</span></b> produtos nesse kit');
                         }
                     },
                     error: function(data) {
@@ -544,6 +569,66 @@ if (isset($_POST['nome_do_kit'])) {
                     }
                 });
             }
+
+            // Pesquisa os dados do produto a partir do código Athos fornecido
+            function pesquisar_produto(num_input) {
+                $.ajax({
+                    method: 'POST',
+                    url: 'pesquisa_produto.php',
+                    data: $('#form-' + num_input).serialize(),
+                    success: function(data) {
+                        // alert(data);
+                        // Dividindo a data em um array de strings
+                        dados_produto = data.split("|");
+                        // Preenchendo automaticamente de acordo com o código Athos fornecido
+                        // Se o código não existir no banco, os campos permanecerão com os valores do último preenchimento
+                        if (dados_produto[1]) {
+                            document.getElementById('input_nome-' + num_input).value = dados_produto[1].trim();
+                            document.getElementById('input_ncm-' + num_input).value = dados_produto[3].trim();
+                            document.getElementById('input_csosn-' + num_input).value = dados_produto[2].trim();
+                            document.getElementById('input_cfop-' + num_input).value = dados_produto[5].trim();
+                            document.getElementById('input_cest-' + num_input).value = dados_produto[4].trim();
+                        }
+                    },
+                    error: function(data) {
+                        alert("Ocorreu um erro!");
+                    }
+                });
+            }
+
+            // highlight a row onclick (method 1)
+            // $(document).ready(function() {
+            //     $('#tabela').on('click', 'tbody tr', function(event) {
+            //         // alert(this.className);
+            //         // alert(this.siblings());
+            //         if ($(this).hasClass('highlight')) {
+            //             // remove previous highlight class
+            //             $(this).removeClass('highlight');
+            //         } else {
+            //             // highlight clicked row and remove class 'highlight' from siblings (tbody tr)
+            //             $(this).addClass('highlight').siblings().removeClass('highlight');
+            //             // highlight multiple rows
+            //             // $(this).addClass('highlight');
+            //         }
+            //     });
+            // });
+
+            // highlight a row onclick (method 2)
+            $(document).ready(function() {
+                // not highlighting when clicking on one of last 3 columns (td)
+                $('.clickable').on('click', function(event) {
+                    // alert(this.className);
+                    // remove previous parent (tr) highlight class 
+                    if ($(this).parent().hasClass('highlight')) {
+                        $(this).parent().removeClass('highlight');
+                    } else {
+                        // highlight clicked row (parent) and remove class 'highlight' from siblings (tbody tr)
+                        // $(this).parent().addClass('highlight').siblings().removeClass('highlight');
+                        // highlight multiple rows
+                        $(this).parent().addClass('highlight');
+                    }
+                });
+            });
         </script>
     </head>
 
@@ -606,7 +691,8 @@ if (isset($_POST['nome_do_kit'])) {
                             Pesquisar
                         <?php } else if ($num_kits == 0) { ?>
                             Pesquisar | <?php echo $nome_kit_post ?>
-                        <?php } else { ?>
+                        <?php }
+                        else { ?>
                             Pesquisar | <span id="kit_nome_breadcrumb"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . "</span><small> (#" . $vetor_mostrar_nome_kit['id_kit'] . ")</small>" ?>
                             <?php } ?>
                     </a>
@@ -659,7 +745,7 @@ if (isset($_POST['nome_do_kit'])) {
                 </form>
             </header>
             <main class="container-fluid">
-                <table class="table table-hover table-striped">
+                <table id="tabela" class="table table-hover table-striped">
                     <thead>
                         <tr class="text-center table-warning">
                             <th class="theader_top" scope="col" width="7%">Athos</th>
@@ -667,9 +753,9 @@ if (isset($_POST['nome_do_kit'])) {
                             <th class="theader_top" scope="col" width="8%">
                                 Qtde
                                 <?php if ($num_kits == 1) { ?>
-                                    <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" title="Há <?php echo $num_kits ?> produto nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
+                                    <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" data-html="true" title="Há <b><span class='text-primary'><?php echo $num_kits ?></span></b> produto nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
                                 <?php } else { ?>
-                                    <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" title="Há <?php echo $num_kits ?> produtos nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
+                                    <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" data-html="true" title="Há <b><span class='text-primary'><?php echo $num_kits ?></span></b> produtos nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
                                 <?php } ?>
                             </th>
                             <th class="theader_top" scope="col" width="10%">Preço</th>
@@ -682,7 +768,6 @@ if (isset($_POST['nome_do_kit'])) {
                         </tr>
                     </thead>
                     <tbody>
-
                         <!-- Criando vetor para armazenar os preços, alterar valor de exibição etc -->
                         <script>
                             // Criando vetor para armazenar todos os preços antigos
@@ -734,16 +819,16 @@ if (isset($_POST['nome_do_kit'])) {
                             <tr class="text-center" id="linha-<?php echo $vetor_kit['id'] ?>">
                                 <form id="form-<?php echo $vetor_kit['id'] ?>" method="POST">
                                     <input type="hidden" name="id_produto" value="<?php echo $vetor_kit['id'] ?>">
-                                    <td>
+                                    <td class="clickable">
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="athos_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['cod_athos'] ?>">
                                         <!-- Input pra alterar o cod athos -->
-                                        <input type="hidden" id="input_athos-<?php echo $vetor_kit['id'] ?>" name="athos_novo" class="form-control" value="<?php echo $vetor_kit['cod_athos'] ?>" placeholder="Código Athos novo" onkeydown="return event.key != 'Enter';">
+                                        <input type="hidden" id="input_athos-<?php echo $vetor_kit['id'] ?>" name="cod_athos_<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['cod_athos'] ?>" placeholder="Código Athos novo" onkeydown="return event.key != 'Enter';" onkeyup="pesquisar_produto('<?php echo $vetor_kit['id'] ?>')">
                                         <span id="athos-<?php echo $vetor_kit['id'] ?>">
                                             <?php echo $vetor_kit['cod_athos'] ?>
                                         </span>
                                     </td>
-                                    <td style="max-width: 400px; word-wrap: break-word;">
+                                    <td class="clickable text-left" style="max-width: 400px; word-wrap: break-word;">
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="nome_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['nome'] ?>">
                                         <!-- Input pra alterar o nome do produto -->
@@ -753,7 +838,7 @@ if (isset($_POST['nome_do_kit'])) {
                                             <?php echo $vetor_kit['nome'] ?>
                                         </span>
                                     </td>
-                                    <td>
+                                    <td class="clickable">
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="quantidade_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['quantidade'] ?>">
                                         <!-- Input pra alterar a quantidade -->
@@ -763,7 +848,7 @@ if (isset($_POST['nome_do_kit'])) {
                                         </span>
                                     </td>
                                     <!-- Coluna do preço do produto -->
-                                    <td id="coluna-<?php echo $vetor_kit['id'] ?>">
+                                    <td class="clickable" id="coluna-<?php echo $vetor_kit['id'] ?>">
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="preco_velho-<?php echo $vetor_kit['id'] ?>" class="form-control" value="R$ <?php echo number_format($vetor_kit['preco'], 2, ',', '.') ?>">
                                         <!-- Input pra alterar o preço -->
@@ -773,10 +858,10 @@ if (isset($_POST['nome_do_kit'])) {
                                         </span>
                                     </td>
                                     <!-- Coluna do preço do produto -->
-                                    <td>
+                                    <td class="clickable">
                                         <span id="preco_total-<?php echo $vetor_kit['id'] ?>">R$ <?php echo number_format($vetor_kit['preco_total'], 2, ',', '.') ?></span>
                                     </td>
-                                    <td>
+                                    <td class="clickable">
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="ncm_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['ncm'] ?>">
                                         <!-- Input pra alterar o ncm -->
@@ -786,7 +871,7 @@ if (isset($_POST['nome_do_kit'])) {
                                             <?php echo $vetor_kit['ncm'] ?>
                                         </span>
                                     </td>
-                                    <td>
+                                    <td class="clickable">
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="csosn_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['csosn'] ?>">
                                         <!-- Input pra alterar o csosn -->
@@ -800,7 +885,7 @@ if (isset($_POST['nome_do_kit'])) {
                                             } ?>
                                         </span>
                                     </td>
-                                    <td>
+                                    <td class="clickable">
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="cfop_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['cfop'] ?>">
                                         <!-- Input pra alterar o cfop -->
@@ -814,7 +899,7 @@ if (isset($_POST['nome_do_kit'])) {
                                             } ?>
                                         </span>
                                     </td>
-                                    <td>
+                                    <td class="clickable">
                                         <!-- Input pra mostrar no modal -->
                                         <input type="hidden" id="cest_modal-<?php echo $vetor_kit['id'] ?>" class="form-control" value="<?php echo $vetor_kit['cest'] ?>">
                                         <!-- Input pra alterar o cest -->
@@ -841,6 +926,8 @@ if (isset($_POST['nome_do_kit'])) {
                                             <a id="icone_excluir-<?php echo $vetor_kit['id'] ?>" class="fas fa-times" data-toggle="tooltip" title="Excluir <?php echo $vetor_kit['nome'] ?>" style="color: red; font-size: 26px; cursor: pointer;"></a>
                                         </span>
                                     </td>
+                                    <!-- input para armazenar o valor do id atual -->
+                                    <input type="hidden" class="form-control" name="atual" value="<?php echo $vetor_kit['id'] ?>" id="atual">
                                 </form>
                             </tr>
                             <?php if ($j == $num_kits - 1) { ?>
@@ -1154,7 +1241,7 @@ if (isset($_POST['nome_do_kit'])) {
                         <div class="container">
                             <p class="lead" style="font-size: 18px; color: #c4c4c4">
                                 <!-- Dados adicionais <b>(fora de São Paulo)</b> -->
-                                <i id="icone_texto" onclick="copy('#texto')" class="fas fa-exclamation-triangle text-warning" style="margin-right: 8px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="top" title="Copiar para a área de transferência"></i><span id="texto">Devido a Liminar ADI 5464, as empresas optantes pelo Simples Nacional estão desobrigadas a recolher o imposto DIFAL</span>
+                                <i id="icone_texto" onclick="copy('#texto')" class="fas fa-exclamation-triangle text-warning" style="margin-right: 8px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="top" title="Copiar para a área de transferência"></i><span id="texto">Devido a Liminar ADI 5464, as empresas optantes pelo Simples Nacional estão desobrigadas a recolher o imposto DIFAL </span>
                             </p>
                         </div>
                     <?php } ?>
