@@ -553,15 +553,15 @@ if (isset($_POST['nome_do_kit'])) {
                         // Alterando a exibição da quantidade total de produtos
                         document.getElementById('quantidade_produto_kit').innerHTML = parseInt(document.getElementById('quantidade_produto_kit').innerHTML) - 1;
                         if (document.getElementById('quantidade_produto_kit').innerHTML == 0) {
-                            $('#span_quantidade_produtos').attr('data-original-title', 'Não há nenhum produto nesse kit');
+                            $('#span_quantidade_produtos').attr('data-original-title', 'Não há nenhum item nesse kit');
                             // Alterando o nome do kit dentro do modal Clonar
                             document.getElementById('nome_kit_modal_clonado').classList.add("text-danger");
                             document.getElementById('nome_kit_modal_clonado').classList.remove("text-success");
                             document.getElementById('nome_kit_modal_clonado').innerHTML = "Ocorreu um erro ao clonar o " + document.getElementById('titulo_kit').innerHTML.trim() + "!";
                         } else if (document.getElementById('quantidade_produto_kit').innerHTML == 1) {
-                            $('#span_quantidade_produtos').attr('data-original-title', 'Há <b><span class="text-primary">' + document.getElementById('quantidade_produto_kit').innerHTML + '</span></b> produto nesse kit');
+                            $('#span_quantidade_produtos').attr('data-original-title', 'Há <b><span class="text-primary">' + document.getElementById('quantidade_produto_kit').innerHTML + '</span></b> item nesse kit');
                         } else {
-                            $('#span_quantidade_produtos').attr('data-original-title', 'Há <b><span class="text-primary">' + document.getElementById('quantidade_produto_kit').innerHTML + '</span></b> produtos nesse kit');
+                            $('#span_quantidade_produtos').attr('data-original-title', 'Há <b><span class="text-primary">' + document.getElementById('quantidade_produto_kit').innerHTML + '</span></b> itens nesse kit');
                         }
                     },
                     error: function(data) {
@@ -753,9 +753,9 @@ if (isset($_POST['nome_do_kit'])) {
                             <th class="theader_top" scope="col" width="8%">
                                 Qtde
                                 <?php if ($num_kits == 1) { ?>
-                                    <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" data-html="true" title="Há <b><span class='text-primary'><?php echo $num_kits ?></span></b> produto nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
+                                    <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" data-html="true" title="Há <b><span class='text-primary'><?php echo $num_kits ?></span></b> item nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
                                 <?php } else { ?>
-                                    <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" data-html="true" title="Há <b><span class='text-primary'><?php echo $num_kits ?></span></b> produtos nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
+                                    <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" data-html="true" title="Há <b><span class='text-primary'><?php echo $num_kits ?></span></b> itens nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
                                 <?php } ?>
                             </th>
                             <th class="theader_top" scope="col" width="10%">Preço</th>
