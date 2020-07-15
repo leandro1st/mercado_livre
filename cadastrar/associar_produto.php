@@ -15,15 +15,15 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mercado Livre | Associar Produto</title>
     <link rel="shortcut icon" href="../imagens/icon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../externo/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="../externo/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    <script src="../jquery/jquery-3.4.0.min.js"></script>
+    <script src="../externo/jquery/jquery-3.4.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
-    <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../maskmoney/dist/jquery.maskMoney.min.js" type="text/javascript"></script>
+    <script src="../externo/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../externo/maskmoney/dist/jquery.maskMoney.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-pt_BR.min.js"></script>
     <script>

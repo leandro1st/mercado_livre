@@ -12,21 +12,21 @@ $num_produtos = mysqli_num_rows($pesquisar);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mercado Livre | Pesquisar Produto</title>
     <link rel="shortcut icon" href="../imagens/icon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../externo/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="../externo/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="../DataTables/DataTables-1.10.21/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="../DataTables/FixedHeader-3.1.7/css/fixedHeader.bootstrap4.min.css">
-    <script src="../jquery/jquery-3.4.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../externo/DataTables/DataTables-1.10.21/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="../externo/DataTables/FixedHeader-3.1.7/css/fixedHeader.bootstrap4.min.css">
+    <script src="../externo/jquery/jquery-3.4.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
-    <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../DataTables/DataTables-1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="../DataTables/DataTables-1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../DataTables/plug-ins/intl.js"></script>
-    <script src="../DataTables/plug-ins/accent-neutralise.js"></script>
-    <script src="../DataTables/FixedHeader-3.1.7/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../externo/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../externo/DataTables/DataTables-1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="../externo/DataTables/DataTables-1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../externo/DataTables/plug-ins/intl.js"></script>
+    <script src="../externo/DataTables/plug-ins/accent-neutralise.js"></script>
+    <script src="../externo/DataTables/FixedHeader-3.1.7/js/dataTables.fixedHeader.min.js"></script>
     <style>
         #img_nothing {
             /* position: absolute !important; */

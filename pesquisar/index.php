@@ -23,21 +23,20 @@ if (isset($_POST['nome_do_kit'])) {
                 Mercado Livre | Pesquisar
             <?php } else if ($num_kits == 0) { ?>
                 Mercado Livre | <?php echo $nome_kit_post ?>
-            <?php }
-            else { ?>
+            <?php } else { ?>
                 Mercado Livre | <?php echo $vetor_mostrar_nome_kit['kit_nome'] ?> (#<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>)
             <?php } ?>
         </title>
         <link rel="shortcut icon" href="../imagens/icon.ico" type="image/x-icon">
-        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../externo/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         <link rel="stylesheet" href="../externo/style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
-        <script src="../jquery/jquery-3.4.0.min.js"></script>
+        <script src="../externo/jquery/jquery-3.4.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
-        <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../maskmoney/dist/jquery.maskMoney.min.js" type="text/javascript"></script>
+        <script src="../externo/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../externo/maskmoney/dist/jquery.maskMoney.min.js" type="text/javascript"></script>
         <style>
             #img_nothing {
                 /* position: absolute !important; */
@@ -73,6 +72,10 @@ if (isset($_POST['nome_do_kit'])) {
             .highlight {
                 background-color: #ACCEF7 !important;
             }
+
+            .highlight_td {
+                background-color: #F8D8B1 !important;
+            }
         </style>
         <script>
             // alert($(window).width());
@@ -82,11 +85,11 @@ if (isset($_POST['nome_do_kit'])) {
 
             // Função para alterar o preço antigo
             function texto_input(id_produto) {
-                // overriding class 'clickable' click event, removing highlight from rows
-                $('.clickable').off('click').on('click', function(event) {
-                    $(this).parent().removeClass('highlight').siblings().removeClass('highlight')
-                });
-                
+                // overriding class 'clickable' click event, removing highlight from rows, columns
+                $('.clickable').off('click');
+                $('td').removeClass('highlight_td');
+                $('tr').removeClass('highlight');
+
                 // Código Athos
                 document.getElementById('athos-' + id_produto + '').innerHTML = '';
                 document.getElementById('input_athos-' + id_produto).type = 'text';
@@ -151,14 +154,18 @@ if (isset($_POST['nome_do_kit'])) {
                     // remove previous parent (tr) highlight class 
                     if ($(this).parent().hasClass('highlight')) {
                         $(this).parent().removeClass('highlight');
+                        // remove highlight from td
+                        $(this).removeClass('highlight_td').siblings().removeClass('highlight_td');
                     } else {
                         // highlight clicked row (parent) and remove class 'highlight' from siblings (tbody tr)
                         // $(this).parent().addClass('highlight').siblings().removeClass('highlight');
                         // highlight multiple rows
                         $(this).parent().addClass('highlight');
+                        // td highlight
+                        $(this).addClass('highlight_td');
                     }
                 });
-                
+
                 a = document.getElementById('input_athos-' + id_produto).value.trim();
                 n = document.getElementById('input_nome-' + id_produto).value.trim();
                 q = document.getElementById('input_quantidade-' + id_produto).value.trim();
@@ -621,11 +628,15 @@ if (isset($_POST['nome_do_kit'])) {
                     // remove previous parent (tr) highlight class 
                     if ($(this).parent().hasClass('highlight')) {
                         $(this).parent().removeClass('highlight');
+                        // remove highlight from td
+                        $(this).removeClass('highlight_td').siblings().removeClass('highlight_td');
                     } else {
                         // highlight clicked row (parent) and remove class 'highlight' from siblings (tbody tr)
                         // $(this).parent().addClass('highlight').siblings().removeClass('highlight');
                         // highlight multiple rows
                         $(this).parent().addClass('highlight');
+                        // td highlight
+                        $(this).addClass('highlight_td');
                     }
                 });
             });
@@ -691,8 +702,7 @@ if (isset($_POST['nome_do_kit'])) {
                             Pesquisar
                         <?php } else if ($num_kits == 0) { ?>
                             Pesquisar | <?php echo $nome_kit_post ?>
-                        <?php }
-                        else { ?>
+                        <?php } else { ?>
                             Pesquisar | <span id="kit_nome_breadcrumb"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . "</span><small> (#" . $vetor_mostrar_nome_kit['id_kit'] . ")</small>" ?>
                             <?php } ?>
                     </a>
