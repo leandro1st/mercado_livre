@@ -187,6 +187,9 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                     });
                 });
             });
+
+            // validando inputs
+            validar_inputs();
         }
 
         function remove() {
@@ -249,6 +252,9 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
 
             // removing last anchor link from nav_links
             $('#link_produto_' + ultimo_num_input).remove();
+
+            // validando inputs
+            validar_inputs();
         }
 
         $(document).ready(function() {
@@ -325,6 +331,9 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                     document.getElementById('csosn_' + num_input).value = dados_produto[2].trim();
                     document.getElementById('cfop_' + num_input).value = dados_produto[5].trim();
                     document.getElementById('cest_' + num_input).value = dados_produto[4].trim();
+
+                    // validando inputs
+                    validar_inputs();
                 },
                 error: function(data) {
                     alert("Ocorreu um erro!");
@@ -453,6 +462,43 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                 }
             }
         });
+
+        // validando o form
+        function validar_inputs() {
+            var total = $("#total").val();
+            var array_flags = [];
+
+            for (i = 1; i <= total; i++) {
+                var nome_kit = $("#nome_kit").val();
+                var athos = $("#cod_athos_" + i).val();
+                var nome = $("#produto_" + i).val().trim();
+                var qtd = $("#quantidade_" + i).val().trim();
+                var preco = $("#preco_" + i).val().trim();
+                var ncm = $("#ncm_" + i).val().trim();
+                var csosn = $("#csosn_" + i).val().trim();
+                var cfop = $("#cfop_" + i).val().trim();
+
+                // o campo do preço tem estar preenchido e ser diferente da mask ao mesmo tempo
+                if (nome_kit && athos && nome && qtd && preco && preco != 'R$ 0,00' && ncm && csosn && cfop) {
+                    array_flags.push(true);
+                } else {
+                    array_flags.push(false);
+                }
+            }
+
+            // alert(array_flags.every(Boolean));
+
+            // checking if all values in array_flags are true
+            if (array_flags.every(Boolean)) {
+                document.getElementById('btn_enviar').className = 'btn btn-success';
+                document.getElementById('btn_enviar').disabled = false;
+                document.getElementById('btn_enviar').style.cursor = 'pointer';
+            } else {
+                document.getElementById('btn_enviar').className = 'btn btn-danger';
+                document.getElementById('btn_enviar').disabled = true;
+                document.getElementById('btn_enviar').style.cursor = 'not-allowed';
+            }
+        }
     </script>
     <style>
         html {
@@ -550,13 +596,13 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             </div>
             <div id="scrollspy" class="col" data-spy="scroll" data-target="#navbar_scroll">
                 <!-- <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;"> -->
-                <form id="form_cadastrar" class="needs-validation" method="post" action="cadastrar.php" novalidate>
+                <form id="form_cadastrar" class="needs-validation" method="post" action="cadastrar.php" novalidate onkeyup="validar_inputs()">
                     <div class="form-group">
                         <div class="input-group input-group-lg" style="margin-bottom: -12px">
                             <div class="input-group-prepend">
                                 <span class="input-group-text text-success" id="inputGroup-sizing-lg"><b>Nome do kit</b></span>
                             </div>
-                            <input type="text" name="nome_kit" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Nome do kit" required autofocus style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem">
+                            <input type="text" id="nome_kit" name="nome_kit" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Nome do kit" required autofocus style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem">
                             <div class="invalid-feedback" style="margin-left: 150px">
                                 Forneça o nome do kit!
                             </div>
@@ -648,7 +694,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                     <div id="div_produto_novo"></div>
                     <input type="hidden" class="form-control" name="atual" value="1" id="atual">
                     <input type="hidden" class="form-control" name="total" value="1" id="total">
-                    <button type="submit" class="btn btn-success" style="float: right">Cadastrar</button>
+                    <button id="btn_enviar" type="submit" class="btn btn-success" style="float: right">Cadastrar</button>
                 </form>
             </div>
             <div class="col-1" style="padding-left: 0; max-width: 136px">
@@ -696,6 +742,30 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function(form) {
                     form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            // button css
+                            document.getElementById('btn_enviar').className = 'btn btn-danger';
+                            document.getElementById('btn_enviar').disabled = true;
+                            document.getElementById('btn_enviar').style.cursor = 'not-allowed';
+
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        // onkeyup validation
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('keyup', function(event) {
                         if (form.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();

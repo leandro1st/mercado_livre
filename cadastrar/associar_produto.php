@@ -97,6 +97,9 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                     document.getElementById('csosn').value = dados_produto[2].trim();
                     document.getElementById('cfop').value = dados_produto[5].trim();
                     document.getElementById('cest').value = dados_produto[4].trim();
+
+                    // validando inputs
+                    validar_inputs();
                 },
                 error: function(data) {
                     alert("Ocorreu um erro!");
@@ -169,6 +172,28 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                 }
             }
         });
+
+        // validador de input
+        function validar_inputs() {
+            var id_kit = $("#id_kit").val();
+            var athos = $("#cod_athos_1").val();
+            var nome = $("#produto").val().trim();
+            var qtd = $("#quantidade").val().trim();
+            var preco = $("#preco").val().trim();
+            var ncm = $("#ncm").val().trim();
+            var csosn = $("#csosn").val().trim();
+            var cfop = $("#cfop").val().trim();
+
+            if (id_kit && athos && nome && qtd && preco && preco != 'R$ 0,00' && ncm && csosn && cfop) {
+                document.getElementById('btn_enviar').className = 'btn btn-success';
+                document.getElementById('btn_enviar').disabled = false;
+                document.getElementById('btn_enviar').style.cursor = 'pointer';
+            } else {
+                document.getElementById('btn_enviar').className = 'btn btn-danger';
+                document.getElementById('btn_enviar').disabled = true;
+                document.getElementById('btn_enviar').style.cursor = 'not-allowed';
+            }
+        }
     </script>
     <style>
         #div_botoes {
@@ -265,13 +290,13 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
             </div>
             <div class="col">
                 <!-- <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;"> -->
-                <form id="form_associar" class="needs-validation" method="post" action="associar.php" novalidate>
+                <form id="form_associar" class="needs-validation" method="post" action="associar.php" novalidate onkeyup="validar_inputs()">
                     <div class="form-group">
                         <label for="id_kit">
                             <b>Nome do Kit:</b>
                         </label>
                         <!--  style='padding: 0 17px 0 17px' -->
-                        <select id="id_kit" name="id_kit" class="selectpicker show-tick" data-live-search="true" data-width="fit" data-size="6" title="Selecione um kit" data-none-results-text="Nenhum resultado encontrado!" required>
+                        <select id="id_kit" name="id_kit" class="selectpicker show-tick" data-live-search="true" data-width="fit" data-size="6" title="Selecione um kit" data-none-results-text="Nenhum resultado encontrado!" required onchange="validar_inputs()">
                             <?php
                             for ($i = 0; $i < $numero_kits; $i++) {
                                 $vetor_kit = mysqli_fetch_array($pesquisar_todos_kits);
@@ -363,7 +388,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                     </div>
                     <input type="hidden" class="form-control" name="atual" value="1" id="atual">
                     <input type="hidden" class="form-control" name="total" value="1" id="total">
-                    <button type="submit" class="btn btn-success" style="float: right">Associar</button>
+                    <button id="btn_enviar" type="submit" class="btn btn-success" style="float: right">Associar</button>
                 </form>
             </div>
             <div class="col-1" style="padding-left: 0; max-width: 136px">
@@ -411,6 +436,49 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function(form) {
                     form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            // button css
+                            document.getElementById('btn_enviar').className = 'btn btn-danger';
+                            document.getElementById('btn_enviar').disabled = true;
+                            document.getElementById('btn_enviar').style.cursor = 'not-allowed';
+
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        // onkeyup validation
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('keyup', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        // select onchange validation
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    document.getElementById('id_kit').addEventListener('change', function(event) {
                         if (form.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();
