@@ -147,25 +147,6 @@ if (isset($_POST['nome_do_kit'])) {
 
             // Função para alterar mask, enviar valores através do ajax, alterar valores de exibição do preço unitário/total do produto
             function alterar_info(id_produto, preco_novo, nome, quantidade, cod_athos, ncm, csosn, cfop, cest) {
-                // overriding class 'clickable' click event
-                // not highlighting when clicking on one of last 3 columns (td)
-                $('.clickable').off('click').on('click', function(event) {
-                    // alert(this.className);
-                    // remove previous parent (tr) highlight class 
-                    if ($(this).parent().hasClass('highlight')) {
-                        $(this).parent().removeClass('highlight');
-                        // remove highlight from td
-                        $(this).removeClass('highlight_td').siblings().removeClass('highlight_td');
-                    } else {
-                        // highlight clicked row (parent) and remove class 'highlight' from siblings (tbody tr)
-                        // $(this).parent().addClass('highlight').siblings().removeClass('highlight');
-                        // highlight multiple rows
-                        $(this).parent().addClass('highlight');
-                        // td highlight
-                        $(this).addClass('highlight_td');
-                    }
-                });
-
                 a = document.getElementById('input_athos-' + id_produto).value.trim();
                 n = document.getElementById('input_nome-' + id_produto).value.trim();
                 q = document.getElementById('input_quantidade-' + id_produto).value.trim();
@@ -194,6 +175,39 @@ if (isset($_POST['nome_do_kit'])) {
 
                     $('#modalCamposPreenchidos').modal('show');
                 } else {
+                    // overriding class 'clickable' click event
+                    // not highlighting when clicking on one of last 3 columns (td)
+                    $('.clickable').off('click').on('click', function(event) {
+                        // alert(this.className);
+                        // remove previous parent (tr) highlight class 
+                        if ($(this).parent().hasClass('highlight')) {
+                            // $(this).parent().removeClass('highlight');
+
+                            // remove selected td class (highlight_td)
+                            if ($(this).hasClass('highlight_td')) {
+                                $(this).removeClass('highlight_td');
+                                // adding class to selected td (highlight_td)
+                            } else {
+                                $(this).addClass('highlight_td');
+                            }
+
+                            // remove class 'highlight'/'highlightd' if selected td text == first cell of given row text
+                            if ($(this).text().trim() == $(this).closest('tr').find('td:first').text().trim()) {
+                                // alert($(this).closest('tr').find('td:first').text().trim());
+                                $(this).parent().removeClass('highlight');
+                                // remove highlight from all columns
+                                $(this).removeClass('highlight_td').siblings().removeClass('highlight_td');
+                            }
+                        } else {
+                            // highlight clicked row (parent) and remove class 'highlight' from siblings (tbody tr)
+                            // $(this).parent().addClass('highlight').siblings().removeClass('highlight');
+                            // highlight multiple rows
+                            $(this).parent().addClass('highlight');
+                            // td highlight
+                            $(this).addClass('highlight_td');
+                        }
+                    });
+
                     //Alterando a mask
                     preco_novo = preco_novo.replace("R$ ", "");
                     preco_novo_ptBR = preco_novo.replace(/\./g, "");
@@ -627,9 +641,23 @@ if (isset($_POST['nome_do_kit'])) {
                     // alert(this.className);
                     // remove previous parent (tr) highlight class 
                     if ($(this).parent().hasClass('highlight')) {
-                        $(this).parent().removeClass('highlight');
-                        // remove highlight from td
-                        $(this).removeClass('highlight_td').siblings().removeClass('highlight_td');
+                        // $(this).parent().removeClass('highlight');
+
+                        // remove selected td class (highlight_td)
+                        if ($(this).hasClass('highlight_td')) {
+                            $(this).removeClass('highlight_td');
+                            // adding class to selected td (highlight_td)
+                        } else {
+                            $(this).addClass('highlight_td');
+                        }
+
+                        // remove class 'highlight'/'highlightd' if selected td text == first cell of given row text
+                        if ($(this).text().trim() == $(this).closest('tr').find('td:first').text().trim()) {
+                            // alert($(this).closest('tr').find('td:first').text().trim());
+                            $(this).parent().removeClass('highlight');
+                            // remove highlight from all columns
+                            $(this).removeClass('highlight_td').siblings().removeClass('highlight_td');
+                        }
                     } else {
                         // highlight clicked row (parent) and remove class 'highlight' from siblings (tbody tr)
                         // $(this).parent().addClass('highlight').siblings().removeClass('highlight');
