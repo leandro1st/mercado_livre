@@ -769,11 +769,11 @@ if (isset($_POST['nome_do_kit'])) {
                         <!-- Código do kit a enviar -->
                         <input type="hidden" id="id_kit" name="id_kit" class="form-control" value="<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>">
                         <!-- Input pra alterar nome do kit -->
-                        <center><input type="hidden" id="input_nome_kit" name="nome_kit_novo" class="form-control form-control-lg col-10" value="<?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>" placeholder="Novo nome do kit"></center>
+                        <center><input type="hidden" id="input_nome_kit" name="nome_kit_novo" class="form-control form-control-lg col-10" value="<?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>" placeholder="Novo nome do kit" onkeydown="return event.key != 'Enter';"></center>
                         <span id="titulo_kit" style="color: #daeff5; font-family: Comic Sans MS"><?php echo $vetor_mostrar_nome_kit['kit_nome'] . "</span><b><span style='font-size: 24px; color: #ffa21f'> (#" . $vetor_mostrar_nome_kit['id_kit'] . ")</span></b>" ?>
                             <i class="far fa-edit font-weight-bold" style="color: #0cf249; font-size: 30px; cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Editar nome do kit" onclick="texto_input_nome_kit()"></i>
                             <span id="span_titulo" style="cursor: not-allowed">
-                                <i id="icone_titulo" class="fas fa-check-square font-weight-bold" style="color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none;" data-toggle="tooltip" data-placement="bottom" title="Confirmar alteração do nome do kit" onclick="alterar_nome_kit('<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>', document.getElementById('input_nome_kit').value)" onkeydown="return event.key != 'Enter';"></i>
+                                <i id="icone_titulo" class="fas fa-check-square font-weight-bold" style="color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none;" data-toggle="tooltip" data-placement="bottom" title="Confirmar alteração do nome do kit" onclick="alterar_nome_kit('<?php echo $vetor_mostrar_nome_kit['id_kit'] ?>', document.getElementById('input_nome_kit').value)"></i>
                             </span>
                     </h1>
                     <!-- botão clonar -->
