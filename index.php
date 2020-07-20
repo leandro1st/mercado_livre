@@ -113,8 +113,8 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     <a class="nav-link" href="alterar/troca_temporaria.php"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1">
-					<a class="nav-link" href="produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
-				</li>
+                    <a class="nav-link" href="produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
+                </li>
             </ul>
             <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='imagens/example.png' width='130px'>"></i>
             <form id="form_pesquisa" class="form-inline my-2 my-lg-0" method="POST" action="pesquisar/">
@@ -145,7 +145,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
         </div>
         <p class='lead' style='padding-top: 8%; font-size: 40px; text-align: center;'>Comece cadastrando novos kits!</p>
     <?php } else { ?>
-        <p class="lead" style="position: absolute; margin: 15px 0 0 25px; font-size: 18px">
+        <p class="lead" style="position: absolute; margin: 15px 25px 0 25px; font-size: 18px; word-break: break-word;">
             <b><i class="fas fa-history text-warning"></i> Último cadastro: </b><?php echo $vetor_ultimo['kit_nome'] . " <span style='font-size: 16px'>(" . date("d/m/Y H:i:s", strtotime($vetor_ultimo['hora_cadastro'])) . ")</span>" ?>
         </p>
         <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">

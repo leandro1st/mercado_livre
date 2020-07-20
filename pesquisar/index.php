@@ -721,7 +721,7 @@ if (isset($_POST['nome_do_kit'])) {
             </div>
         </nav>
         <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
-            <ol class="breadcrumb" style="background: none; margin: 0;">
+            <ol class="breadcrumb" style="background: none; margin: 0; word-break: break-word;">
                 <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
                 <li class="breadcrumb-item active">
                     <a href="javascript:void(0)" class="none_li">
@@ -763,7 +763,7 @@ if (isset($_POST['nome_do_kit'])) {
         <?php } else { ?>
             <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
                 <form id="form-kit" method="POST">
-                    <h1 style="text-align: center">
+                    <h1 style="text-align: center; word-wrap: break-word;">
                         <!-- Nome do kit antigo para exibir no modal -->
                         <input type="hidden" id="nome_kit_modal" class="form-control" value="<?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>">
                         <!-- Código do kit a enviar -->
@@ -989,7 +989,7 @@ if (isset($_POST['nome_do_kit'])) {
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title text-success" id="modalTitle">
+                        <h4 class="modal-title text-success" id="modalTitle" style="word-break: break-word">
                             Informações de <span id="nome_produto_modal"></span> alteradas!
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1022,10 +1022,10 @@ if (isset($_POST['nome_do_kit'])) {
                                         <td class="text-right">
                                             <b>Nome</b>
                                         </td>
-                                        <td>
+                                        <td style="word-break: break-word">
                                             <span id="nome_antigo_modal"></span>
                                         </td>
-                                        <td>
+                                        <td style="word-break: break-word">
                                             <span class="text-success" id="nome_novo_modal"></span>
                                         </td>
                                     </tr>
@@ -1146,7 +1146,7 @@ if (isset($_POST['nome_do_kit'])) {
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="container">
+                        <div class="container" style="word-wrap: break-word">
                             <p class="lead"><b>Nome antigo: </b><span id="nome_kit_antigo_modal"></span></p>
                             <p class="lead text-success"><b>Nome novo: </b><span id="nome_kit_novo_modal"></span></p>
                         </div>
