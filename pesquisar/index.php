@@ -175,39 +175,6 @@ if (isset($_POST['nome_do_kit'])) {
 
                     $('#modalCamposPreenchidos').modal('show');
                 } else {
-                    // overriding class 'clickable' click event
-                    // not highlighting when clicking on one of last 3 columns (td)
-                    $('.clickable').off('click').on('click', function(event) {
-                        // alert(this.className);
-                        // remove previous parent (tr) highlight class 
-                        if ($(this).parent().hasClass('highlight')) {
-                            // $(this).parent().removeClass('highlight');
-
-                            // remove selected td class (highlight_td)
-                            if ($(this).hasClass('highlight_td')) {
-                                $(this).removeClass('highlight_td');
-                                // adding class to selected td (highlight_td)
-                            } else {
-                                $(this).addClass('highlight_td');
-                            }
-
-                            // remove class 'highlight'/'highlightd' if selected td text == first cell of given row text
-                            if ($(this).text().trim() == $(this).closest('tr').find('td:first').text().trim()) {
-                                // alert($(this).closest('tr').find('td:first').text().trim());
-                                $(this).parent().removeClass('highlight');
-                                // remove highlight from all columns
-                                $(this).removeClass('highlight_td').siblings().removeClass('highlight_td');
-                            }
-                        } else {
-                            // highlight clicked row (parent) and remove class 'highlight' from siblings (tbody tr)
-                            // $(this).parent().addClass('highlight').siblings().removeClass('highlight');
-                            // highlight multiple rows
-                            $(this).parent().addClass('highlight');
-                            // td highlight
-                            $(this).addClass('highlight_td');
-                        }
-                    });
-
                     //Alterando a mask
                     preco_novo = preco_novo.replace("R$ ", "");
                     preco_novo_ptBR = preco_novo.replace(/\./g, "");
@@ -291,6 +258,52 @@ if (isset($_POST['nome_do_kit'])) {
                             // Alterando os valores de exibição
                             document.getElementById('input_athos-' + id_produto).type = 'hidden';
                             document.getElementById('athos-' + id_produto).innerHTML = cod_athos;
+
+
+                            // checking if all inputs are hidden (checking only input_athos-x)
+                            var vetor_input_type = [];
+                            for (i = 0; i < vetor_id.length; i++) {
+                                // appending input type to vetor_input_type
+                                vetor_input_type.push($('#input_athos-' + vetor_id[i]).attr('type'));
+                            }
+
+                            // overriding class 'clickable' click event 
+                            // if value 'text' is not in vetor_input_type i.e. all inputs are hidden
+                            if (!vetor_input_type.includes('text')) {
+                                // overriding class 'clickable' click event
+                                // not highlighting when clicking on one of last 3 columns (td)
+                                $('.clickable').off('click').on('click', function(event) {
+                                    // alert(this.className);
+                                    // remove previous parent (tr) highlight class 
+                                    if ($(this).parent().hasClass('highlight')) {
+                                        // $(this).parent().removeClass('highlight');
+
+                                        // remove selected td class (highlight_td)
+                                        if ($(this).hasClass('highlight_td')) {
+                                            $(this).removeClass('highlight_td');
+                                            // adding class to selected td (highlight_td)
+                                        } else {
+                                            $(this).addClass('highlight_td');
+                                        }
+
+                                        // remove class 'highlight'/'highlightd' if selected td text == first cell of given row text
+                                        if ($(this).text().trim() == $(this).closest('tr').find('td:first').text().trim()) {
+                                            // alert($(this).closest('tr').find('td:first').text().trim());
+                                            $(this).parent().removeClass('highlight');
+                                            // remove highlight from all columns
+                                            $(this).removeClass('highlight_td').siblings().removeClass('highlight_td');
+                                        }
+                                    } else {
+                                        // highlight clicked row (parent) and remove class 'highlight' from siblings (tbody tr)
+                                        // $(this).parent().addClass('highlight').siblings().removeClass('highlight');
+                                        // highlight multiple rows
+                                        $(this).parent().addClass('highlight');
+                                        // td highlight
+                                        $(this).addClass('highlight_td');
+                                    }
+                                });
+                            }
+
 
                             document.getElementById('input_nome-' + id_produto).type = 'hidden';
                             document.getElementById('nome-' + id_produto).innerHTML = nome.toUpperCase();
