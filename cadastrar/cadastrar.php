@@ -63,9 +63,9 @@ require('../externo/connect.php');
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="modalTitle">
-                            <font class="text-success"><?php echo $nome_kit . " cadastrado com sucesso!" ?></font>
-                        </h4>
+                        <p class="modal-title lead" id="modalTitle" style="font-size: 1.75em">
+                            <span class="text-success" style="word-break: break-word"><b><?php echo $nome_kit . "</b></span> cadastrado com sucesso!" ?>
+                        </p>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.replace('./')">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -74,9 +74,9 @@ require('../externo/connect.php');
                         <div class="container">
                             <span class="lead" style='margin-bottom: 5px; display: block'><b>Código do kit novo: </b><?php echo $proximo_id ?></span>
                             <?php if ($numero_produtos == 1) { ?>
-                                <h5><?php echo $numero_produtos ?> produto cadastrado com sucesso!</h5>
+                                <h5 class="lead"><b class="text-success"><?php echo $numero_produtos ?></b> produto cadastrado com sucesso!</h5>
                             <?php } else { ?>
-                                <h5><?php echo $numero_produtos ?> produtos cadastrados com sucesso!</h5>
+                                <h5 class="lead"><b class="text-success"><?php echo $numero_produtos ?></b> produtos cadastrados com sucesso!</h5>
                             <?php } ?>
                         </div>
                     </div>
