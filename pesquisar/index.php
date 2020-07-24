@@ -132,8 +132,9 @@ if (isset($_POST['nome_do_kit'])) {
                 document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: 1; pointer-events: auto';
 
                 // Ícone deletar produto
-                document.getElementById('icone_excluir-' + id_produto + '').style.cursor = 'not-allowed';
-                document.getElementById('span_excluir-' + id_produto + '').style.cssText = 'opacity: .5; pointer-events: none';
+                $('#span_excluir-' + id_produto + '').tooltip('disable');
+                document.getElementById('span_excluir-' + id_produto + '').style.cursor = 'not-allowed';
+                document.getElementById('icone_excluir-' + id_produto + '').style.cssText = 'opacity: .5; pointer-events: none; color: red; font-size: 26px';
 
                 // Currency mask 
                 $(document).ready(function() {
@@ -266,6 +267,7 @@ if (isset($_POST['nome_do_kit'])) {
                                 // appending input type to vetor_input_type
                                 vetor_input_type.push($('#input_athos-' + vetor_id[i]).attr('type'));
                             }
+                            // alert(vetor_input_type.join("\n"));
 
                             // overriding class 'clickable' click event 
                             // if value 'text' is not in vetor_input_type i.e. all inputs are hidden
@@ -345,9 +347,10 @@ if (isset($_POST['nome_do_kit'])) {
                             $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + nome.toUpperCase());
                             document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
                             // Ícone deletar produto
-                            document.getElementById('icone_excluir-' + id_produto + '').style.cursor = 'pointer';
-                            document.getElementById('span_excluir-' + id_produto + '').style.cssText = 'opacity: 1; pointer-events: auto';
-                            $('#icone_excluir-' + id_produto).attr('data-original-title', 'Excluir ' + nome.toUpperCase());
+                            document.getElementById('span_excluir-' + id_produto + '').style.cursor = 'pointer';
+                            $('#span_excluir-' + id_produto + '').tooltip('enable');
+                            $('#span_excluir-' + id_produto).attr('data-original-title', 'Excluir ' + nome.toUpperCase());
+                            document.getElementById('icone_excluir-' + id_produto + '').style.cssText = 'opacity: 1; pointer-events: auto; color: red; font-size: 26px';
                         },
                         error: function(data) {
                             alert("Ocorreu um erro!");
@@ -493,9 +496,9 @@ if (isset($_POST['nome_do_kit'])) {
                             document.getElementById('btn_nome_kit').style.display = "block";
                             // Alterando o nome do kit dentro do modal Clonar
                             if (document.getElementById('quantidade_produto_kit').innerHTML == 0) {
-                                document.getElementById('nome_kit_modal_clonado').classList.remove("text-success");
                                 document.getElementById('nome_kit_modal_clonado').classList.add("text-danger");
-                                document.getElementById('nome_kit_modal_clonado').innerHTML = "Ocorreu um erro ao clonar o " + nome_kit_novo.toUpperCase().trim() + "!";
+                                document.getElementById('nome_kit_modal_clonado').classList.remove("text-success");
+                                document.getElementById('nome_kit_modal_clonado').innerHTML = "<b>Ocorreu um erro ao clonar o " + nome_kit_novo.toUpperCase().trim() + "!</b>";
                             } else {
                                 document.getElementById('nome_kit_modal_clonado').classList.add("text-success");
                                 document.getElementById('nome_kit_modal_clonado').innerHTML = nome_kit_novo.toUpperCase().trim() + " foi clonado com sucesso!";
@@ -591,7 +594,7 @@ if (isset($_POST['nome_do_kit'])) {
                             // Alterando o nome do kit dentro do modal Clonar
                             document.getElementById('nome_kit_modal_clonado').classList.add("text-danger");
                             document.getElementById('nome_kit_modal_clonado').classList.remove("text-success");
-                            document.getElementById('nome_kit_modal_clonado').innerHTML = "Ocorreu um erro ao clonar o " + document.getElementById('titulo_kit').innerHTML.trim() + "!";
+                            document.getElementById('nome_kit_modal_clonado').innerHTML = "<b>Ocorreu um erro ao clonar o " + document.getElementById('titulo_kit').innerHTML.trim() + "!</b>";
                         } else if (document.getElementById('quantidade_produto_kit').innerHTML == 1) {
                             $('#span_quantidade_produtos').attr('data-original-title', 'Há <b><span class="text-primary">' + document.getElementById('quantidade_produto_kit').innerHTML + '</span></b> item nesse kit');
                         } else {
@@ -973,8 +976,8 @@ if (isset($_POST['nome_do_kit'])) {
                                         </span>
                                     </td>
                                     <td>
-                                        <span id="span_excluir-<?php echo $vetor_kit['id'] ?>" data-toggle="modal" data-target="#modalExcluir" onclick="informacoes_produto(document.getElementById('nome-<?php echo $vetor_kit['id'] ?>').innerHTML, '<?php echo $vetor_kit['id']; ?>', '<?php echo $j ?>')">
-                                            <a id="icone_excluir-<?php echo $vetor_kit['id'] ?>" class="fas fa-times" data-toggle="tooltip" title="Excluir <?php echo $vetor_kit['nome'] ?>" style="color: red; font-size: 26px; cursor: pointer;"></a>
+                                        <span id="span_excluir-<?php echo $vetor_kit['id'] ?>" data-toggle="tooltip" title="Excluir <?php echo $vetor_kit['nome'] ?>" style="cursor: pointer">
+                                            <a id="icone_excluir-<?php echo $vetor_kit['id'] ?>" class="fas fa-times" data-toggle="modal" data-target="#modalExcluir" onclick="informacoes_produto(document.getElementById('nome-<?php echo $vetor_kit['id'] ?>').innerHTML, '<?php echo $vetor_kit['id']; ?>', '<?php echo $j ?>')" style="color: red; font-size: 26px;"></a>
                                         </span>
                                     </td>
                                     <!-- input para armazenar o valor do id atual -->
@@ -1203,8 +1206,8 @@ if (isset($_POST['nome_do_kit'])) {
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="modalTitle">
-                                <span class="text-success" id="nome_kit_modal_clonado"><?php echo $vetor_mostrar_nome_kit['kit_nome'] ?> foi clonado com sucesso!</span>
+                            <h4 class="modal-title lead" id="modalTitle" style="font-size: 1.75em; word-break: break-word">
+                                <span id="nome_kit_modal_clonado"><b class="text-success"><?php echo $vetor_mostrar_nome_kit['kit_nome'] ?></b> foi clonado com sucesso!</span>
                             </h4>
                             <!-- form é enviado quando o usuário clica no ícone X -->
                             <button type="button" class="close" aria-label="Close" onclick="document.forms['form_pesquisar_clone'].submit();">
@@ -1214,7 +1217,7 @@ if (isset($_POST['nome_do_kit'])) {
                         <div class="modal-body">
                             <div class="container">
                                 <b>
-                                    <p id="texto_modal_clonado" class="lead"></p>
+                                    <p id="texto_modal_clonado" class="lead" style="word-break: break-word"></p>
                                 </b>
                             </div>
                         </div>
@@ -1232,8 +1235,8 @@ if (isset($_POST['nome_do_kit'])) {
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title text-danger" id="modalTitle">
-                                Deseja realmente excluir <span id="nome_produto_titulo_excluir_modal"></span>?
+                            <h4 class="modal-title text-danger lead" id="modalTitle" style="font-size: 1.75em; word-break: break-word">
+                                <b>Deseja realmente excluir <span id="nome_produto_titulo_excluir_modal"></span>?</b>
                             </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -1244,7 +1247,7 @@ if (isset($_POST['nome_do_kit'])) {
                                 <div class="col-9">
                                     <input id="id_produto_modal" name="id_produto_modal" type="hidden" class="form-control" value="">
                                     <input id="index_vetor_produto" type="hidden" class="form-control" value="">
-                                    <h5 class="text-warning">Você irá excluir <span id="nome_produto_excluir_modal"></span>!</h5>
+                                    <h5 class="text-warning lead" style="word-break: break-word"><b>Você irá excluir <span id="nome_produto_excluir_modal"></span>!</b></h5>
                                 </div>
                             </div>
                         </div>
@@ -1261,15 +1264,15 @@ if (isset($_POST['nome_do_kit'])) {
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title text-success" id="modalTitle">
-                            <span id="produto_modal_excluido"></span> foi excluído com sucesso!
+                        <h4 class="modal-title lead" id="modalTitle" style="font-size: 1.75em; word-break: break-word">
+                            <b><span id="produto_modal_excluido" class="text-success"></span></b> foi excluído com sucesso!
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <span id="produto_modal_body_excluido" class="lead text-success"></span>
+                        <span id="produto_modal_body_excluido" class="lead" style="word-break: break-word"></span>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
