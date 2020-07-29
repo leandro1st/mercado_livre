@@ -138,8 +138,8 @@ $num_kits = mysqli_num_rows($pesquisar2);
                     <a class="nav-link" href="../alterar/troca_temporaria.php"><i class="far fa-clock text-white" style="font-size: 24px; vertical-align: middle"></i></a>
                 </li>
                 <li class="nav-item px-1">
-					<a class="nav-link" href="../produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
-				</li>
+                    <a class="nav-link" href="../produtos/"><i class="fas fa-book" style="font-size: 24px; vertical-align: middle; color: #b5651d"></i></a>
+                </li>
             </ul>
             <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='../imagens/example.png' width='130px'>"></i>
             <form id="form_pesquisa" class="form-inline my-2 my-lg-0" method="POST" action="../pesquisar/">
@@ -177,9 +177,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
         <p class="lead" style="padding-top: 8%; font-size: 40px; text-align: center">Comece cadastrando novos kits!</p>
     <?php } else { ?>
         <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
-            <center>
-                <h1 style="color: #daeff5">Excluir Kits</h1>
-            </center>
+            <h1 class="text-center montara" style="color: #daeff5">Excluir Kits</h1>
         </header>
         <main class="container">
             <div class="accordion" id="accordionKits">

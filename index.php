@@ -149,9 +149,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
             <b><i class="fas fa-history text-warning"></i> Último cadastro: </b><?php echo $vetor_ultimo['kit_nome'] . " <span style='font-size: 16px'>(" . date("d/m/Y H:i:s", strtotime($vetor_ultimo['hora_cadastro'])) . ")</span>" ?>
         </p>
         <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
-            <center>
-                <h1 style="color: #daeff5">Mercado Livre</h1>
-            </center>
+            <h1 class="text-center montara" style="color: #daeff5">Mercado Livre</h1>
         </header>
         <main class="container">
             <div class="accordion" id="accordionKits">

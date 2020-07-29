@@ -246,9 +246,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
         <p class="lead" style="padding-top: 8%; font-size: 40px; text-align: center">Não foi encontrado nenhum produto!</p>
     <?php } else { ?>
         <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
-            <center>
-                <h1 style="color: #daeff5">Pesquisar Produto</h1>
-            </center>
+            <h1 class="text-center montara" style="color: #daeff5">Pesquisar Produto</h1>
         </header>
         <main class="container">
             <table id="data_table" class="table table-striped table-hover text-center">

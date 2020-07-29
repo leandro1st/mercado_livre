@@ -579,9 +579,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
         </ol>
     </nav>
     <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
-        <center>
-            <h1 style="color: #daeff5">Cadastrar Kit</h1>
-        </center>
+        <h1 class="text-center montara" style="color: #daeff5">Cadastrar Kit</h1>
     </header>
     <main class="container-fluid">
         <div class="row">
