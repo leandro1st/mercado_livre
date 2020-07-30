@@ -989,7 +989,7 @@ if (isset($_POST['nome_do_kit'])) {
                             <?php if ($j == $num_kits - 1) { ?>
                                 <tr class="text-center">
                                     <td colspan="12" style="border-top-color: #5cb85c; border-top-width: 2px;">
-                                        <font style="font-size: 24px" class="lead font-weight-bold"><span id="preco_total_kit">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span></font>
+                                        <span class="font-weight-bold" id="preco_total_kit" style="font-size: 24px">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
                                     </td>
                                 </tr>
                         <?php }
@@ -1295,19 +1295,25 @@ if (isset($_POST['nome_do_kit'])) {
                     <!-- Mostra se o kit existir  -->
                     <?php if ($num_kits > 0) { ?>
                         <div class="container">
-                            <p class="lead" style="font-size: 18px; color: #c4c4c4">
+                            <p class="lead text-center" style="font-size: 18px; color: #c4c4c4">
                                 <!-- Dados adicionais <b>(fora de São Paulo)</b> -->
                                 <i id="icone_texto" onclick="copy('#texto')" class="fas fa-exclamation-triangle text-warning" style="margin-right: 8px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="top" title="Copiar para a área de transferência"></i><span id="texto">Devido a Liminar ADI 5464, as empresas optantes pelo Simples Nacional estão desobrigadas a recolher o imposto DIFAL </span>
                             </p>
                         </div>
                     <?php } ?>
-                    <center>
-                        <div class="row" style="display: inline-block">
-                            <a href="https://www.facebook.com/sakamototen/" class="btn-social btn-facebook" style="margin-right: 40px;"><i class="fab fa-facebook-f"></i></a>
-                            <a href="https://github.com/leandro1st" class="btn-social btn-github" style="margin-right: 40px;"><i class="fab fa-github"></i></a>
-                            <a href="https://www.instagram.com/sakamototen/" class="btn-social btn-instagram" style="margin-right: 40px;"><i class="fab fa-instagram"></i></a>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-2 offset-md-3 text-right">
+                                <a href="https://www.facebook.com/sakamototen/" class="btn-social btn-facebook"><i class="fab fa-facebook-f"></i></a>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <a href="https://github.com/leandro1st" class="btn-social btn-github"><i class="fab fa-github"></i></a>
+                            </div>
+                            <div class="col-md-2">
+                                <a href="https://www.instagram.com/sakamototen/" class="btn-social btn-instagram"><i class="fab fa-instagram"></i></a>
+                            </div>
                         </div>
-                    </center>
+                    </div>
                 </div>
                 <!-- Footer Elements -->
                 <!-- Copyright -->

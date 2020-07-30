@@ -266,7 +266,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                 <?php if ($j == $numero_repetido - 1) { ?>
                                                     <tr class="text-center">
                                                         <td colspan="9" style="border-top-color: #5cb85c; border-top-width: 2px;">
-                                                            <span style="font-size: 24px" class="lead font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
+                                                            <span style="font-size: 24px" class="font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
                                                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluir" style="float: right; margin-bottom: -40px" onclick="obter_dados('<?php echo $id_do_kit ?>', '<?php echo $vetor2['kit_nome'] ?>' ,'<?php echo $numero_repetido ?>')">
                                                                 Excluir <i class="far fa-trash-alt" style="color: white;"></i>
                                                             </button>
@@ -287,8 +287,8 @@ $num_kits = mysqli_num_rows($pesquisar2);
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="modalTitle">
-                        <font color="#D9534F">Deseja realmente excluir <span id="nome_kit_modal"></span>?</font>
+                    <h4 class="modal-title text-danger" id="modalTitle">
+                        Deseja realmente excluir <span id="nome_kit_modal"></span>?
                     </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -300,13 +300,13 @@ $num_kits = mysqli_num_rows($pesquisar2);
                         <input type="hidden" id="input_quantidade" class="form-control" name="input_quantidade" value="<?php echo $numero_repetido ?>" readonly>
                     </form>
                     <input type="hidden" id="numero_restante" value="<?php echo $num_kits ?>">
-                    <div class="container">
-                        <span class="font-weight-bold" style="font-size: 18px">Nome do kit: </span>
-                        <nome id="nome" class="lead" style="overflow-wrap: break-word;"></nome><br>
-                        <span class="font-weight-bold" style="font-size: 18px">Id do kit: </span>
-                        <codigo id="codigo" class="lead"></codigo><br>
-                        <span class="font-weight-bold" style="font-size: 18px">Quantidade de produtos: </span>
-                        <quantidade id="quantidade" class="lead"></quantidade><br>
+                    <div class="container lead">
+                        <b>Nome do kit: </b>
+                        <span id="nome" style="overflow-wrap: break-word;"></span><br>
+                        <b>Id do kit: </b>
+                        <span id="codigo"></span><br>
+                        <b>Quantidade de produtos: </b>
+                        <span id="quantidade"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -326,13 +326,19 @@ $num_kits = mysqli_num_rows($pesquisar2);
             <?php } ?>
             <!-- Footer Elements -->
             <div style="background-color: #3e4551; padding: 16px">
-                <center>
-                    <div class="row" style="display: inline-block">
-                        <a href="https://www.facebook.com/sakamototen/" class="btn-social btn-facebook" style="margin-right: 40px;"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://github.com/leandro1st" class="btn-social btn-github" style="margin-right: 40px;"><i class="fab fa-github"></i></a>
-                        <a href="https://www.instagram.com/sakamototen/" class="btn-social btn-instagram" style="margin-right: 40px;"><i class="fab fa-instagram"></i></a>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2 offset-md-3 text-right">
+                            <a href="https://www.facebook.com/sakamototen/" class="btn-social btn-facebook"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <a href="https://github.com/leandro1st" class="btn-social btn-github"><i class="fab fa-github"></i></a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="https://www.instagram.com/sakamototen/" class="btn-social btn-instagram"><i class="fab fa-instagram"></i></a>
+                        </div>
                     </div>
-                </center>
+                </div>
             </div>
             <!-- Footer Elements -->
             <!-- Copyright -->
