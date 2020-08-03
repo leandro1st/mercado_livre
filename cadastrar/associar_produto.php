@@ -175,8 +175,8 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
 
         // validador de input
         function validar_inputs() {
-            var id_kit = $("#id_kit").val();
-            var athos = $("#cod_athos_1").val();
+            var id_kit = $("#id_kit").val().trim();
+            var athos = $("#cod_athos_1").val().trim();
             var nome = $("#produto").val().trim();
             var qtd = $("#quantidade").val().trim();
             var preco = $("#preco").val().trim();
@@ -288,7 +288,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
             </div>
             <div class="col">
                 <!-- <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;"> -->
-                <form id="form_associar" class="needs-validation" method="post" action="associar.php" novalidate onkeyup="validar_inputs()">
+                <form id="form_associar" class="needs-validation" method="post" action="associar.php" novalidate onkeyup="validar_inputs()" onchange="validar_inputs()">
                     <div class="form-group">
                         <label for="id_kit">
                             <b>Nome do Kit:</b>
@@ -474,7 +474,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
             }, false);
         })();
 
-        // select onchange validation
+        // onchange validation
         (function() {
             'use strict';
             window.addEventListener('load', function() {
@@ -482,7 +482,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                 var forms = document.getElementsByClassName('needs-validation');
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function(form) {
-                    document.getElementById('id_kit').addEventListener('change', function(event) {
+                    form.addEventListener('change', function(event) {
                         if (form.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();

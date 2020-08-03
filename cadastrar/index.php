@@ -469,8 +469,8 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             var array_flags = [];
 
             for (i = 1; i <= total; i++) {
-                var nome_kit = $("#nome_kit").val();
-                var athos = $("#cod_athos_" + i).val();
+                var nome_kit = $("#nome_kit").val().trim();
+                var athos = $("#cod_athos_" + i).val().trim();
                 var nome = $("#produto_" + i).val().trim();
                 var qtd = $("#quantidade_" + i).val().trim();
                 var preco = $("#preco_" + i).val().trim();
@@ -594,7 +594,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             </div>
             <div id="scrollspy" class="col" data-spy="scroll" data-target="#navbar_scroll">
                 <!-- <form method="post" action="cadastrar.php" onsubmit="this.submit(); this.reset(); return false;"> -->
-                <form id="form_cadastrar" class="needs-validation" method="post" action="cadastrar.php" novalidate onkeyup="validar_inputs()">
+                <form id="form_cadastrar" class="needs-validation" method="post" action="cadastrar.php" novalidate onkeyup="validar_inputs()" onchange="validar_inputs()">
                     <div class="form-group">
                         <div class="input-group input-group-lg" style="margin-bottom: -12px">
                             <div class="input-group-prepend">
@@ -770,6 +770,25 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function(form) {
                     form.addEventListener('keyup', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        // onchange validation
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('change', function(event) {
                         if (form.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();
