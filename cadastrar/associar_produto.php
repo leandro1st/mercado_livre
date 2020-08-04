@@ -330,7 +330,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                         <label for="quantidade">
                             <b>Quantidade do produto:</b>
                         </label>
-                        <input type="number" id="quantidade" name="quantidade" class="form-control" placeholder="Quantidade do produto" required onkeyup="alterar(document.getElementById('quantidade').value, document.getElementById('preco').value)" min="1">
+                        <input type="number" id="quantidade" name="quantidade" class="form-control" placeholder="Quantidade do produto" required onkeyup="alterar(document.getElementById('quantidade').value, document.getElementById('preco').value)" onchange="alterar(document.getElementById('quantidade').value, document.getElementById('preco').value)" min="1">
                         <div class="invalid-feedback">
                             Forneça a quantidade do produto!
                         </div>

@@ -635,7 +635,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                         <label for="quantidade_1">
                             <b>Quantidade do produto 1:</b>
                         </label>
-                        <input type="number" id="quantidade_1" name="quantidade_1" class="form-control" placeholder="Quantidade do produto 1" required onkeyup="alterar(1, document.getElementById('quantidade_1').value, document.getElementById('preco_1').value)" min="1">
+                        <input type="number" id="quantidade_1" name="quantidade_1" class="form-control" placeholder="Quantidade do produto 1" required onkeyup="alterar(1, document.getElementById('quantidade_1').value, document.getElementById('preco_1').value)" onchange="alterar(1, document.getElementById('quantidade_1').value, document.getElementById('preco_1').value)" min="1">
                         <div class="invalid-feedback">
                             Forneça a quantidade do produto 1!
                         </div>
