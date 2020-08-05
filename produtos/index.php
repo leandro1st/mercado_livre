@@ -266,7 +266,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                         $vetor_produto = mysqli_fetch_array($pesquisar); ?>
                         <tr>
                             <td><?php echo $vetor_produto['cod_athos'] ?></td>
-                            <td><?php echo $vetor_produto['nome'] ?></td>
+                            <td style="word-break: break-word"><?php echo $vetor_produto['nome'] ?></td>
                             <td><?php echo $vetor_produto['ncm'] ?></td>
                             <td>
                                 <?php if ($vetor_produto['csosn'] == 0) {
