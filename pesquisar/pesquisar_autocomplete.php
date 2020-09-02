@@ -18,7 +18,7 @@ if (isset($_GET["term"])) {
                 // se a string for 70.00, ela vira 70 e pode retornar preços como '52.70'
                 // se tirar o floatval, só achará 70.00
                 $having = "HAVING round(sum(preco_total), 2) LIKE '%" . floatval($term) . "%'";
-            // senão é uma string/int qualquer
+                // senão é uma string/int qualquer
             } else {
                 $searchTermBits[] = "(kit_nome LIKE '%$term%' or id_kit LIKE '%$term%')";
             }
@@ -34,8 +34,11 @@ if (isset($_GET["term"])) {
     } else if (empty($having) and !empty($searchTermBits)) {
         $query = "SELECT kit_nome, id_kit, round(sum(preco_total), 2) as total FROM kits WHERE " . implode(" AND ", $searchTermBits) . " GROUP BY id_kit ORDER BY kit_nome ASC";
     // query caso exista um preço e não haja nenhuma string dentro do array
-    } else {
+    } else if (!empty($having) and empty($searchTermBits)) {
         $query = "SELECT kit_nome, id_kit, round(sum(preco_total), 2) as total FROM kits GROUP BY id_kit " . $having . " ORDER BY kit_nome ASC";
+    // query caso não exista um preço e não haja nenhuma string dentro do array
+    } else {
+        $query = "SELECT kit_nome, id_kit, round(sum(preco_total), 2) as total FROM kits GROUP BY id_kit ORDER BY kit_nome ASC";
     }
 
     $statement = $connect->prepare($query);

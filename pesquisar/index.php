@@ -3,9 +3,53 @@ if (isset($_POST['nome_do_kit'])) {
     require('../externo/connect.php');
 
     $nome_kit_post = trim($_POST['nome_do_kit']);
+    $searchTerms = explode(' ', $nome_kit_post);
+    $searchTermBits = array();
+    foreach ($searchTerms as $term) {
+        $term = trim($term);
+        if (!empty($term)) {
+            // verificando se $term é um número e se existe '.' na string (float/double)
+            // preço deve seguir esse padrão: 0.00
+            if (is_numeric($term) && strpos($term, ".") !== false) {
+                // se a string for 70.00, ela vira 70 e pode retornar preços como '52.70'
+                // se tirar o floatval, só achará 70.00
+                $having = "HAVING round(sum(preco_total), 2) LIKE '%" . floatval($term) . "%'";
+                // senão é uma string/int qualquer
+            } else {
+                $searchTermBits[] = "(kit_nome LIKE '%$term%' or id_kit LIKE '%$term%')";
+            }
+        }
+    }
+
+    // query, juntando as strings armazenadas dentro do array $searchTermBits
+    // $query = "SELECT DISTINCT kit_nome, id_kit FROM kits WHERE " . implode(" AND ", $searchTermBits) . " ORDER BY kit_nome ASC";
+    // query caso exista um preço e pelo menos uma string dentro do array
+    if (!empty($having) and !empty($searchTermBits)) {
+        $query = mysqli_query($connect, "SELECT kit_nome, id_kit, round(sum(preco_total), 2) as total FROM kits WHERE " . implode(" AND ", $searchTermBits) . " GROUP BY id_kit " . $having . " ORDER BY kit_nome ASC");
+        // query caso não exista nenhum preço e haja pelo menos uma string dentro do array
+    } else if (empty($having) and !empty($searchTermBits)) {
+        $query = mysqli_query($connect, "SELECT kit_nome, id_kit, round(sum(preco_total), 2) as total FROM kits WHERE " . implode(" AND ", $searchTermBits) . " GROUP BY id_kit ORDER BY kit_nome ASC");
+        // query caso exista um preço e não haja nenhuma string dentro do array
+    } else if (!empty($having) and empty($searchTermBits)) {
+        $query = mysqli_query($connect, "SELECT kit_nome, id_kit, round(sum(preco_total), 2) as total FROM kits GROUP BY id_kit " . $having . " ORDER BY kit_nome ASC");
+        // query caso não exista um preço e não haja nenhuma string dentro do array
+    } else {
+        $query = mysqli_query($connect, "SELECT kit_nome, id_kit, round(sum(preco_total), 2) as total FROM kits GROUP BY id_kit ORDER BY kit_nome ASC");
+    }
+
+    // número de kits encontrados de acordo com o que o usuário digitou no input
+    $num_produtos = mysqli_num_rows($query);
+
+    // query para verificar se o código digitado no input existe no banco
+    // se existir, num_kits_agrupado vale 1 (group by)
+    // senão num_kits_agrupado vale 0
+    $procurar_agrupado = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' GROUP BY $id_kit");
+    $num_kits_agrupado = mysqli_num_rows($procurar_agrupado);
+
+    // query para pesquisar os produtos que possuem o código digitado no input
     $procurar = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome = '$nome_kit_post' */
-    $procurar_para_alterar_valores_vetor_javascript = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome = '$nome_kit_post' */
     $num_kits = mysqli_num_rows($procurar);
+    $procurar_para_alterar_valores_vetor_javascript = mysqli_query($connect, "SELECT * FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome = '$nome_kit_post' */
     // Outra query e vetor pra exibir nome e id do kit
     $mostrar_nome_kit = mysqli_query($connect, "SELECT $kit_nome, $id_kit FROM $kits WHERE $id_kit = '$nome_kit_post' ORDER BY $nome");/* or $kit_nome like '%" . $nome_kit_post . "%' */
     $vetor_mostrar_nome_kit = mysqli_fetch_array($mostrar_nome_kit);
@@ -754,7 +798,46 @@ if (isset($_POST['nome_do_kit'])) {
             </ol>
         </nav>
         <?php
-        if ($num_kits == 0) { ?>
+        // se o nome digitado não for um id que existe no db, e existir kits com o nome fornecido
+        if ($num_produtos > 0 && $num_kits_agrupado == 0) { ?>
+            <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
+                <form id="form-kit" method="POST">
+                    <h1 style="text-align: center; word-wrap: break-word;" class='montara'>
+                        <span id="titulo_kit" style="color: #daeff5">
+                            <?php if ($nome_kit_post == '' || preg_match('/^[\pZ\pC]+|[\pZ\pC]+$/u', $nome_kit_post)) { ?>
+                                Pesquisar (<?php echo $num_produtos == 1 ? $num_produtos . " kit" : $num_produtos . " kits" ?>)
+                            <?php } else { ?>
+                                Pesquisar | <?php echo $nome_kit_post ?> (<?php echo $num_produtos == 1 ? $num_produtos . " kit" : $num_produtos . " kits" ?>)
+                            <?php } ?>
+                        </span>
+                    </h1>
+                </form>
+            </header>
+            <main class="container">
+                <table class="table table-hover table-striped">
+                    <thead class="text-center text-warning table-warning lead">
+                        <tr>
+                            <td>NOME</td>
+                            <td style="padding-right: 1.5em">PREÇO</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for ($i = 0; $i < $num_produtos; $i++) {
+                            $vetor = mysqli_fetch_array($query); ?>
+                            <form id="form_pesquisar-<?php echo $i ?>" action="./" method="POST">
+                                <input name="nome_do_kit" type="hidden" class="form-control" value="<?php echo $vetor['id_kit'] ?>">
+                                <tr onclick="document.getElementById('form_pesquisar-<?php echo $i ?>').submit()" style="cursor: pointer;">
+                                    <td style="padding-left: 1.5em"><?php echo $vetor['kit_nome'] ?><span style="font-size: 14px"> (#<?php echo $vetor['id_kit'] ?>)</span></td>
+                                    <td class="text-center lead text-success" style="padding-right: 1.5em"><b>R$ <?php echo number_format($vetor['total'], 2, ',', '.') ?></b></td>
+                                </tr>
+                            </form>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </main>
+        <?php
+            // se o nome fornecido não for um id do kit que existe no banco
+        } else if ($num_kits_agrupado == 0) { ?>
             <script>
                 $(document).ready(function() {
                     if (window.matchMedia("(max-width:1366px)").matches) {
@@ -776,7 +859,9 @@ if (isset($_POST['nome_do_kit'])) {
             <?php } else { ?>
                 <p class="lead" style="padding-top: 8%; font-size: 40px; text-align: center">Nenhum kit com esse código encontrado!</p>
             <?php } ?>
-        <?php } else { ?>
+        <?php
+            // se o nome digitado for um código do kit que existe no banco
+        } else { ?>
             <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
                 <form id="form-kit" method="POST">
                     <h1 style="text-align: center; word-wrap: break-word;" class='montara'>
