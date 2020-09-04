@@ -801,17 +801,15 @@ if (isset($_POST['nome_do_kit'])) {
         // se o nome digitado não for um id que existe no db, e existir kits com o nome fornecido
         if ($num_produtos > 0 && $num_kits_agrupado == 0) { ?>
             <header class="jumbotron" style="background-image: url('../imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
-                <form id="form-kit" method="POST">
-                    <h1 style="text-align: center; word-wrap: break-word;" class='montara'>
-                        <span id="titulo_kit" style="color: #daeff5">
-                            <?php if ($nome_kit_post == '' || preg_match('/^[\pZ\pC]+|[\pZ\pC]+$/u', $nome_kit_post)) { ?>
-                                Pesquisar (<?php echo $num_produtos == 1 ? $num_produtos . " kit" : $num_produtos . " kits" ?>)
-                            <?php } else { ?>
-                                Pesquisar | <?php echo $nome_kit_post ?> (<?php echo $num_produtos == 1 ? $num_produtos . " kit" : $num_produtos . " kits" ?>)
-                            <?php } ?>
-                        </span>
-                    </h1>
-                </form>
+                <h1 style="text-align: center; word-wrap: break-word;" class='montara'>
+                    <span id="titulo_kit" style="color: #daeff5">
+                        <?php if ($nome_kit_post == '' || preg_match('/^[\pZ\pC]+|[\pZ\pC]+$/u', $nome_kit_post)) { ?>
+                            Pesquisar (<?php echo $num_produtos == 1 ? $num_produtos . " kit" : $num_produtos . " kits" ?>)
+                        <?php } else { ?>
+                            <?php echo $nome_kit_post ?> (<?php echo $num_produtos == 1 ? $num_produtos . " kit" : $num_produtos . " kits" ?>)
+                        <?php } ?>
+                    </span>
+                </h1>
             </header>
             <main class="container">
                 <table class="table table-hover table-striped">
