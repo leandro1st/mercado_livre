@@ -11,7 +11,7 @@ $codigo_kit = $vetor['id_kit'];
 
 $excluir = mysqli_query($connect, "DELETE FROM $kits WHERE $id = '$id_produto'");
 if ($excluir) {
-    echo "<b class='text-success'>" . $nome_produto . "</b> foi excluído do <b class='text-success'>" . $nome_kit . "</b> <small class='text-success'>(#" . $codigo_kit . ")</small> com sucesso!";
+    echo "<span class='asap_regular'><b class='text-success asap_bold'>" . $nome_produto . "</b> foi excluído do <b class='text-success asap_bold'>" . $nome_kit . "</b> <small class='text-success asap_bold'>(#" . $codigo_kit . ")</small> com sucesso!</span>";
 }
 
 ?>

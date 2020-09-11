@@ -188,7 +188,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                 </li>
                 <li class="nav-item px-1 dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu asap_regular">
                         <li>
                             <a class="dropdown-item" href="../cadastrar/"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
                         </li>
@@ -221,8 +221,8 @@ $num_produtos = mysqli_num_rows($pesquisar);
     </nav>
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
-            <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)" class="none_li"><i class="fas fa-book"></i> Pesquisar Produto</a></li>
+            <li class="breadcrumb-item asap_regular"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
+            <li class="breadcrumb-item asap_regular active"><a href="javascript:void(0)" class="none_li"><i class="fas fa-book"></i> Pesquisar Produto</a></li>
         </ol>
     </nav>
     <?php
@@ -252,12 +252,12 @@ $num_produtos = mysqli_num_rows($pesquisar);
             <table id="data_table" class="table table-striped table-hover text-center">
                 <thead class="table-warning">
                     <tr>
-                        <th>Athos</th>
-                        <th>Nome</th>
-                        <th>NCM</th>
-                        <th>CSOSN</th>
-                        <th>CFOP</th>
-                        <th>CEST</th>
+                        <th class="lead" width="11%"><b>ATHOS</b></th>
+                        <th class="lead" width="*"><b>NOME</b></th>
+                        <th class="lead" width="10%"><b>NCM</b></th>
+                        <th class="lead" width="11.5%"><b>CSOSN</b></th>
+                        <th class="lead" width="10%"><b>CFOP</b></th>
+                        <th class="lead" width="10%"><b>CEST</b></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -321,8 +321,8 @@ $num_produtos = mysqli_num_rows($pesquisar);
             </div>
             <!-- Footer Elements -->
             <!-- Copyright -->
-            <div class="text-center" style="background-color: #323741; padding: 16px; color: #dddddd">©
-                2019 Copyright –
+            <div class="text-center asap_regular" style="background-color: #323741; padding: 16px; color: #dddddd">©
+                2020 Copyright –
                 <a href="https://sakamototen.com.br/" style="text-decoration: none"> SakamotoTen – Produtos Orientais e
                     Naturais</a>
             </div>

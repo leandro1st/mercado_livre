@@ -746,7 +746,7 @@ if (isset($_POST['nome_do_kit'])) {
                     </li>
                     <li class="nav-item px-1 dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu asap_regular">
                             <li>
                                 <a class="dropdown-item" href="../cadastrar/"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
                             </li>
@@ -782,8 +782,8 @@ if (isset($_POST['nome_do_kit'])) {
         </nav>
         <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
             <ol class="breadcrumb" style="background: none; margin: 0; word-break: break-word;">
-                <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
-                <li class="breadcrumb-item active">
+                <li class="breadcrumb-item asap_regular"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
+                <li class="breadcrumb-item asap_regular active">
                     <a href="javascript:void(0)" class="none_li">
                         <i class="fas fa-search"></i>
                         <?php if ($nome_kit_post == '' || preg_match('/^[\pZ\pC]+|[\pZ\pC]+$/u', $nome_kit_post)) { ?>
@@ -813,10 +813,10 @@ if (isset($_POST['nome_do_kit'])) {
             </header>
             <main class="container">
                 <table class="table table-hover table-striped">
-                    <thead class="text-center text-warning table-warning lead">
+                    <thead class="text-center table-warning">
                         <tr>
-                            <td>NOME</td>
-                            <td style="padding-right: 1.5em">PREÇO</td>
+                            <th class="lead"><b>NOME</b></th>
+                            <th class="lead" style="padding-right: 1.5em"><b>PREÇO</b></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -879,7 +879,7 @@ if (isset($_POST['nome_do_kit'])) {
                     </h1>
                     <!-- botão clonar -->
                     <button type="button" id="btn_nome_kit" class="btn btn-outline-warning button_border text-center" style="display: block; margin: 20px auto 0 auto" data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="Clonar <?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>" onclick="clonar()">
-                        <i class="fas fa-clone"></i><b> CLONAR</b>
+                        <i class="fas fa-clone"></i><b class="asap_bold"> CLONAR</b>
                     </button>
                 </form>
             </header>
@@ -887,23 +887,23 @@ if (isset($_POST['nome_do_kit'])) {
                 <table id="tabela" class="table table-hover table-striped">
                     <thead>
                         <tr class="text-center table-warning">
-                            <th class="theader_top" scope="col" width="7%">Athos</th>
-                            <th class="theader_top" scope="col" width="25%">Nome do produto</th>
-                            <th class="theader_top" scope="col" width="8%">
-                                Qtde
+                            <th class="theader_top lead" scope="col" width="7%"><b>ATHOS</b></th>
+                            <th class="theader_top lead" scope="col" width="25%"><b>NOME</b></th>
+                            <th class="theader_top" scope="col" width="9%">
+                                <span class="lead"><b>QTDE</b></span>
                                 <?php if ($num_kits == 1) { ?>
                                     <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" data-html="true" title="Há <b><span class='text-primary'><?php echo $num_kits ?></span></b> item nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
                                 <?php } else { ?>
                                     <span id="span_quantidade_produtos" class="noselect font-weight-bold badge badge-pill badge-primary" data-toggle="tooltip" data-html="true" title="Há <b><span class='text-primary'><?php echo $num_kits ?></span></b> itens nesse kit"><span id="quantidade_produto_kit"><?php echo $num_kits ?></span></span>
                                 <?php } ?>
                             </th>
-                            <th class="theader_top" scope="col" width="10%">Preço</th>
-                            <th class="theader_top" scope="col" width="13%">Total</th>
-                            <th class="theader_top" scope="col" width="10%">NCM</th>
-                            <th class="theader_top" scope="col" width="8%">CSOSN</th>
-                            <th class="theader_top" scope="col" width="8%">CFOP</th>
-                            <th class="theader_top" scope="col" width="10%">CEST</th>
-                            <th class="theader_top" scope="col" width="1%" colspan="3"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
+                            <th class="theader_top lead" scope="col" width="10%"><b>PREÇO</b></th>
+                            <th class="theader_top lead" scope="col" width="13%"><b>TOTAL</b></th>
+                            <th class="theader_top lead" scope="col" width="10%"><b>NCM</b></th>
+                            <th class="theader_top lead" scope="col" width="7%"><b>CSOSN</b></th>
+                            <th class="theader_top lead" scope="col" width="8%"><b>CFOP</b></th>
+                            <th class="theader_top lead" scope="col" width="10%"><b>CEST</b></th>
+                            <th class="theader_top lead" scope="col" width="1%" colspan="3"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1072,7 +1072,7 @@ if (isset($_POST['nome_do_kit'])) {
                             <?php if ($j == $num_kits - 1) { ?>
                                 <tr class="text-center">
                                     <td colspan="12" style="border-top-color: #5cb85c; border-top-width: 2px;">
-                                        <span class="font-weight-bold" id="preco_total_kit" style="font-size: 24px">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
+                                        <span class="asap_bold" id="preco_total_kit" style="font-size: 24px">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
                                     </td>
                                 </tr>
                         <?php }
@@ -1090,8 +1090,8 @@ if (isset($_POST['nome_do_kit'])) {
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title text-success" id="modalTitle" style="word-break: break-word">
-                            Informações de <span id="nome_produto_modal"></span> alteradas!
+                        <h4 class="modal-title text-success asap_regular" id="modalTitle" style="word-break: break-word">
+                            Informações de <span id="nome_produto_modal" class="asap_bold"></span> alteradas!
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -1103,8 +1103,8 @@ if (isset($_POST['nome_do_kit'])) {
                                 <thead>
                                     <tr class="text-center text-warning table-warning lead">
                                         <th width="5%"></th>
-                                        <th>ANTIGO</th>
-                                        <th>NOVO</th>
+                                        <th class="asap_bold">ANTIGO</th>
+                                        <th class="asap_bold">NOVO</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -1203,7 +1203,7 @@ if (isset($_POST['nome_do_kit'])) {
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="">OK</button>
+                        <button type="button" class="btn btn-success asap_regular" data-dismiss="modal" onclick="">OK</button>
                     </div>
                 </div>
             </div>
@@ -1213,7 +1213,7 @@ if (isset($_POST['nome_do_kit'])) {
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title text-warning" id="modalTitle">
+                        <h4 class="modal-title text-warning asap_regular" id="modalTitle">
                             Há campos a serem preenchidos!
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1223,13 +1223,13 @@ if (isset($_POST['nome_do_kit'])) {
                     <div class="modal-body">
                         <div class="container">
                             <p class="lead">Os seguintes campos não foram preenchidos: </p>
-                            <ul id="lista_campos" class="list-group list-group-flush">
+                            <ul id="lista_campos" class="list-group list-group-flush asap_regular">
 
                             </ul>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="">OK</button>
+                        <button type="button" class="btn btn-warning asap_regular" data-dismiss="modal" onclick="">OK</button>
                     </div>
                 </div>
             </div>
@@ -1239,7 +1239,7 @@ if (isset($_POST['nome_do_kit'])) {
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title text-success" id="modalTitle">
+                        <h4 class="modal-title text-success asap_regular" id="modalTitle">
                             Nome do kit alterado!
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1253,7 +1253,7 @@ if (isset($_POST['nome_do_kit'])) {
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="">OK</button>
+                        <button type="button" class="btn btn-success asap_regular" data-dismiss="modal" onclick="">OK</button>
                     </div>
                 </div>
             </div>
@@ -1263,7 +1263,7 @@ if (isset($_POST['nome_do_kit'])) {
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title text-warning" id="modalTitle">
+                        <h4 class="modal-title text-warning asap_regular" id="modalTitle">
                             Há campo a ser preenchido!
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1272,14 +1272,14 @@ if (isset($_POST['nome_do_kit'])) {
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            <p class="lead">O seguintes campo não foi preenchido: </p>
-                            <ul id="lista_campo_nome_kit" class="list-group list-group-flush">
+                            <p class="lead">O seguinte campo não foi preenchido: </p>
+                            <ul id="lista_campo_nome_kit" class="list-group list-group-flush asap_regular">
 
                             </ul>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="">OK</button>
+                        <button type="button" class="btn btn-warning asap_regular" data-dismiss="modal" onclick="">OK</button>
                     </div>
                 </div>
             </div>
@@ -1291,8 +1291,8 @@ if (isset($_POST['nome_do_kit'])) {
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title lead" id="modalTitle" style="font-size: 1.75em; word-break: break-word">
-                                <span id="nome_kit_modal_clonado"><b class="text-success"><?php echo $vetor_mostrar_nome_kit['kit_nome'] ?></b> foi clonado com sucesso!</span>
+                            <h4 class="modal-title lead asap_regular" id="modalTitle" style="font-size: 1.75em; word-break: break-word">
+                                <span id="nome_kit_modal_clonado"><b class="text-success asap_bold"><?php echo $vetor_mostrar_nome_kit['kit_nome'] ?></b> foi clonado com sucesso!</span>
                             </h4>
                             <!-- form é enviado quando o usuário clica no ícone X -->
                             <button type="button" class="close" aria-label="Close" onclick="document.forms['form_pesquisar_clone'].submit();">
@@ -1308,7 +1308,7 @@ if (isset($_POST['nome_do_kit'])) {
                         </div>
                         <div class="modal-footer">
                             <!-- form é enviado quando o usuário clica no botão OK -->
-                            <button type="submit" class="btn btn-success">OK</button>
+                            <button type="submit" class="btn btn-success asap_regular">OK</button>
                         </div>
                     </div>
                 </div>
@@ -1320,8 +1320,8 @@ if (isset($_POST['nome_do_kit'])) {
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title text-danger lead" id="modalTitle" style="font-size: 1.75em; word-break: break-word">
-                                <b>Deseja realmente excluir <span id="nome_produto_titulo_excluir_modal"></span>?</b>
+                            <h4 class="modal-title text-danger lead asap_regular" id="modalTitle" style="font-size: 1.75em; word-break: break-word">
+                                <b>Deseja realmente excluir <span class="asap_bold" id="nome_produto_titulo_excluir_modal"></span>?</b>
                             </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -1332,13 +1332,13 @@ if (isset($_POST['nome_do_kit'])) {
                                 <div class="col-9">
                                     <input id="id_produto_modal" name="id_produto_modal" type="hidden" class="form-control" value="">
                                     <input id="index_vetor_produto" type="hidden" class="form-control" value="">
-                                    <h5 class="text-warning lead" style="word-break: break-word"><b>Você irá excluir <span id="nome_produto_excluir_modal"></span>!</b></h5>
+                                    <h5 class="text-warning lead asap_regular" style="word-break: break-word"><b>Você irá excluir <span class="asap_bold" id="nome_produto_excluir_modal"></span>!</b></h5>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" id="btn_modal_excluir" class="btn btn-danger" onclick="excluir_produto(document.getElementById('id_produto_modal').value, document.getElementById('index_vetor_produto').value)" data-dismiss="modal">Excluir</button>
+                            <button type="button" class="btn btn-secondary asap_regular" data-dismiss="modal">Cancelar</button>
+                            <button type="button" id="btn_modal_excluir" class="btn btn-danger asap_regular" onclick="excluir_produto(document.getElementById('id_produto_modal').value, document.getElementById('index_vetor_produto').value)" data-dismiss="modal">Excluir</button>
                         </div>
                     </div>
                 </div>
@@ -1349,8 +1349,8 @@ if (isset($_POST['nome_do_kit'])) {
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title lead" id="modalTitle" style="font-size: 1.75em; word-break: break-word">
-                            <b><span id="produto_modal_excluido" class="text-success"></span></b> foi excluído com sucesso!
+                        <h4 class="modal-title lead asap_regular" id="modalTitle" style="font-size: 1.75em; word-break: break-word">
+                            <b><span id="produto_modal_excluido" class="text-success asap_bold"></span></b> foi excluído com sucesso!
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -1360,7 +1360,7 @@ if (isset($_POST['nome_do_kit'])) {
                         <span id="produto_modal_body_excluido" class="lead" style="word-break: break-word"></span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                        <button type="button" class="btn btn-success asap_regular" data-dismiss="modal">OK</button>
                     </div>
                 </div>
             </div>
@@ -1400,8 +1400,8 @@ if (isset($_POST['nome_do_kit'])) {
                 </div>
                 <!-- Footer Elements -->
                 <!-- Copyright -->
-                <div class="text-center" style="background-color: #323741; padding: 16px; color: #dddddd">©
-                    2019 Copyright –
+                <div class="text-center asap_regular" style="background-color: #323741; padding: 16px; color: #dddddd">©
+                    2020 Copyright –
                     <a href="https://sakamototen.com.br/" style="text-decoration: none"> SakamotoTen – Produtos Orientais e
                         Naturais</a>
                 </div>

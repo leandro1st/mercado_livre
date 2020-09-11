@@ -76,7 +76,7 @@
                 </li>
                 <li class="nav-item px-1 dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu asap_regular">
                         <li>
                             <a class="dropdown-item" href="cadastrar/"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
                         </li>
@@ -109,8 +109,8 @@
     </nav>
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
-            <li class="breadcrumb-item"><a href="./"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)" class="none_li"><i class="fas fa-question-circle"></i> FAQ</a></li>
+            <li class="breadcrumb-item asap_regular"><a href="./"><i class="fas fa-home"></i> Página Inicial</a></li>
+            <li class="breadcrumb-item asap_regular active"><a href="javascript:void(0)" class="none_li"><i class="fas fa-question-circle"></i> FAQ</a></li>
         </ol>
     </nav>
     <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
@@ -120,7 +120,7 @@
         <div class="accordion" id="accordionFaq">
             <div class="card">
                 <div class="card-header collapsed" id="heading_1" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" aria-controls="collapse_1" style="cursor: pointer;">
-                    <h5 class="accordion-toggle" style="margin: 0px">
+                    <h5 class="accordion-toggle asap_regular" style="margin: 0px">
                         CFOP/Natureza da Operação
                     </h5>
                 </div>
@@ -133,7 +133,7 @@
             </div>
             <div class="card">
                 <div class="card-header collapsed" id="heading_2" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" aria-controls="collapse_2" style="cursor: pointer;">
-                    <h5 class="accordion-toggle" style="margin: 0px">
+                    <h5 class="accordion-toggle asap_regular" style="margin: 0px">
                         Dados adicionais (fora de São Paulo)
                     </h5>
                 </div>
@@ -145,7 +145,7 @@
             </div>
             <div class="card">
                 <div class="card-header collapsed" id="heading_3" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" aria-controls="collapse_3" style="cursor: pointer;">
-                    <h5 class="accordion-toggle" style="margin: 0px">
+                    <h5 class="accordion-toggle asap_regular" style="margin: 0px">
                         Código de barras
                     </h5>
                 </div>
@@ -157,7 +157,7 @@
             </div>
             <div class="card">
                 <div class="card-header collapsed" id="heading_4" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" aria-controls="collapse_4" style="cursor: pointer;">
-                    <h5 class="accordion-toggle" style="margin: 0px">
+                    <h5 class="accordion-toggle asap_regular" style="margin: 0px">
                         Pagamento
                     </h5>
                 </div>
@@ -192,8 +192,8 @@
         </div>
         <!-- Footer Elements -->
         <!-- Copyright -->
-        <div class="text-center" style="background-color: #323741; padding: 16px; color: #dddddd">©
-            2019 Copyright –
+        <div class="text-center asap_regular" style="background-color: #323741; padding: 16px; color: #dddddd">©
+            2020 Copyright –
             <a href="https://sakamototen.com.br/" style="text-decoration: none"> SakamotoTen – Produtos Orientais e
                 Naturais</a>
         </div>

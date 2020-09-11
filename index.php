@@ -94,7 +94,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 </li>
                 <li class="nav-item px-1 dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu asap_regular">
                         <li>
                             <a class="dropdown-item" href="cadastrar/"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
                         </li>
@@ -145,7 +145,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
         </div>
         <p class='lead' style='padding-top: 8%; font-size: 40px; text-align: center;'>Comece cadastrando novos kits!</p>
     <?php } else { ?>
-        <p class="lead" style="position: absolute; margin: 15px 25px 0 25px; font-size: 18px; word-break: break-word;">
+        <p class="asap_regular" style="position: absolute; margin: 15px 25px 0 25px; font-size: 18px; word-break: break-word;">
             <b><i class="fas fa-history text-warning"></i> Último cadastro: </b><?php echo $vetor_ultimo['kit_nome'] . " <span style='font-size: 16px'>(" . date("d/m/Y H:i:s", strtotime($vetor_ultimo['hora_cadastro'])) . ")</span>" ?>
         </p>
         <header class="jumbotron" style="background-image: url('imagens/wallpaper.jpg'); background-size: cover; background-position: center 38%; padding: 100px; border-radius: 0">
@@ -168,7 +168,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                         <?php if ($i == 0) { ?>
                             <!-- <div class="card-header" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer;"> -->
                             <div class="card-header collapsed" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer;">
-                                <h5 class="accordion-toggle" style="margin: 0px" data-toggle="tooltip" data-placement="top" title="<?php echo date("d/m/Y H:i:s", strtotime($vetor2['hora_cadastro'])) ?>">
+                                <h5 class="accordion-toggle asap_regular" style="margin: 0px" data-toggle="tooltip" data-placement="top" title="<?php echo date("d/m/Y H:i:s", strtotime($vetor2['hora_cadastro'])) ?>">
                                     <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
                                 </h5>
                             </div>
@@ -176,7 +176,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                             <div id="collapse_<?php echo $i ?>" class="collapse" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
                             <?php } else { ?>
                                 <div class="card-header collapsed" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer;">
-                                    <h5 class="accordion-toggle" style="margin: 0px" data-toggle="tooltip" data-placement="top" title="<?php echo date("d/m/Y H:i:s", strtotime($vetor2['hora_cadastro'])) ?>">
+                                    <h5 class="accordion-toggle asap_regular" style="margin: 0px" data-toggle="tooltip" data-placement="top" title="<?php echo date("d/m/Y H:i:s", strtotime($vetor2['hora_cadastro'])) ?>">
                                         <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
                                     </h5>
                                 </div>
@@ -185,16 +185,16 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                 <div class="card-body" style="padding: 10px 40px 10px 40px;">
                                     <table class="table table-hover">
                                         <thead>
-                                            <tr class="text-center table-warning">
-                                                <th scope="col" width="9%">Athos</th>
-                                                <th scope="col" width="39%">Nome do produto</th>
-                                                <th scope="col" width="1%">Qtde</th>
-                                                <th scope="col" width="13%">Preço</th>
-                                                <th scope="col" width="13%">Total</th>
-                                                <th scope="col" width="4%">NCM</th>
-                                                <th scope="col" width="4%">CSOSN</th>
-                                                <th scope="col" width="5%">CFOP</th>
-                                                <th scope="col" width="12%">CEST</th>
+                                            <tr class="text-center table-warning lead">
+                                                <th class="lead" scope="col" width="9%"><b>ATHOS</b></th>
+                                                <th class="lead" scope="col" width="39%"><b>NOME</b></th>
+                                                <th class="lead" scope="col" width="1%"><b>QTDE</b></th>
+                                                <th class="lead" scope="col" width="13%"><b>PREÇO</b></th>
+                                                <th class="lead" scope="col" width="13%"><b>TOTAL</b></th>
+                                                <th class="lead" scope="col" width="4%"><b>NCM</b></th>
+                                                <th class="lead" scope="col" width="4%"><b>CSOSN</b></th>
+                                                <th class="lead" scope="col" width="5%"><b>CFOP</b></th>
+                                                <th class="lead" scope="col" width="12%"><b>CEST</b></th>
                                                 <!-- <th scope="col" width="13,75%">Kit nome</th> -->
                                             </tr>
                                         </thead>
@@ -238,7 +238,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                 <?php if ($j == $numero_repetido - 1) { ?>
                                                     <tr class="text-center">
                                                         <td colspan="9" style="border-top-color: #5cb85c; border-top-width: 2px;">
-                                                            <span style="font-size: 24px" class="font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
+                                                            <span style="font-size: 24px" class="asap_bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
                                                         </td>
                                                     </tr>
                                             <?php }
@@ -278,8 +278,8 @@ $num_kits = mysqli_num_rows($pesquisar2);
             </div>
             <!-- Footer Elements -->
             <!-- Copyright -->
-            <div class="text-center" style="background-color: #323741; padding: 16px; color: #dddddd">©
-                2019 Copyright –
+            <div class="text-center asap_regular" style="background-color: #323741; padding: 16px; color: #dddddd">©
+                2020 Copyright –
                 <a href="https://sakamototen.com.br/" style="text-decoration: none"> SakamotoTen – Produtos Orientais e
                     Naturais</a>
             </div>

@@ -119,7 +119,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                 </li>
                 <li class="nav-item px-1 dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu asap_regular">
                         <li>
                             <a class="dropdown-item" href="../cadastrar/"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
                         </li>
@@ -152,8 +152,8 @@ $num_kits = mysqli_num_rows($pesquisar2);
     </nav>
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
-            <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)" class="none_li"><i class="far fa-trash-alt"></i> Excluir Kits</a></li>
+            <li class="breadcrumb-item asap_regular"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
+            <li class="breadcrumb-item asap_regular active"><a href="javascript:void(0)" class="none_li"><i class="far fa-trash-alt"></i> Excluir Kits</a></li>
         </ol>
     </nav>
     <?php
@@ -196,7 +196,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                         <?php if ($i == 0) { ?>
                             <!-- <div class="card-header" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer"> -->
                             <div class="card-header collapsed" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
-                                <h5 class="accordion-toggle" style="margin: 0px">
+                                <h5 class="accordion-toggle asap_regular" style="margin: 0px">
                                     <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
                                 </h5>
                             </div>
@@ -204,7 +204,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                             <div id="collapse_<?php echo $i ?>" class="collapse" aria-labelledby="heading_<?php echo $i ?>" data-parent="#accordionKits">
                             <?php } else { ?>
                                 <div class="card-header collapsed" id="heading_<?php echo $i ?>" data-toggle="collapse" data-target="#collapse_<?php echo $i ?>" aria-expanded="true" aria-controls="collapse_<?php echo $i ?>" style="cursor: pointer">
-                                    <h5 class="accordion-toggle" style="margin: 0px">
+                                    <h5 class="accordion-toggle asap_regular" style="margin: 0px">
                                         <?php echo $vetor2['kit_nome'] . " <b><span style='font-size: 14px'>(#" . $vetor2['id_kit'] . ")</span></b>" ?>
                                     </h5>
                                 </div>
@@ -214,15 +214,15 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                     <table class="table table-hover">
                                         <thead>
                                             <tr class="text-center table-warning">
-                                                <th scope="col" width="9%">Athos</th>
-                                                <th scope="col" width="39%">Nome do produto</th>
-                                                <th scope="col" width="1%">Qtde</th>
-                                                <th scope="col" width="13%">Preço</th>
-                                                <th scope="col" width="13%">Total</th>
-                                                <th scope="col" width="4%">NCM</th>
-                                                <th scope="col" width="4%">CSOSN</th>
-                                                <th scope="col" width="5%">CFOP</th>
-                                                <th scope="col" width="12%">CEST</th>
+                                                <th class="lead" scope="col" width="9%"><b>ATHOS</b></th>
+                                                <th class="lead" scope="col" width="39%"><b>NOME</b></th>
+                                                <th class="lead" scope="col" width="1%"><b>QTDE</b></th>
+                                                <th class="lead" scope="col" width="13%"><b>PREÇO</b></th>
+                                                <th class="lead" scope="col" width="13%"><b>TOTAL</b></th>
+                                                <th class="lead" scope="col" width="4%"><b>NCM</b></th>
+                                                <th class="lead" scope="col" width="4%"><b>CSOSN</b></th>
+                                                <th class="lead" scope="col" width="5%"><b>CFOP</b></th>
+                                                <th class="lead" scope="col" width="12%"><b>CEST</b></th>
                                                 <!-- <th scope="col" width="13,75%">Kit nome</th> -->
                                             </tr>
                                         </thead>
@@ -266,8 +266,8 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                 <?php if ($j == $numero_repetido - 1) { ?>
                                                     <tr class="text-center">
                                                         <td colspan="9" style="border-top-color: #5cb85c; border-top-width: 2px;">
-                                                            <span style="font-size: 24px" class="font-weight-bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
-                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalExcluir" style="float: right; margin-bottom: -40px" onclick="obter_dados('<?php echo $id_do_kit ?>', '<?php echo $vetor2['kit_nome'] ?>' ,'<?php echo $numero_repetido ?>')">
+                                                            <span style="font-size: 24px" class="asap_bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
+                                                            <button type="button" class="btn btn-danger asap_regular" data-toggle="modal" data-target="#modalExcluir" style="float: right; margin-bottom: -40px" onclick="obter_dados('<?php echo $id_do_kit ?>', '<?php echo $vetor2['kit_nome'] ?>' ,'<?php echo $numero_repetido ?>')">
                                                                 Excluir <i class="far fa-trash-alt" style="color: white;"></i>
                                                             </button>
                                                         </td>
@@ -287,8 +287,8 @@ $num_kits = mysqli_num_rows($pesquisar2);
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title text-danger" id="modalTitle">
-                        Deseja realmente excluir <span id="nome_kit_modal"></span>?
+                    <h4 class="modal-title text-danger asap_regular" id="modalTitle">
+                        Deseja realmente excluir <span class="asap_bold" id="nome_kit_modal"></span>?
                     </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -300,18 +300,18 @@ $num_kits = mysqli_num_rows($pesquisar2);
                         <input type="hidden" id="input_quantidade" class="form-control" name="input_quantidade" value="<?php echo $numero_repetido ?>" readonly>
                     </form>
                     <input type="hidden" id="numero_restante" value="<?php echo $num_kits ?>">
-                    <div class="container lead">
-                        <b>Nome do kit: </b>
+                    <div class="container lead asap_regular">
+                        <b class="asap_bold">Nome do kit: </b>
                         <span id="nome" style="overflow-wrap: break-word;"></span><br>
-                        <b>Id do kit: </b>
+                        <b class="asap_bold">Id do kit: </b>
                         <span id="codigo"></span><br>
-                        <b>Quantidade de produtos: </b>
+                        <b class="asap_bold">Quantidade de produtos: </b>
                         <span id="quantidade"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger" onclick="excluir(document.getElementById('input_id_kit').value, document.getElementById('numero_restante').value)" data-dismiss="modal">Excluir</button>
+                    <button type="button" class="btn btn-secondary asap_regular" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger asap_regular" onclick="excluir(document.getElementById('input_id_kit').value, document.getElementById('numero_restante').value)" data-dismiss="modal">Excluir</button>
                 </div>
             </div>
         </div>
@@ -342,8 +342,8 @@ $num_kits = mysqli_num_rows($pesquisar2);
             </div>
             <!-- Footer Elements -->
             <!-- Copyright -->
-            <div class="text-center" style="background-color: #323741; padding: 16px; color: #dddddd">©
-                2019 Copyright –
+            <div class="text-center asap_regular" style="background-color: #323741; padding: 16px; color: #dddddd">©
+                2020 Copyright –
                 <a href="https://sakamototen.com.br/" style="text-decoration: none"> SakamotoTen – Produtos Orientais e
                     Naturais</a>
             </div>

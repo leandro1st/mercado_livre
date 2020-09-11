@@ -284,7 +284,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                 </li>
                 <li class="nav-item px-1 dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu asap_regular">
                         <li>
                             <a class="dropdown-item" href="../cadastrar/"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
                         </li>
@@ -317,8 +317,8 @@ $num_produtos = mysqli_num_rows($pesquisar);
     </nav>
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
-            <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)" class="none_li"><i class="far fa-clock"></i> Alterar Produto</a></li>
+            <li class="breadcrumb-item asap_regular"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
+            <li class="breadcrumb-item asap_regular active"><a href="javascript:void(0)" class="none_li"><i class="far fa-clock"></i> Alterar Produto</a></li>
         </ol>
     </nav>
     <?php
@@ -348,13 +348,13 @@ $num_produtos = mysqli_num_rows($pesquisar);
             <table class="table table-hover table-striped">
                 <thead>
                     <tr class="text-center table-warning">
-                        <th class="theader_top" scope="col" width="5%">Athos</th>
-                        <th class="theader_top" scope="col" width="35%">Nome do produto</th>
-                        <th class="theader_top" scope="col" width="12%">NCM</th>
-                        <th class="theader_top" scope="col" width="12%">CSOSN</th>
-                        <th class="theader_top" scope="col" width="12%">CFOP</th>
-                        <th class="theader_top" scope="col" width="12%">CEST</th>
-                        <th class="theader_top" scope="col" width="12%" colspan="2"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
+                        <th class="theader_top lead" scope="col" width="5%"><b>ATHOS</b></th>
+                        <th class="theader_top lead" scope="col" width="*"><b>NOME</b></th>
+                        <th class="theader_top lead" scope="col" width="9%"><b>NCM</b></th>
+                        <th class="theader_top lead" scope="col" width="9%"><b>CSOSN</b></th>
+                        <th class="theader_top lead" scope="col" width="9%"><b>CFOP</b></th>
+                        <th class="theader_top lead" scope="col" width="12%"><b>CEST</b></th>
+                        <th class="theader_top lead" scope="col" width="12%" colspan="2"><i class="fas fa-cogs text-secondary" style="font-size: 22px;"></i></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -390,7 +390,7 @@ $num_produtos = mysqli_num_rows($pesquisar);
                                         <?php echo $vetor_produto['cod_athos'] ?>
                                     </span>
                                 </td>
-                                <td style="max-width: 400px; word-wrap: break-word;">
+                                <td class="text-left" style="max-width: 400px; word-wrap: break-word;">
                                     <!-- Input pra alterar o nome do produto -->
                                     <input type="hidden" id="input_nome-<?php echo $vetor_produto['id'] ?>" name="nome_novo" class="form-control" value="<?php echo $vetor_produto['nome'] ?>" placeholder="Nome novo" onkeydown="return event.key != 'Enter';">
 
@@ -516,8 +516,8 @@ $num_produtos = mysqli_num_rows($pesquisar);
             </div>
             <!-- Footer Elements -->
             <!-- Copyright -->
-            <div class="text-center" style="background-color: #323741; padding: 16px; color: #dddddd">©
-                2019 Copyright –
+            <div class="text-center asap_regular" style="background-color: #323741; padding: 16px; color: #dddddd">©
+                2020 Copyright –
                 <a href="https://sakamototen.com.br/" style="text-decoration: none"> SakamotoTen – Produtos Orientais e
                     Naturais</a>
             </div>

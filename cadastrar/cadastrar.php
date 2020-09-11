@@ -63,8 +63,8 @@ require('../externo/connect.php');
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <p class="modal-title lead" id="modalTitle" style="font-size: 1.75em">
-                            <span class="text-success" style="word-break: break-word"><b><?php echo $nome_kit . "</b></span> cadastrado com sucesso!" ?>
+                        <p class="modal-title lead asap_regular" id="modalTitle" style="font-size: 1.75em">
+                            <span class="text-success" style="word-break: break-word"><b class="asap_bold"><?php echo $nome_kit . "</b></span> cadastrado com sucesso!" ?>
                         </p>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.replace('./')">
                             <span aria-hidden="true">&times;</span>
@@ -72,16 +72,16 @@ require('../externo/connect.php');
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            <span class="lead" style='margin-bottom: 5px; display: block'><b>Código do kit novo: </b><?php echo $proximo_id ?></span>
+                            <span class="lead asap_regular" style='margin-bottom: 5px; display: block'><b class="asap_bold">Código do kit novo: </b><?php echo $proximo_id ?></span>
                             <?php if ($numero_produtos == 1) { ?>
-                                <h5 class="lead"><b class="text-success"><?php echo $numero_produtos ?></b> produto cadastrado com sucesso!</h5>
+                                <h5 class="lead asap_regular"><b class="text-success asap_bold"><?php echo $numero_produtos ?></b> produto cadastrado com sucesso!</h5>
                             <?php } else { ?>
-                                <h5 class="lead"><b class="text-success"><?php echo $numero_produtos ?></b> produtos cadastrados com sucesso!</h5>
+                                <h5 class="lead asap_regular"><b class="text-success asap_bold"><?php echo $numero_produtos ?></b> produtos cadastrados com sucesso!</h5>
                             <?php } ?>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="window.location.replace('./')">OK</button>
+                        <button type="button" class="btn btn-success asap_regular" data-dismiss="modal" onclick="window.location.replace('./')">OK</button>
                     </div>
                 </div>
             </div>

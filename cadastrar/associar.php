@@ -64,8 +64,8 @@ if (!isset($_POST['id_kit'])) {
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <p class="modal-title lead" id="modalTitle" style="font-size: 1.75em">
-                            <span class="text-success" style="word-break: break-word"><b><?php echo $nome_produto . "</b></span> associado com sucesso!" ?>
+                        <p class="modal-title lead asap_regular" id="modalTitle" style="font-size: 1.75em">
+                            <span class="text-success" style="word-break: break-word"><b class="asap_bold"><?php echo $nome_produto . "</b></span> associado com sucesso!" ?>
                         </p>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.replace('associar_produto.php')">
                             <span aria-hidden="true">&times;</span>
@@ -73,11 +73,11 @@ if (!isset($_POST['id_kit'])) {
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            <h5 class="lead" style="word-break: break-word"><b class="text-success"><?php echo $nome_produto ?></b> associado ao <b class="text-success"><?php echo $nome_kit ?> <small>(#<?php echo $id_do_kit ?>)</small></b> com sucesso!</h5>
+                            <h5 class="lead asap_regular" style="word-break: break-word"><b class="text-success asap_bold"><?php echo $nome_produto ?></b> associado ao <b class="text-success asap_bold"><?php echo $nome_kit ?> <small>(#<?php echo $id_do_kit ?>)</small></b> com sucesso!</h5>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="window.location.replace('associar_produto.php')">OK</button>
+                        <button type="button" class="btn btn-success asap_regular" data-dismiss="modal" onclick="window.location.replace('associar_produto.php')">OK</button>
                     </div>
                 </div>
             </div>

@@ -29,6 +29,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
     <script>
         $(document).ready(function() {
             $('#form_associar')[0].reset();
+            $('label').addClass('asap_bold');
         });
 
         $(document).ready(function() {
@@ -185,11 +186,11 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
             var cfop = $("#cfop").val().trim();
 
             if (id_kit && athos && nome && qtd && preco && preco != 'R$ 0,00' && ncm && csosn && cfop) {
-                document.getElementById('btn_enviar').className = 'btn btn-success';
+                document.getElementById('btn_enviar').className = 'btn btn-success asap_regular';
                 document.getElementById('btn_enviar').disabled = false;
                 document.getElementById('btn_enviar').style.cursor = 'pointer';
             } else {
-                document.getElementById('btn_enviar').className = 'btn btn-danger';
+                document.getElementById('btn_enviar').className = 'btn btn-danger asap_regular';
                 document.getElementById('btn_enviar').disabled = true;
                 document.getElementById('btn_enviar').style.cursor = 'not-allowed';
             }
@@ -236,7 +237,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                 </li>
                 <li class="nav-item px-1 dropdown active">
                     <a class="nav-link underline" data-toggle="dropdown" href="javascript:void(0)"><i class="fas fa-edit text-success" style="font-size: 24px; vertical-align: middle"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu asap_regular">
                         <li>
                             <a class="dropdown-item" href="./"><i class="fas fa-pen text-success" style="padding-right: 5px"></i> Cadastrar Kit</a>
                         </li>
@@ -272,8 +273,8 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
     </nav>
     <nav aria-label="breadcrumb" style="position: absolute; z-index: 1;">
         <ol class="breadcrumb" style="background: none; margin: 0;">
-            <li class="breadcrumb-item"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)" class="none_li"><i class="fas fa-edit"></i> Associar Produto</a>
+            <li class="breadcrumb-item asap_regular"><a href="../"><i class="fas fa-home"></i> Página Inicial</a></li>
+            <li class="breadcrumb-item asap_regular active"><a href="javascript:void(0)" class="none_li"><i class="fas fa-edit"></i> Associar Produto</a>
                 <i id="icone_ultimo_cadastro" class="fas fa-sticky-note text-warning" style="cursor: pointer" data-toggle="tooltip" data-trigger="click hover focus" data-html="true" data-placement="bottom" title="<span class='lead'><b><i class='fas fa-history text-warning'></i> Último cadastro: </b><?php echo $vetor_ultimo['kit_nome'] . "<small> (" . date('d/m/Y H:i:s', strtotime($vetor_ultimo['hora_cadastro'])) . ")</small></span>" ?>"></i>
             </li>
         </ol>
@@ -386,15 +387,15 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                     </div>
                     <input type="hidden" class="form-control" name="atual" value="1" id="atual">
                     <input type="hidden" class="form-control" name="total" value="1" id="total">
-                    <button id="btn_enviar" type="submit" class="btn btn-success" style="float: right">Associar</button>
+                    <button id="btn_enviar" type="submit" class="btn btn-success asap_regular" style="float: right">Associar</button>
                 </form>
             </div>
             <div class="col-1" style="padding-left: 0; max-width: 136px">
                 <div class="card border-success sticky-top" style="width: 121px; top: 70px; bottom: 10px; left: 0; right: 0; z-index: 1">
                     <!-- width: 108px -->
                     <div class="card-footer text-success">
-                        <h5 class="card-title text-center" style="margin: 0">Total:</h5>
-                        <p class="card-text text-center lead" style="margin: 0 -12px 0px -12px; font-size: 18px"><span id="subtotal">R$ 0,00</span></p>
+                        <h5 class="card-title text-center asap_bold" style="margin: 0">Total:</h5>
+                        <p class="card-text text-center lead asap_regular" style="margin: 0 -12px 0px -12px; font-size: 18px"><span id="subtotal">R$ 0,00</span></p>
                     </div>
                 </div>
             </div>
@@ -421,8 +422,8 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
         </div>
         <!-- Footer Elements -->
         <!-- Copyright -->
-        <div class="text-center" style="background-color: #323741; padding: 16px; color: #dddddd">©
-            2019 Copyright –
+        <div class="text-center asap_regular" style="background-color: #323741; padding: 16px; color: #dddddd">©
+            2020 Copyright –
             <a href="https://sakamototen.com.br/" style="text-decoration: none"> SakamotoTen – Produtos Orientais e
                 Naturais</a>
         </div>
@@ -442,7 +443,7 @@ $numero_kits = mysqli_num_rows($pesquisar_todos_kits);
                     form.addEventListener('submit', function(event) {
                         if (form.checkValidity() === false) {
                             // button css
-                            document.getElementById('btn_enviar').className = 'btn btn-danger';
+                            document.getElementById('btn_enviar').className = 'btn btn-danger asap_regular';
                             document.getElementById('btn_enviar').disabled = true;
                             document.getElementById('btn_enviar').style.cursor = 'not-allowed';
 

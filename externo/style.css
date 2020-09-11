@@ -328,3 +328,23 @@ ul.navbar-nav li.dropdown:hover>ul.dropdown-menu {
     background: transparent;
     text-shadow: -2px -2px 2px rgba(255, 255, 255, .1), 2px 2px 2px rgba(0, 0, 0, .5);
 }
+
+/* custom font css */
+@font-face {
+    font-family: 'Asap-Bold';
+    src: url('../externo/Asap-Bold.ttf');
+}
+
+.asap_bold {
+    font-family: 'Asap-Bold';
+}
+
+/* custom font css */
+@font-face {
+    font-family: 'Asap-Regular';
+    src: url('../externo/Asap-Regular.ttf');
+}
+
+.asap_regular {
+    font-family: 'Asap-Regular';
+}
