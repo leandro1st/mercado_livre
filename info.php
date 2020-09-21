@@ -49,7 +49,15 @@
                     $('#nome_do_kit').val(ui.item.value);
                     $('#form_pesquisa').submit();
                 },
-                appendTo: "#div_autocomplete"
+                appendTo: "#div_autocomplete",
+
+                // clearing the input text
+                close: function(event) {
+                    var ev = event.originalEvent;
+                    if (ev.type === "keydown" && ev.keyCode === $.ui.keyCode.ESCAPE) {
+                        $(this).val("");
+                    }
+                }
             }).data('ui-autocomplete')._renderItem = function(ul, item) {
                 return $("<li class='ui-autocomplete-row'></li>")
                     .data("item.autocomplete", item)
@@ -100,7 +108,7 @@
             </ul>
             <i class="fas fa-info-circle" style="font-size: 24px; color: #5bc0de; vertical-align: middle; margin-right: 15px; cursor: pointer" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<img src='imagens/example.png' width='130px'>"></i>
             <form id="form_pesquisa" class="form-inline my-2 my-lg-0" method="POST" action="pesquisar/">
-                <input class="form-control mr-sm-2" id="nome_do_kit" name="nome_do_kit" placeholder="Código/Nome do kit" aria-label="Search" autocomplete="off" style="width: 300px; background-color: #eee; border-radius: 9999px; border: none; padding-left: 20px; padding-right: 42px">
+                <input class="form-control mr-sm-2" id="nome_do_kit" name="nome_do_kit" placeholder="Código/Nome do kit" aria-label="Search" autocomplete="off" style="width: 300px; background-color: #eee; border-radius: 9999px; border: none; padding-left: 20px; padding-right: 42px" onkeydown="if ( event.keyCode == 27 ) this.value=''">
                 <div id="div_autocomplete">
                 </div>
                 <button type="submit" style="position: absolute; margin-left: 259px; border: none; cursor: pointer"><i class="fas fa-search text-success"></i></button>
