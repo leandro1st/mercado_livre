@@ -6,7 +6,7 @@ if (!isset($_POST['nome_kit'])) {
     header("location:./");
 } else {
 
-require('../externo/connect.php');
+    require('../externo/connect.php');
 
     $pesquisar_ultimo_id_kit = mysqli_query($connect, "SELECT * FROM $kits ORDER BY id_kit DESC LIMIT 1");
     $vetor_ultimo_id = mysqli_fetch_array($pesquisar_ultimo_id_kit);
@@ -16,11 +16,17 @@ require('../externo/connect.php');
     date_default_timezone_set('America/Sao_Paulo');
     $agora = date("Y-m-d H:i:s");
 
-    $nome_kit = mb_convert_case(trim($_POST['nome_kit']), MB_CASE_UPPER, 'utf-8');
+    // htmlentities - O comportamento é idêntico ao htmlspecialchars por padrão para &, >, <, " e ' especificamente (ENT_QUOTES)
+    // Um exemplo simples de diferença são os acentos
+    // htmlspecialchars não encoda acentos
+    $nome_kit = mb_convert_case(htmlspecialchars(trim($_POST['nome_kit']), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+    // $nome_kit = mb_convert_case(trim($_POST['nome_kit']), MB_CASE_UPPER, 'utf-8');
     $numero_produtos = $_POST['total'];
     for ($i = 1; $i <= $numero_produtos; $i++) {
-        $cod_athos_produto = $_POST['cod_athos_' . $i];
-        $nome_produto = mb_convert_case(trim($_POST['produto_' . $i]), MB_CASE_UPPER, 'utf-8');
+        $cod_athos_produto = mb_convert_case(htmlspecialchars(trim($_POST['cod_athos_' . $i]), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+        // $cod_athos_produto = $_POST['cod_athos_' . $i];
+        $nome_produto = mb_convert_case(htmlspecialchars(trim($_POST['produto_' . $i]), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+        // $nome_produto = mb_convert_case(trim($_POST['produto_' . $i]), MB_CASE_UPPER, 'utf-8');
         $quantidade_produto = $_POST['quantidade_' . $i];
 
         $preco_produto = $_POST['preco_' . $i];
@@ -29,7 +35,8 @@ require('../externo/connect.php');
         $preco_final = str_replace(',', '.', $preco3);
 
         $preco_total_produto = (int) $quantidade_produto * (float) $preco_final;
-        $ncm_produto = mb_convert_case(trim($_POST['ncm_' . $i]), MB_CASE_UPPER, 'utf-8');
+        $ncm_produto = mb_convert_case(htmlspecialchars(trim($_POST['ncm_' . $i]), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+        // $ncm_produto = mb_convert_case(trim($_POST['ncm_' . $i]), MB_CASE_UPPER, 'utf-8');
         $csosn_produto = $_POST['csosn_' . $i];
         $cfop_produto = $_POST['cfop_' . $i];
         $cest_produto = $_POST['cest_' . $i];

@@ -3,9 +3,12 @@
 require('../externo/connect.php');
 
 $id_prod = trim($_POST['id_produto']);
-$athos_novo = trim($_POST['athos_novo']);
-$nome_novo = mb_convert_case(trim($_POST['nome_novo']), MB_CASE_UPPER, 'utf-8');
-$ncm_novo = mb_convert_case(trim($_POST['ncm_novo']), MB_CASE_UPPER, 'utf-8');
+$athos_novo = mb_convert_case(htmlspecialchars(trim($_POST['athos_novo']), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+// $athos_novo = trim($_POST['athos_novo']);
+$nome_novo = mb_convert_case(htmlspecialchars(trim($_POST['nome_novo']), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+// $nome_novo = mb_convert_case(trim($_POST['nome_novo']), MB_CASE_UPPER, 'utf-8');
+$ncm_novo = mb_convert_case(htmlspecialchars(trim($_POST['ncm_novo']), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+// $ncm_novo = mb_convert_case(trim($_POST['ncm_novo']), MB_CASE_UPPER, 'utf-8');
 $csosn_novo = trim($_POST['csosn_novo']);
 $cfop_novo = trim($_POST['cfop_novo']);
 $cest_novo = trim($_POST['cest_novo']);

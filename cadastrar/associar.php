@@ -19,9 +19,11 @@ if (!isset($_POST['id_kit'])) {
     $agora = date("Y-m-d H:i:s");
 
     // Código athos
-    $cod_athos_produto = $_POST['cod_athos_1'];
+    $cod_athos_produto = mb_convert_case(htmlspecialchars(trim($_POST['cod_athos_1']), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+    // $cod_athos_produto = $_POST['cod_athos_1'];
     // Nome do produto
-    $nome_produto = mb_convert_case(trim($_POST['produto']), MB_CASE_UPPER, 'utf-8');
+    $nome_produto = mb_convert_case(htmlspecialchars(trim($_POST['produto']), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+    // $nome_produto = mb_convert_case(trim($_POST['produto']), MB_CASE_UPPER, 'utf-8');
     // Quantidade
     $quantidade_produto = $_POST['quantidade'];
     // Preço do produto
@@ -32,7 +34,8 @@ if (!isset($_POST['id_kit'])) {
     // Preço total do produto
     $preco_total_produto = $_POST['preco_total'];
     // NCM
-    $ncm_produto = mb_convert_case(trim($_POST['ncm']), MB_CASE_UPPER, 'utf-8');
+    $ncm_produto = mb_convert_case(htmlspecialchars(trim($_POST['ncm']), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+    // $ncm_produto = mb_convert_case(trim($_POST['ncm']), MB_CASE_UPPER, 'utf-8');
     // CSOSN
     $csosn_produto = $_POST['csosn'];
     // CFOP

@@ -275,7 +275,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
                                                     <tr class="text-center">
                                                         <td colspan="9" style="border-top-color: #5cb85c; border-top-width: 2px;">
                                                             <span style="font-size: 24px" class="asap_bold">R$ <?php echo number_format($preco_total_kit, 2, ',', '.') ?></span>
-                                                            <button type="button" class="btn btn-danger asap_regular" data-toggle="modal" data-target="#modalExcluir" style="float: right; margin-bottom: -40px" onclick="obter_dados('<?php echo $id_do_kit ?>', '<?php echo $vetor2['kit_nome'] ?>' ,'<?php echo $numero_repetido ?>')">
+                                                            <button type="button" class="btn btn-danger asap_regular" data-toggle="modal" data-target="#modalExcluir" style="float: right; margin-bottom: -40px" onclick="obter_dados('<?php echo $id_do_kit ?>', '<?php echo htmlspecialchars(trim($vetor2['kit_nome']), ENT_QUOTES, 'UTF-8') ?>' ,'<?php echo $numero_repetido ?>')">
                                                                 Excluir <i class="far fa-trash-alt" style="color: white;"></i>
                                                             </button>
                                                         </td>
@@ -296,7 +296,7 @@ $num_kits = mysqli_num_rows($pesquisar2);
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title text-danger asap_regular" id="modalTitle">
-                        Deseja realmente excluir <span class="asap_bold" id="nome_kit_modal"></span>?
+                        Deseja realmente excluir <span class="asap_bold" id="nome_kit_modal" style="word-break: break-word"></span>?
                     </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

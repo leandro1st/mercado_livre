@@ -59,6 +59,10 @@ $num_produtos = mysqli_num_rows($pesquisar);
             $('[data-toggle="tooltip"]').tooltip()
         });
 
+        function htmlEntities(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
         $(document).ready(function() {
             $('#nome_do_kit').autocomplete({
                 source: "../pesquisar/pesquisar_autocomplete.php",
@@ -164,19 +168,19 @@ $num_produtos = mysqli_num_rows($pesquisar);
                         //document.getElementById('athos-' + id_produto).innerHTML = cod_athos;
 
                         document.getElementById('input_nome-' + id_produto).type = 'hidden';
-                        document.getElementById('nome-' + id_produto).innerHTML = nome.trim().toUpperCase();
+                        document.getElementById('nome-' + id_produto).innerHTML = htmlEntities(nome.trim().toUpperCase());
 
                         document.getElementById('span_produto_total_kits-' + id_produto).style.display = "inline-block";
                         // Alterando conteúdo do tooltip
                         if (produto_total_kits == 1) {
-                            var texto_tooltip_novo = "Há <b><span class='text-success'>" + produto_total_kits + "</span></b> kit que contém o produto <b><span class='text-warning'>" + nome.toUpperCase() + "</span></b>";
+                            var texto_tooltip_novo = "Há <b><span class='text-success'>" + produto_total_kits + "</span></b> kit que contém o produto <b><span class='text-warning'>" + htmlEntities(nome.toUpperCase()) + "</span></b>";
                         } else {
-                            var texto_tooltip_novo = "Há <b><span class='text-success'>" + produto_total_kits + "</span></b> kits que contém o produto <b><span class='text-warning'>" + nome.toUpperCase() + "</span></b>";
+                            var texto_tooltip_novo = "Há <b><span class='text-success'>" + produto_total_kits + "</span></b> kits que contém o produto <b><span class='text-warning'>" + htmlEntities(nome.toUpperCase()) + "</span></b>";
                         }
                         $('#span_produto_total_kits-' + id_produto).attr('data-original-title', texto_tooltip_novo);
 
                         document.getElementById('input_ncm-' + id_produto).type = 'hidden';
-                        document.getElementById('ncm-' + id_produto).innerHTML = ncm.trim().toUpperCase();
+                        document.getElementById('ncm-' + id_produto).innerHTML = htmlEntities(ncm.trim().toUpperCase());
 
                         document.getElementById('input_csosn-' + id_produto).type = 'hidden';
                         document.getElementById('csosn-' + id_produto).innerHTML = csosn.trim();
@@ -192,9 +196,9 @@ $num_produtos = mysqli_num_rows($pesquisar);
                         }
 
                         // Ícones
-                        $('#icone_editar-' + id_produto).attr('data-original-title', 'Editar ' + nome.toUpperCase());
+                        $('#icone_editar-' + id_produto).attr('data-original-title', 'Editar ' + htmlEntities(nome.toUpperCase()));
                         document.getElementById('span_icone_confirmar-' + id_produto + '').style.cursor = 'not-allowed';
-                        $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + nome.toUpperCase());
+                        $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + htmlEntities(nome.toUpperCase()));
                         document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
 
                         // if number of rows affected > 0, adding new class
@@ -458,11 +462,11 @@ $num_produtos = mysqli_num_rows($pesquisar);
                                     </span>
                                 </td>
                                 <td>
-                                    <i id="icone_editar-<?php echo $vetor_produto['id'] ?>" class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" title="Editar <?php echo $vetor_produto['nome'] ?>" onclick="texto_input(<?php echo $vetor_produto['id'] ?>)"></i>
+                                    <i id="icone_editar-<?php echo $vetor_produto['id'] ?>" class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" data-html="true" title="Editar <?php echo htmlspecialchars(trim($vetor_produto['nome']), ENT_QUOTES, 'UTF-8') ?>" onclick="texto_input(<?php echo $vetor_produto['id'] ?>)"></i>
                                 </td>
                                 <td>
                                     <span id="span_icone_confirmar-<?php echo $vetor_produto['id'] ?>" style="cursor: not-allowed">
-                                        <i id="icone_confirmar-<?php echo $vetor_produto['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" title="Confirmar alterações de <?php echo $vetor_produto['nome'] ?>" onclick="alterar_info('<?php echo $vetor_produto['id'] ?>', document.getElementById('input_athos-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_csosn-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_cfop-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_produto['id'] ?>').value, '<?php echo $vetor_produto['produto_total_kits'] ?>')"></i>
+                                        <i id="icone_confirmar-<?php echo $vetor_produto['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" data-html="true" title="Confirmar alterações de <?php echo htmlspecialchars(trim($vetor_produto['nome']), ENT_QUOTES, 'UTF-8') ?>" onclick="alterar_info('<?php echo $vetor_produto['id'] ?>', document.getElementById('input_athos-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_csosn-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_cfop-<?php echo $vetor_produto['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_produto['id'] ?>').value, '<?php echo $vetor_produto['produto_total_kits'] ?>')"></i>
                                     </span>
                                 </td>
                             </form>

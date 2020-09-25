@@ -2,7 +2,8 @@
 if (isset($_POST['nome_do_kit'])) {
     require('../externo/connect.php');
 
-    $nome_kit_post = trim($_POST['nome_do_kit']);
+    $nome_kit_post = htmlspecialchars(trim($_POST['nome_do_kit']), ENT_QUOTES, 'UTF-8');
+    // $nome_kit_post = trim($_POST['nome_do_kit']);
     $searchTerms = explode(' ', $nome_kit_post);
     $searchTermBits = array();
     foreach ($searchTerms as $term) {
@@ -127,6 +128,10 @@ if (isset($_POST['nome_do_kit'])) {
                 $('[data-toggle="tooltip"]').tooltip()
             });
 
+            function htmlEntities(str) {
+                return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
+
             // Função para alterar o preço antigo
             function texto_input(id_produto) {
                 // overriding class 'clickable' click event, removing highlight from rows, columns
@@ -242,13 +247,13 @@ if (isset($_POST['nome_do_kit'])) {
                         data: $('#form-' + id_produto).serialize(),
                         success: function(data) {
                             // Alterando os valores dos inputs do modal
-                            document.getElementById('nome_produto_modal').innerHTML = nome.toUpperCase();
+                            document.getElementById('nome_produto_modal').innerHTML = htmlEntities(nome.toUpperCase());
 
-                            document.getElementById('athos_antigo_modal').innerHTML = document.getElementById('athos_modal-' + id_produto).value;
-                            document.getElementById('athos_novo_modal').innerHTML = cod_athos;
+                            document.getElementById('athos_antigo_modal').innerHTML = htmlEntities(document.getElementById('athos_modal-' + id_produto).value);
+                            document.getElementById('athos_novo_modal').innerHTML = htmlEntities(cod_athos.toUpperCase());
 
-                            document.getElementById('nome_antigo_modal').innerHTML = document.getElementById('nome_modal-' + id_produto).value;
-                            document.getElementById('nome_novo_modal').innerHTML = nome.toUpperCase();
+                            document.getElementById('nome_antigo_modal').innerHTML = htmlEntities(document.getElementById('nome_modal-' + id_produto).value);
+                            document.getElementById('nome_novo_modal').innerHTML = htmlEntities(nome.toUpperCase());
 
                             document.getElementById('quantidade_antigo_modal').innerHTML = document.getElementById('quantidade_modal-' + id_produto).value;
                             document.getElementById('quantidade_novo_modal').innerHTML = quantidade;
@@ -256,8 +261,8 @@ if (isset($_POST['nome_do_kit'])) {
                             document.getElementById('preco_antigo_modal').innerHTML = document.getElementById('preco_velho-' + id_produto).value;
                             document.getElementById('preco_novo_modal').innerHTML = preco_novo_span;
 
-                            document.getElementById('ncm_antigo_modal').innerHTML = document.getElementById('ncm_modal-' + id_produto).value;
-                            document.getElementById('ncm_novo_modal').innerHTML = ncm.toUpperCase();
+                            document.getElementById('ncm_antigo_modal').innerHTML = htmlEntities(document.getElementById('ncm_modal-' + id_produto).value);
+                            document.getElementById('ncm_novo_modal').innerHTML = htmlEntities(ncm.toUpperCase());
 
                             // csosn antigo
                             if (document.getElementById('csosn_modal-' + id_produto).value != "0") {
@@ -302,7 +307,7 @@ if (isset($_POST['nome_do_kit'])) {
 
                             // Alterando os valores de exibição
                             document.getElementById('input_athos-' + id_produto).type = 'hidden';
-                            document.getElementById('athos-' + id_produto).innerHTML = cod_athos;
+                            document.getElementById('athos-' + id_produto).innerHTML = htmlEntities(cod_athos.toUpperCase());
 
 
                             // checking if all inputs are hidden (checking only input_athos-x)
@@ -352,7 +357,7 @@ if (isset($_POST['nome_do_kit'])) {
 
 
                             document.getElementById('input_nome-' + id_produto).type = 'hidden';
-                            document.getElementById('nome-' + id_produto).innerHTML = nome.toUpperCase();
+                            document.getElementById('nome-' + id_produto).innerHTML = htmlEntities(nome.toUpperCase());
 
                             document.getElementById('input_quantidade-' + id_produto).type = 'hidden';
                             document.getElementById('quantidade-' + id_produto).innerHTML = quantidade;
@@ -362,7 +367,7 @@ if (isset($_POST['nome_do_kit'])) {
                             document.getElementById('preco_total-' + id_produto).innerHTML = preco_total_novo_ptBR;
 
                             document.getElementById('input_ncm-' + id_produto).type = 'hidden';
-                            document.getElementById('ncm-' + id_produto).innerHTML = ncm.toUpperCase();
+                            document.getElementById('ncm-' + id_produto).innerHTML = htmlEntities(ncm.toUpperCase());
 
                             document.getElementById('input_csosn-' + id_produto).type = 'hidden';
                             if (csosn == "0" || csosn == "") {
@@ -386,14 +391,14 @@ if (isset($_POST['nome_do_kit'])) {
                             }
 
                             // Ícones
-                            $('#icone_editar-' + id_produto).attr('data-original-title', 'Editar ' + nome.toUpperCase());
+                            $('#icone_editar-' + id_produto).attr('data-original-title', 'Editar ' + htmlEntities(nome.toUpperCase()));
                             document.getElementById('span-' + id_produto + '').style.cursor = 'not-allowed';
-                            $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + nome.toUpperCase());
+                            $('#icone_confirmar-' + id_produto).attr('data-original-title', 'Confirmar alterações de ' + htmlEntities(nome.toUpperCase()));
                             document.getElementById('icone_confirmar-' + id_produto + '').style.cssText = 'color: green; font-size: 24px; opacity: .5; pointer-events: none';
                             // Ícone deletar produto
                             document.getElementById('span_excluir-' + id_produto + '').style.cursor = 'pointer';
                             $('#span_excluir-' + id_produto + '').tooltip('enable');
-                            $('#span_excluir-' + id_produto).attr('data-original-title', 'Excluir ' + nome.toUpperCase());
+                            $('#span_excluir-' + id_produto).attr('data-original-title', 'Excluir ' + htmlEntities(nome.toUpperCase()));
                             document.getElementById('icone_excluir-' + id_produto + '').style.cssText = 'opacity: 1; pointer-events: auto; color: red; font-size: 26px';
                         },
                         error: function(data) {
@@ -539,29 +544,29 @@ if (isset($_POST['nome_do_kit'])) {
                         data: $('#form-kit').serialize(),
                         success: function(data) {
                             // Alterando os valores dos inputs/title/breadcrumb
-                            document.getElementById('titulo_kit').innerHTML = nome_kit_novo.toUpperCase().trim();
-                            document.getElementById('nome_kit_html').innerHTML = "Mercado Livre | " + nome_kit_novo.toUpperCase().trim() + " (#" + id_kit.toString() + ")"
-                            document.getElementById('kit_nome_breadcrumb').innerHTML = nome_kit_novo.toUpperCase().trim();
+                            document.getElementById('titulo_kit').innerHTML = htmlEntities(nome_kit_novo.toUpperCase().trim());
+                            document.getElementById('nome_kit_html').innerHTML = "Mercado Livre | " + htmlEntities(nome_kit_novo.toUpperCase().trim()) + " (#" + id_kit.toString() + ")"
+                            document.getElementById('kit_nome_breadcrumb').innerHTML = htmlEntities(nome_kit_novo.toUpperCase().trim());
                             document.getElementById('input_nome_kit').type = 'hidden';
                             // Alterando nome do kit dentro do tooltip e exibindo o botão novamente
-                            $('#btn_nome_kit').attr('data-original-title', 'Clonar ' + nome_kit_novo.toUpperCase().trim());
+                            $('#btn_nome_kit').attr('data-original-title', 'Clonar ' + htmlEntities(nome_kit_novo.toUpperCase().trim()));
                             document.getElementById('btn_nome_kit').style.display = "block";
                             // Alterando o nome do kit dentro do modal Clonar
                             if (document.getElementById('quantidade_produto_kit').innerHTML == 0) {
                                 document.getElementById('nome_kit_modal_clonado').classList.add("text-danger");
                                 document.getElementById('nome_kit_modal_clonado').classList.remove("text-success");
-                                document.getElementById('nome_kit_modal_clonado').innerHTML = "<b>Ocorreu um erro ao clonar o " + nome_kit_novo.toUpperCase().trim() + "!</b>";
+                                document.getElementById('nome_kit_modal_clonado').innerHTML = "<b>Ocorreu um erro ao clonar o " + htmlEntities(nome_kit_novo.toUpperCase().trim()) + "!</b>";
                             } else {
                                 document.getElementById('nome_kit_modal_clonado').classList.add("text-success");
-                                document.getElementById('nome_kit_modal_clonado').innerHTML = nome_kit_novo.toUpperCase().trim() + " foi clonado com sucesso!";
+                                document.getElementById('nome_kit_modal_clonado').innerHTML = htmlEntities(nome_kit_novo.toUpperCase().trim()) + " foi clonado com sucesso!";
                             }
                             // Desativando botão
                             document.getElementById('span_titulo').style.cursor = 'not-allowed';
                             document.getElementById('icone_titulo').style.cssText = 'color: #0cf249; font-size: 30px; opacity: .5; pointer-events: none';
 
                             // Modal
-                            document.getElementById('nome_kit_antigo_modal').innerHTML = document.getElementById('nome_kit_modal').value.trim();
-                            document.getElementById('nome_kit_novo_modal').innerHTML = nome_kit_novo.toUpperCase().trim();
+                            document.getElementById('nome_kit_antigo_modal').innerHTML = htmlEntities(document.getElementById('nome_kit_modal').value.trim());
+                            document.getElementById('nome_kit_novo_modal').innerHTML = htmlEntities(nome_kit_novo.toUpperCase().trim());
                             $('#modalAlteradoNomeKit').modal('show');
                         },
                         error: function(data) {
@@ -886,7 +891,7 @@ if (isset($_POST['nome_do_kit'])) {
                             </span>
                     </h1>
                     <!-- botão clonar -->
-                    <button type="button" id="btn_nome_kit" class="btn btn-outline-warning button_border text-center" style="display: block; margin: 20px auto 0 auto" data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="Clonar <?php echo $vetor_mostrar_nome_kit['kit_nome'] ?>" onclick="clonar()">
+                    <button type="button" id="btn_nome_kit" class="btn btn-outline-warning button_border text-center" style="display: block; margin: 20px auto 0 auto" data-toggle="tooltip" data-html="true" data-trigger="hover" data-placement="bottom" title="Clonar <?php echo mb_convert_case(htmlspecialchars($vetor_mostrar_nome_kit['kit_nome'], ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8') ?>" onclick="clonar()">
                         <i class="fas fa-clone"></i><b class="asap_bold"> CLONAR</b>
                     </button>
                 </form>
@@ -1061,15 +1066,15 @@ if (isset($_POST['nome_do_kit'])) {
                                         </span>
                                     </td>
                                     <td>
-                                        <i id="icone_editar-<?php echo $vetor_kit['id'] ?>" class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" title="Editar <?php echo $vetor_kit['nome'] ?>" onclick="texto_input(<?php echo $vetor_kit['id'] ?>)"></i>
+                                        <i id="icone_editar-<?php echo $vetor_kit['id'] ?>" class="far fa-edit font-weight-bold" style="color: green; font-size: 24px; cursor: pointer;" data-toggle="tooltip" data-html="true" title="Editar <?php echo mb_convert_case(htmlspecialchars($vetor_kit['nome'], ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8') ?>" onclick="texto_input(<?php echo $vetor_kit['id'] ?>)"></i>
                                     </td>
                                     <td>
                                         <span id="span-<?php echo $vetor_kit['id'] ?>" style="cursor: not-allowed">
-                                            <i id="icone_confirmar-<?php echo $vetor_kit['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" title="Confirmar alterações de <?php echo $vetor_kit['nome'] ?>" onclick="alterar_info('<?php echo $vetor_kit['id'] ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_athos-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_csosn-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_cfop-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_kit['id'] ?>').value); mudarVetor('<?php echo $j ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value)"></i>
+                                            <i id="icone_confirmar-<?php echo $vetor_kit['id'] ?>" class="fas fa-check-square font-weight-bold" style="color: green; font-size: 24px; opacity: .5; pointer-events: none;" data-toggle="tooltip" data-html="true" title="Confirmar alterações de <?php echo mb_convert_case(htmlspecialchars($vetor_kit['nome'], ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8') ?>" onclick="alterar_info('<?php echo $vetor_kit['id'] ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_nome-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_athos-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_ncm-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_csosn-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_cfop-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_cest-<?php echo $vetor_kit['id'] ?>').value); mudarVetor('<?php echo $j ?>', document.getElementById('input_preco-<?php echo $vetor_kit['id'] ?>').value, document.getElementById('input_quantidade-<?php echo $vetor_kit['id'] ?>').value)"></i>
                                         </span>
                                     </td>
                                     <td>
-                                        <span id="span_excluir-<?php echo $vetor_kit['id'] ?>" data-toggle="tooltip" title="Excluir <?php echo $vetor_kit['nome'] ?>" style="cursor: pointer">
+                                        <span id="span_excluir-<?php echo $vetor_kit['id'] ?>" data-toggle="tooltip" data-html="true" title="Excluir <?php echo mb_convert_case(htmlspecialchars($vetor_kit['nome'], ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8') ?>" style="cursor: pointer">
                                             <a id="icone_excluir-<?php echo $vetor_kit['id'] ?>" class="fas fa-times" data-toggle="modal" data-target="#modalExcluir" onclick="informacoes_produto(document.getElementById('nome-<?php echo $vetor_kit['id'] ?>').innerHTML, '<?php echo $vetor_kit['id']; ?>', '<?php echo $j ?>')" style="color: red; font-size: 26px;"></a>
                                         </span>
                                     </td>

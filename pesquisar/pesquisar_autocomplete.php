@@ -4,7 +4,8 @@
 if (isset($_GET["term"])) {
     $connect = new PDO("mysql:host=localhost; dbname=mercado_livre", "root", "");
 
-    $term_post = mb_convert_case(trim($_GET['term']), MB_CASE_UPPER, 'utf-8');
+    $term_post = mb_convert_case(htmlspecialchars(trim($_GET['term']), ENT_QUOTES, 'UTF-8'), MB_CASE_UPPER, 'utf-8');
+    // $term_post = mb_convert_case(trim($_GET['term']), MB_CASE_UPPER, 'utf-8');
 
     // dividindo $term_post em partes e criando termos de pesquisa para cada pedaço de string e armazenando-os numa string
     $searchTerms = explode(' ', $term_post);
