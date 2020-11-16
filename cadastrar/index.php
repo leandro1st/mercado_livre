@@ -162,7 +162,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
             $('#total').val(num_input);
 
             // appending new anchor link to nav_links
-            new_anchor = '<a id="link_produto_' + num_input + '" class="nav-link asap_regular" href="#label_cod_athos_' + num_input + '">Produto ' + num_input + '</a>';
+            new_anchor = '<a id="link_produto_' + num_input + '" class="nav-link asap_regular" href="#label_cod_athos_' + num_input + '" style="word-break: break-word">Produto ' + num_input + '</a>';
             $('#nav_links').append(new_anchor);
 
             // adjusting scrolltop when anchor link is clicked
@@ -252,8 +252,10 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                 currency: 'BRL'
             }).format(soma);
 
-            // removing last anchor link from nav_links
-            $('#link_produto_' + ultimo_num_input).remove();
+            // removing last anchor link from nav_links if the last input value != 1
+            if (ultimo_num_input != 1) {
+                $('#link_produto_' + ultimo_num_input).remove();
+            }
 
             // validando inputs
             validar_inputs();
@@ -341,6 +343,15 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                     document.getElementById('csosn_' + num_input).value = dados_produto[2].trim();
                     document.getElementById('cfop_' + num_input).value = dados_produto[5].trim();
                     document.getElementById('cest_' + num_input).value = dados_produto[4].trim();
+
+                    // Verificando se o campo código athos está preenchido
+                    // Se estiver, atualiza o nome do 'link' deste produto
+                    if (document.getElementById('cod_athos_' + num_input).value.trim()) {
+                        $('#link_produto_' + num_input).html($('#cod_athos_' + num_input).val().trim());
+                    } else {
+                        // Senão retorna ao valor original
+                        $('#link_produto_' + num_input).html("Produto " + num_input);
+                    }
 
                     // validando inputs
                     validar_inputs();
@@ -597,7 +608,7 @@ $vetor_ultimo = mysqli_fetch_array($pesquisar_ultimo_cadastro);
                 <div class="" style="position: sticky; top: 70px;">
                     <nav id="navbar_scroll" class="navbar navbar-light bg-light" style="border-radius: 0 10px 10px 0;">
                         <nav id="nav_links" class="nav nav-pills flex-column">
-                            <a class="nav-link asap_regular" href="#label_cod_athos_1">Produto 1</a>
+                            <a id="link_produto_1" class="nav-link asap_regular" href="#label_cod_athos_1" style="word-break: break-word; width: 111px">Produto 1</a>
                         </nav>
                     </nav>
                 </div>
